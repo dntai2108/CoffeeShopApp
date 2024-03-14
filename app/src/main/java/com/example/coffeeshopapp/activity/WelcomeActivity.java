@@ -4,7 +4,7 @@ import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.coffeeapp.R;
+import com.example.coffeeshopapp.R;
 
 public class WelcomeActivity extends AppCompatActivity {
 
