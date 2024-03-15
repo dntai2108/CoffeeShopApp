@@ -38,13 +38,13 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="261dp"
         android:fontFamily="@font/alatsi"
-        android:text="Welcome to Coffee Shop"
+        android:text="Chào mừng bạn đến với Coffee Shop"
         android:textAlignment="center"
         android:textColor="#823919"
-        android:textSize="30sp"
+        android:textSize="25sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView4" />
 
