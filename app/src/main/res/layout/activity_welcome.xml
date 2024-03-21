@@ -58,15 +58,17 @@
         app:layout_constraintStart_toEndOf="@+id/imageView3"
         app:layout_constraintTop_toTopOf="@+id/imageView3" />
 
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btnKhamPha"
         android:layout_width="197dp"
         android:layout_height="59dp"
-        android:layout_marginTop="28dp"
+        android:layout_marginTop="30dp"
         android:text="KHÁM PHÁ NGAY"
+        android:background="@drawable/background_buttton"
+        android:textColor="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
+        app:layout_constraintTop_toBottomOf="@+id/textView"/>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
