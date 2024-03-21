@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".activity.OTPVerificationActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="16dp">
+
+        <ImageView
+            android:id="@+id/ivQuayLai"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/baseline_arrow_back_ios_24"
+
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Xác nhận OTP"
+            android:textStyle="bold"
+            android:textSize="18sp" />
+    </LinearLayout>
+
+    <ImageView
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:background="@drawable/pin"
+        android:layout_gravity="center"
+        android:layout_marginTop="60dp"
+        android:adjustViewBounds="true" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Nhập mã OTP đã được gửi đến số điện thoại"
+        android:textColor="@color/black"
+        android:layout_marginTop="20dp"
+        android:textAlignment="center" />
+
+    <TextView
+        android:id="@+id/tvSoDienThoai"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="0913***928"
+        android:textStyle="bold"
+        android:textSize="18sp"
+        android:textColor="@color/black"
+        android:layout_marginTop="10dp"
+        android:textAlignment="center" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="4"
+
+        android:layout_marginTop="50dp"
+
+        android:gravity="center">
+
+        <EditText
+            android:id="@+id/edtOTP1"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="@drawable/otp_background"
+            android:inputType="number"
+            android:maxLength="1"
+            android:layout_margin="20dp"
+            android:textAlignment="center" />
+
+        <EditText
+            android:id="@+id/edtOTP2"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="@drawable/otp_background"
+            android:inputType="number"
+            android:maxLength="1"
+            android:layout_margin="20dp"
+            android:textAlignment="center" />
+
+        <EditText
+            android:id="@+id/edtOTP3"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="@drawable/otp_background"
+            android:inputType="number"
+            android:maxLength="1"
+            android:layout_margin="20dp"
+            android:textAlignment="center" />
+
+        <EditText
+            android:id="@+id/edtOTP4"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="@drawable/otp_background"
+            android:inputType="number"
+            android:maxLength="1"
+            android:layout_margin="20dp"
+            android:textAlignment="center" />
+    </LinearLayout>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnXacNhan"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_margin="50dp"
+        android:text="XÁC NHẬN"
+        android:textColor="@color/white"
+        android:background="@drawable/background_buttton" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:layout_marginTop="80dp">
+
+        <TextView
+            android:id="@+id/textView9"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:text="Chưa nhận được mã OTP?"
+            android:textSize="16sp"
+            android:textColor="@color/black" />
+
+        <TextView
+            android:id="@+id/tvGuiLai"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Gửi lại"
+            android:textColor="@color/textFont"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/tvThoiGian"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=" 1:59s"
+            android:textSize="18sp" />
+    </LinearLayout>
+</LinearLayout>
