@@ -2,6 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -13,13 +16,23 @@
         android:theme="@style/Theme.CoffeeShopApp"
         tools:targetApi="31">
         <activity
+            android:name=".activity.ManageUser"
+            android:exported="true" />
+        <activity
+            android:name=".activity.DetailProduct"
+            android:exported="true" />
+        <activity
+            android:name=".activity.AddProduct"
+            android:exported="true" />
+        <activity
+            android:name=".activity.ManageProductActivity"
+            android:exported="true" />
+        <activity
             android:name=".activity.SignUpActivity"
             android:exported="false" />
         <activity
             android:name=".activity.LoginActivity"
-            android:exported="false">
-
-        </activity>
+            android:exported="false" />
         <activity
             android:name=".activity.WelcomeActivity"
             android:exported="true">
@@ -29,7 +42,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
     </application>
 
 </manifest>

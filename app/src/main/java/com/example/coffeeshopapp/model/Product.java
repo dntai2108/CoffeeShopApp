@@ -1,8 +1,10 @@
 package com.example.coffeeshopapp.model;
 
-public class Product{
+import java.io.Serializable;
 
-    private int id;
+public class Product implements Serializable {
+
+    private String id;
     private String name;
     private String image;
     private Double price;
@@ -10,7 +12,7 @@ public class Product{
     private String description;
     private String size;
 
-    public Product(int id, String name, String image, Double price, String description, String size) {
+    public Product(String id, String name, String image, Double price, String description, String size) {
         this.id = id;
         this.name = name;
         this.image = image;
@@ -19,11 +21,15 @@ public class Product{
         this.size = size;
     }
 
-    public int getId() {
+    public Product() {
+
+    }
+
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
