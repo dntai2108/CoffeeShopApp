@@ -8,13 +8,18 @@ public class Customer {
     private String phone;
     private String gender;
 
-    public Customer(int id, String name, String address, String phone, String gender) {
+    private Account account;
+
+
+    public Customer(int id, String name, String address, String phone, String gender, Account account) {
         this.id = id;
         this.name = name;
         this.address = address;
         this.phone = phone;
         this.gender = gender;
+        this.account = account;
     }
+
 
     public int getId() {
         return id;
@@ -54,5 +59,13 @@ public class Customer {
 
     public void setGender(String gender) {
         this.gender = gender;
+    }
+
+    public Account getAccount() {
+        return account;
+    }
+
+    public void setAccount(Account account) {
+        this.account = account;
     }
 }
