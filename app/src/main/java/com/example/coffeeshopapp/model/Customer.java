@@ -2,30 +2,29 @@ package com.example.coffeeshopapp.model;
 
 public class Customer {
 
-    private int id;
+    private String id;
     private String name;
     private String address;
     private String phone;
     private String gender;
-
     private Account account;
 
 
-    public Customer(int id, String name, String address, String phone, String gender, Account account) {
+    public Customer(String id, String name, String address, String phone, String gender, Account account) {
         this.id = id;
         this.name = name;
         this.address = address;
         this.phone = phone;
         this.gender = gender;
         this.account = account;
+
     }
 
-
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
