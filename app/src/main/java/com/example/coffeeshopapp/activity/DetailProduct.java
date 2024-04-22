@@ -15,7 +15,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.example.coffeeshopapp.R;
-import com.example.coffeeshopapp.databinding.ActivityDetailProductBinding;
+import com.example.coffeeshopapp.databinding.ActivityDetailProductAdminBinding;
 import com.example.coffeeshopapp.model.Product;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -36,15 +36,15 @@ public class DetailProduct extends AppCompatActivity {
         void onYesClicked();
         void onNoClicked();
     }
-    private ActivityDetailProductBinding bd;
+    private ActivityDetailProductAdminBinding bd;
     FirebaseStorage storage = FirebaseStorage.getInstance();
     DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_detail_product);
-        bd = ActivityDetailProductBinding.inflate(getLayoutInflater());
+        setContentView(R.layout.activity_detail_product_admin);
+        bd = ActivityDetailProductAdminBinding.inflate(getLayoutInflater());
         setContentView(bd.getRoot());
         setEvent();
     }
