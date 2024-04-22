@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activity.ManageUser">
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbarmnguser"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:minHeight="?attr/actionBarSize"
+        app:title="QUẢN LÝ KHÁCH HÀNG"
+        android:theme="?attr/actionBarTheme"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <View
+        android:id="@+id/borderToolBar"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@id/toolbarmnguser"
+        android:background="@android:color/black"
+        app:layout_constraintBottom_toBottomOf="@+id/toolbarmnguser" />
+
+    <SearchView
+        android:id="@+id/svUser"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbarmnguser" />
+
+    <ScrollView
+        android:id="@+id/scrvUser"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:fillViewport="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/svUser">
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/RecyclerViewUser"
+            android:layout_width="match_parent"
+            android:layout_height="200dp" />
+    </ScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>

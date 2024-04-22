@@ -9,10 +9,13 @@ public class Account {
 
     private String role;
 
+    private boolean State;
+
     public Account(String username, String password, String role) {
         this.username = username;
         this.password = password;
         this.role = role;
+        this.State=true;
     }
 
     public String getUsername() {
@@ -37,5 +40,13 @@ public class Account {
 
     public void setRole(String role) {
         this.role = role;
+    }
+
+    public boolean isState() {
+        return State;
+    }
+
+    public void setState(boolean state) {
+        State = state;
     }
 }
