@@ -2,28 +2,32 @@ package com.example.coffeeshopapp.model;
 
 public class Customer {
 
-    private int id;
+   // private String id;
     private String name;
     private String address;
     private String phone;
-    private String gender;
+   // private String gender;
 
-    public Customer(int id, String name, String address, String phone, String gender) {
-        this.id = id;
+    public Customer( String name, String address, String phone) {
+      //  this.id = id;
         this.name = name;
         this.address = address;
         this.phone = phone;
-        this.gender = gender;
+       // this.gender = gender;
     }
 
-    public int getId() {
-        return id;
+    public Customer() {
+
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
+    /*  public String getId() {
+          return id;
+      }
 
+      public void setId(String id) {
+          this.id = id;
+      }
+  */
     public String getName() {
         return name;
     }
@@ -48,11 +52,11 @@ public class Customer {
         this.phone = phone;
     }
 
-    public String getGender() {
+  /*  public String getGender() {
         return gender;
     }
 
     public void setGender(String gender) {
         this.gender = gender;
-    }
+    }*/
 }
