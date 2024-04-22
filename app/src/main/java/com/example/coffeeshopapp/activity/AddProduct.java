@@ -31,10 +31,13 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.google.type.DateTime;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.UUID;
 
 public class AddProduct extends AppCompatActivity {
@@ -44,6 +47,7 @@ public class AddProduct extends AppCompatActivity {
     private ActivityAddProductBinding bd;
     FirebaseStorage storage = FirebaseStorage.getInstance();
     DatabaseReference firebaseDatabase = FirebaseDatabase.getInstance().getReference();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,7 +59,7 @@ public class AddProduct extends AppCompatActivity {
     }
 
     private void setEvent() {
-        FirebaseDatabase database =FirebaseDatabase.getInstance();
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
         bd.btnChooseImg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -75,45 +79,45 @@ public class AddProduct extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Drawable drawable = bd.imgProduct.getDrawable();
-                if(drawable == null){
-                    Toast.makeText(AddProduct.this,"Vui lòng thêm hình ảnh", Toast.LENGTH_LONG).show();
+                if (drawable == null) {
+                    Toast.makeText(AddProduct.this, "Vui lòng thêm hình ảnh", Toast.LENGTH_LONG).show();
                     return;
                 }
-                if(bd.edtTenSP.getText().toString().trim().isEmpty()){
-                    Toast.makeText(AddProduct.this,"Vui lòng nhập tên sản phẩm", Toast.LENGTH_LONG).show();
+                if (bd.edtTenSP.getText().toString().trim().isEmpty()) {
+                    Toast.makeText(AddProduct.this, "Vui lòng nhập tên sản phẩm", Toast.LENGTH_LONG).show();
                     return;
                 }
-                if(bd.edtGia.getText().toString().trim().isEmpty()){
-                    Toast.makeText(AddProduct.this,"Vui lòng nhập giá sản phẩm", Toast.LENGTH_LONG).show();
+                if (bd.edtGia.getText().toString().trim().isEmpty()) {
+                    Toast.makeText(AddProduct.this, "Vui lòng nhập giá sản phẩm", Toast.LENGTH_LONG).show();
                     return;
                 }
                 String name = bd.edtTenSP.getText().toString();
                 Double price = Double.parseDouble(bd.edtGia.getText().toString());
                 String description = bd.edtDescription.getText().toString();
                 String size = "";
-                if(bd.radioButtonSizeL.isChecked()){
+                if (bd.radioButtonSizeL.isChecked()) {
                     size = "L";
-                }
-                else{
+                } else {
                     size = "M";
                 }
+
                 StorageReference storageRef = storage.getReference();
                 ByteArrayOutputStream baos = new ByteArrayOutputStream();
                 bd.imgProduct.setDrawingCacheEnabled(true);
                 bd.imgProduct.buildDrawingCache();
                 Bitmap bitmap = bd.imgProduct.getDrawingCache();
-
                 String key = UUID.randomUUID().toString();
                 String keyProduct = UUID.randomUUID().toString();
+                LocalDateTime date = null;
                 StorageReference imageChild = storageRef.child(key);
                 bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
                 byte[] data = baos.toByteArray();
                 UploadTask uploadTask = imageChild.putBytes(data);
                 image = key;
-                Product p = new Product(keyProduct, name, key,  price,  description,  size);
+                Product p = new Product(keyProduct, name, key, price, description, size, new Date().toString());
                 firebaseDatabase.child("Product").child(keyProduct).setValue(p);
 //                dbHelper.addProduct(name,price,image,description,size);
-                Toast.makeText(AddProduct.this,"Thêm thành công",Toast.LENGTH_LONG).show();
+                Toast.makeText(AddProduct.this, "Thêm thành công", Toast.LENGTH_LONG).show();
                 onBackPressed();
             }
         });

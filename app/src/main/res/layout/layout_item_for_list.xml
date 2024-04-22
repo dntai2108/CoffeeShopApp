@@ -51,14 +51,14 @@
             android:text="100.000đ" />
 
         <TextView
-            android:id="@+id/tvThem"
+            android:id="@+id/tvAddItem"
             android:layout_width="match_parent"
             android:layout_height="35dp"
             android:text="Thêm"
             android:gravity="center"
             android:textSize="18dp"
             android:textStyle="bold"
-            android:background="@drawable/button_vien_xanh"></TextView>
+            android:background="@drawable/button_vien_xanh" />
         <!-- <androidx.appcompat.widget.AppCompatButton
              android:id="@+id/btnAddItemfl"
              android:layout_width="match_parent"

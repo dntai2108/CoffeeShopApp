@@ -16,7 +16,7 @@ import android.widget.ImageButton;
 import android.widget.SearchView;
 import android.widget.Toast;
 
-import com.example.coffeeshopapp.Adapter.ProductAdapter;
+import com.example.coffeeshopapp.adapter.ProductAdapter;
 import com.example.coffeeshopapp.R;
 import com.example.coffeeshopapp.databinding.ActivityManageProductBinding;
 import com.example.coffeeshopapp.model.Product;
@@ -39,6 +39,7 @@ public class ManageProductActivity extends AppCompatActivity {
     private List<Product> listProduct;
     private ProductAdapter productAdapter;
     DatabaseReference databaseReferences = FirebaseDatabase.getInstance().getReference("Product");
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,7 +55,7 @@ public class ManageProductActivity extends AppCompatActivity {
 
     private void setData() {
         this.listProduct = new ArrayList<>();
-        this.productAdapter =new ProductAdapter(this,R.layout.activity_item_product, listProduct);
+        this.productAdapter = new ProductAdapter(this, R.layout.activity_item_product, listProduct);
         bd.listViewProduct.setAdapter(productAdapter);
     }
 
@@ -82,9 +83,9 @@ public class ManageProductActivity extends AppCompatActivity {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         listProduct.clear();
-                        for (DataSnapshot dataSnapshot:snapshot.getChildren()){
+                        for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                             Product product = dataSnapshot.getValue(Product.class);
-                            if(product.getName().toLowerCase().contains(newText.toLowerCase())){
+                            if (product.getName().toLowerCase().contains(newText.toLowerCase())) {
                                 listProduct.add(product);
                             }
                         }
@@ -137,13 +138,13 @@ public class ManageProductActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
-    public void reloadProduct(){
+    public void reloadProduct() {
         databaseReferences.addValueEventListener(new ValueEventListener() {
             @SuppressLint("NotifyDataSetChanged")
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 listProduct.clear();
-                for (DataSnapshot dataSnapshot:snapshot.getChildren()){
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                     Product product = dataSnapshot.getValue(Product.class);
                     listProduct.add(product);
                 }

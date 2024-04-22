@@ -1,6 +1,11 @@
 package com.example.coffeeshopapp.model;
 
+import com.google.type.DateTime;
+
 import java.io.Serializable;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Date;
 
 public class Product implements Serializable {
 
@@ -11,14 +16,16 @@ public class Product implements Serializable {
 
     private String description;
     private String size;
+    private String date;
 
-    public Product(String id, String name, String image, Double price, String description, String size) {
+    public Product(String id, String name, String image, Double price, String description, String size, String date) {
         this.id = id;
         this.name = name;
         this.image = image;
         this.price = price;
         this.description = description;
         this.size = size;
+        this.date = date;
     }
 
     public Product() {
@@ -72,4 +79,14 @@ public class Product implements Serializable {
     public void setSize(String size) {
         this.size = size;
     }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
+
+
 }

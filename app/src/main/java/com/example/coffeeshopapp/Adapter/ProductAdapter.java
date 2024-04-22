@@ -1,4 +1,4 @@
-package com.example.coffeeshopapp.Adapter;
+package com.example.coffeeshopapp.adapter;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -66,8 +66,8 @@ public class ProductAdapter extends ArrayAdapter<Product> {
         btnUpdate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent= new Intent(context, DetailProduct.class);
-                intent.putExtra("item",product);
+                Intent intent = new Intent(context, DetailProduct.class);
+                intent.putExtra("item", product);
                 context.startActivity(intent);
             }
         });

@@ -8,7 +8,9 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -21,22 +23,26 @@ import android.widget.Toast;
 
 import com.example.coffeeshopapp.R;
 import com.example.coffeeshopapp.databinding.ActivityOtpverificationBinding;
+import com.example.coffeeshopapp.model.Account;
+import com.example.coffeeshopapp.model.Customer;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthProvider;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.UUID;
 
 public class OTPVerificationActivity extends AppCompatActivity {
     private ActivityOtpverificationBinding binding;
 
     private FirebaseAuth mAuth = FirebaseAuth.getInstance();
-    private String verificationId;
-
+    DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,8 +54,14 @@ public class OTPVerificationActivity extends AppCompatActivity {
 
 
     private void setEven() {
-        binding.tvSoDienThoai.setText(String.format("+84-%s", getIntent().getStringExtra("phone")));
-        verificationId = getIntent().getStringExtra("verificationId");
+        String soDienThoai = getIntent().getStringExtra("phone");
+        binding.tvSoDienThoai.setText(String.format("+84-%s", soDienThoai));
+        String verificationId = getIntent().getStringExtra("verificationId");
+        String hoTen = getIntent().getStringExtra("name");
+        String matKhau = getIntent().getStringExtra("password");
+        String email = getIntent().getStringExtra("email");
+
+
         binding.tvGuiLai.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -72,7 +84,6 @@ public class OTPVerificationActivity extends AppCompatActivity {
                     Toast.makeText(OTPVerificationActivity.this, "Mã OTP không được trống", Toast.LENGTH_SHORT).show();
                 }
                 if (verificationId != null) {
-
                     String code = binding.edtOTP1.getText().toString().trim()
                             + binding.edtOTP2.getText().toString().trim()
                             + binding.edtOTP3.getText().toString().trim()
@@ -86,6 +97,25 @@ public class OTPVerificationActivity extends AppCompatActivity {
                                 @Override
                                 public void onComplete(@NonNull Task<AuthResult> task) {
                                     if (task.isSuccessful()) {
+                                        String node = UUID.randomUUID().toString();
+                                        Account account = new Account(soDienThoai, matKhau, "user", true);
+                                        Customer customer = new Customer(node, hoTen, "", email, soDienThoai, "", account);
+                                        databaseReference.child("Account").child(soDienThoai).setValue(account).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                            @Override
+                                            public void onComplete(@NonNull Task<Void> task) {
+
+                                            }
+                                        });
+                                        databaseReference.child("Customer").child(node).setValue(customer).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                            @Override
+                                            public void onComplete(@NonNull Task<Void> task) {
+
+                                            }
+                                        });
+                                        SharedPreferences sharedPreferences = getSharedPreferences("User", Context.MODE_PRIVATE);
+                                        SharedPreferences.Editor edittor = sharedPreferences.edit();
+                                        edittor.putString("phone", soDienThoai);
+                                        edittor.commit();
                                         Intent intent = new Intent(OTPVerificationActivity.this, HomeActivity.class);
                                         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                                         startActivity(intent);

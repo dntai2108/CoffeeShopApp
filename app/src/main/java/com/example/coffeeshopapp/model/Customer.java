@@ -5,15 +5,20 @@ public class Customer {
     private String id;
     private String name;
     private String address;
+    private String email;
     private String phone;
     private String gender;
     private Account account;
 
 
-    public Customer(String id, String name, String address, String phone, String gender, Account account) {
+    public Customer() {
+    }
+
+    public Customer(String id, String name, String address, String email, String phone, String gender, Account account) {
         this.id = id;
         this.name = name;
         this.address = address;
+        this.email = email;
         this.phone = phone;
         this.gender = gender;
         this.account = account;
@@ -66,5 +71,13 @@ public class Customer {
 
     public void setAccount(Account account) {
         this.account = account;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 }

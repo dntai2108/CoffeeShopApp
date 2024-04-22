@@ -11,11 +11,14 @@ public class Account {
 
     private boolean State;
 
-    public Account(String username, String password, String role) {
+    public Account() {
+    }
+
+    public Account(String username, String password, String role, Boolean state) {
         this.username = username;
         this.password = password;
         this.role = role;
-        this.State=true;
+        this.State = true;
     }
 
     public String getUsername() {

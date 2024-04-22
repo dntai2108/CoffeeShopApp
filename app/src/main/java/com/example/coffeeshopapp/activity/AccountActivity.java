@@ -2,6 +2,7 @@ package com.example.coffeeshopapp.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
@@ -23,7 +24,7 @@ public class AccountActivity extends AppCompatActivity {
         binding.tvProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                startActivity(new Intent(AccountActivity.this, ProfileActivity.class));
             }
         });
 

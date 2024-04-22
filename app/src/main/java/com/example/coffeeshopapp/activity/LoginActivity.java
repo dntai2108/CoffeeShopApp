@@ -1,14 +1,20 @@
 package com.example.coffeeshopapp.activity;
 
 import static android.view.View.GONE;
+import static android.view.View.INVISIBLE;
 import static android.view.View.VISIBLE;
+
+import static com.google.android.material.internal.ContextUtils.getActivity;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.core.content.ContextCompat;
 
+import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -37,6 +43,7 @@ import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
 public class LoginActivity extends AppCompatActivity {
+
     private ActivityLoginBinding binding;
     DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
     FirebaseAuth mAuth = FirebaseAuth.getInstance();
@@ -81,37 +88,50 @@ public class LoginActivity extends AppCompatActivity {
                                 String sDT = soDienThoai.substring(1);
                                 if (layMatKhau.equals(matKhau)) {
                                     binding.pbXuLy.setVisibility(VISIBLE);
-                                    binding.btnDangNhap.setVisibility(View.INVISIBLE);
-                                    mCallbacks = new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
+                                    binding.btnDangNhap.setVisibility(INVISIBLE);
+                                    SharedPreferences sharedPreferences = getSharedPreferences("User", Context.MODE_PRIVATE);
+                                    SharedPreferences.Editor edittor = sharedPreferences.edit();
+                                    edittor.putString("phone", soDienThoai);
+                                    edittor.commit();
+                                    Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
+                                    startActivity(intent);
+//                                    mCallbacks = new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
+//
+//                                        @Override
+//                                        public void onVerificationCompleted(@NonNull PhoneAuthCredential credential) {
+//
+//                                        }
+//
+//                                        @Override
+//                                        public void onVerificationFailed(@NonNull FirebaseException e) {
+//                                            binding.pbXuLy.setVisibility(GONE);
+//                                            binding.btnDangNhap.setVisibility(VISIBLE);
+//                                            Toast.makeText(LoginActivity.this, e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+//                                        }
+//
+//                                        @Override
+//                                        public void onCodeSent(@NonNull String verificationId,
+//                                                               @NonNull PhoneAuthProvider.ForceResendingToken token) {
+//                                            binding.pbXuLy.setVisibility(VISIBLE);
+//                                            binding.btnDangNhap.setVisibility(INVISIBLE);
+//                                            Intent intent = new Intent(LoginActivity.this, OTPVerificationActivity.class);
 
-                                        @Override
-                                        public void onVerificationCompleted(@NonNull PhoneAuthCredential credential) {
-
-                                        }
-
-                                        @Override
-                                        public void onVerificationFailed(@NonNull FirebaseException e) {
-                                            binding.pbXuLy.setVisibility(GONE);
-                                            Toast.makeText(LoginActivity.this, e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
-                                        }
-
-                                        @Override
-                                        public void onCodeSent(@NonNull String verificationId,
-                                                               @NonNull PhoneAuthProvider.ForceResendingToken token) {
-                                            binding.pbXuLy.setVisibility(VISIBLE);
-                                            Intent intent = new Intent(LoginActivity.this, OTPVerificationActivity.class);
-                                            intent.putExtra("phone", sDT);
-                                            intent.putExtra("verificationId", verificationId);
-                                            startActivity(intent);
-                                        }
-                                    };
-                                    PhoneAuthOptions options = PhoneAuthOptions.newBuilder(mAuth)
-                                            .setPhoneNumber("+84" + sDT)
-                                            .setTimeout(60L, TimeUnit.SECONDS)
-                                            .setActivity(LoginActivity.this)
-                                            .setCallbacks(mCallbacks)
-                                            .build();
-                                    PhoneAuthProvider.verifyPhoneNumber(options);
+//                                            intent.putExtra("phone", sDT);
+//                                            intent.putExtra("verificationId", verificationId);
+//                                            startActivity(intent);
+//                                        }
+//                                    };
+//                                    PhoneAuthOptions options = PhoneAuthOptions.newBuilder(mAuth)
+//                                            .setPhoneNumber("+84" + sDT)
+//                                            .setTimeout(60L, TimeUnit.SECONDS)
+//                                            .setActivity(LoginActivity.this)
+//                                            .setCallbacks(mCallbacks)
+//                                            .build();
+//                                    PhoneAuthProvider.verifyPhoneNumber(options);
+//                                    SharedPreferences sharedPreferences = getSharedPreferences("User", Context.MODE_PRIVATE);
+//                                    SharedPreferences.Editor edittor = sharedPreferences.edit();
+//                                    edittor.putString("phone", soDienThoai);
+//                                    edittor.apply();
 
                                 } else {
                                     Toast.makeText(LoginActivity.this, "Sai mật khẩu", Toast.LENGTH_SHORT).show();
@@ -141,11 +161,13 @@ public class LoginActivity extends AppCompatActivity {
         binding.tvDangKy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(LoginActivity.this, SignUpActivity.class);
+                Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
                 startActivity(intent);
             }
         });
 
 
     }
+
+
 }
