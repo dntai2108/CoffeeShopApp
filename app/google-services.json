@@ -1,14 +1,13 @@
 {
   "project_info": {
-    "project_number": "377820223313",
-    "firebase_url": "https://my-application-41062-default-rtdb.firebaseio.com",
-    "project_id": "my-application-41062",
-    "storage_bucket": "my-application-41062.appspot.com"
+    "project_number": "571192970372",
+    "project_id": "coffeeshopapp-4a1e9",
+    "storage_bucket": "coffeeshopapp-4a1e9.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:377820223313:android:08f08ec853162b2624a570",
+        "mobilesdk_app_id": "1:571192970372:android:da1891d8ed62824a19c6d1",
         "android_client_info": {
           "package_name": "com.example.coffeeshopapp"
         }
@@ -16,26 +15,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyBXOWpqY2IdBZbWGLXet54-vm7Fg2HYVec"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": []
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:377820223313:android:6150940f7eae444224a570",
-        "android_client_info": {
-          "package_name": "com.example.myapplication"
-        }
-      },
-      "oauth_client": [],
-      "api_key": [
-        {
-          "current_key": "AIzaSyBXOWpqY2IdBZbWGLXet54-vm7Fg2HYVec"
+          "current_key": "AIzaSyBc3RbUcP9RDxDMbWRSbuvxgwCriiAOtBY"
         }
       ],
       "services": {

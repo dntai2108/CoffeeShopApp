@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
         android:allowBackup="true"
@@ -17,22 +17,44 @@
         tools:targetApi="31">
         <activity
             android:name=".activity.ManageOrder"
-            android:exported="true" />
+            android:exported="false" />
+        <activity
+            android:name=".activity.RegisterActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.ChangeInfoActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.ProfileActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.AccountActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.SendOTPActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.HomeActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.NewPasswordActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.OTPVerificationActivity"
+            android:exported="false" />
         <activity
             android:name=".activity.ManageUser"
-            android:exported="true" />
+            android:exported="false" />
         <activity
             android:name=".activity.DetailProduct"
-            android:exported="true" />
+            android:exported="false" />
         <activity
             android:name=".activity.AddProduct"
-            android:exported="true" />
+            android:exported="false" />
         <activity
             android:name=".activity.ManageProductActivity"
-            android:exported="true" />
-        <activity
-            android:name=".activity.SignUpActivity"
             android:exported="false" />
+
         <activity
             android:name=".activity.LoginActivity"
             android:exported="false" />
@@ -45,6 +67,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <meta-data
+            android:name="preloaded_fonts"
+            android:resource="@array/preloaded_fonts" />
     </application>
 
 </manifest>
