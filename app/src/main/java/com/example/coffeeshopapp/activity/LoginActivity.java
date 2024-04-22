@@ -42,14 +42,15 @@ public class LoginActivity extends AppCompatActivity {
                     Toast.makeText(LoginActivity.this, "Tên tài khoản không được trống", Toast.LENGTH_SHORT).show();
                     edtTaiKhoan.setError("Nhập tài khoản: ");
                     edtTaiKhoan.requestFocus();
-                    return;
+
                 }
                 if(edtMatKhau.getText().toString().equals("")){
                     Toast.makeText(LoginActivity.this, "Mật khẩu không được trống", Toast.LENGTH_SHORT).show();
                     edtMatKhau.setError("Nhập mật khẩu: ");
                     edtMatKhau.requestFocus();
-                    return;
+
                 }
+
 
             }
         });
@@ -58,13 +59,15 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
+
             }
         });
 
         tvDangKy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                
+
+
             }
         });
 

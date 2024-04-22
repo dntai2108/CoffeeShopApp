@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+
+
+    tools:context=".activity.Revenue_Statistics_Activity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:orientation="horizontal"
+        tools:ignore="UselessParent"
+        android:background="@color/green">
+
+        <ImageButton
+            android:id="@+id/btnBack"
+            android:layout_width="50dp"
+            android:layout_height="match_parent"
+            android:src="@drawable/btnback_icon"
+            android:layout_gravity="center"
+            android:contentDescription="@string/back"
+            android:background="@color/green"
+            android:textAlignment="center"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="THỐNG KÊ DOANH THU"
+            android:textSize="20sp"
+            android:textColor="@color/white"
+            android:textAlignment="center"
+            android:gravity="center"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="10dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginBottom="10dp">
+
+            <Spinner
+                android:id="@+id/idselecttypetime"
+                android:layout_width="0dp"
+                android:layout_height="48dp"
+                android:layout_weight="1"
+                android:layout_marginEnd="5dp" />
+
+            <Spinner
+                android:id="@+id/id_select_month"
+                android:layout_width="0dp"
+                android:layout_height="48dp"
+                android:layout_weight="1"
+                android:layout_marginEnd="5dp"
+                android:visibility="invisible"
+                />
+
+            <Spinner
+                android:id="@+id/idyear"
+                android:layout_width="0dp"
+                android:layout_height="48dp"
+                android:layout_weight="1"
+                android:layout_marginStart="5dp"
+
+                />
+
+        </LinearLayout>
+
+
+
+        <com.github.mikephil.charting.charts.LineChart
+            android:id="@+id/chart"
+            android:background="@color/gray2"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+    </LinearLayout>
+
+
+
+
+
+</LinearLayout>

@@ -7,17 +7,25 @@ public class Product{
     private String image;
     private Double price;
 
-    private String description;
-    private String size;
+    public Product() {
+    }
 
-    public Product(int id, String name, String image, Double price, String description, String size) {
+
+    public Product(int id, String name, String image, Double price) {
         this.id = id;
         this.name = name;
         this.image = image;
         this.price = price;
-        this.description = description;
-        this.size = size;
+
     }
+
+    public Product(int id, String image, String name) {
+        this.id = id;
+        this.name = name;
+        this.image = image;
+
+    }
+
 
     public int getId() {
         return id;
@@ -51,19 +59,5 @@ public class Product{
         this.price = price;
     }
 
-    public String getDescription() {
-        return description;
-    }
 
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public String getSize() {
-        return size;
-    }
-
-    public void setSize(String size) {
-        this.size = size;
-    }
 }

@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".activity.StatisticsActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:orientation="horizontal"
+        tools:ignore="UselessParent"
+        android:background="@color/green">
+
+        <ImageButton
+            android:id="@+id/btnBack"
+            android:layout_width="50dp"
+            android:layout_height="match_parent"
+            android:src="@drawable/btnback_icon"
+            android:layout_gravity="center"
+            android:contentDescription="@string/back"
+            android:background="@color/green"
+            android:textAlignment="center"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="THỐNG KÊ ĐƠN HÀNG"
+            android:textSize="20sp"
+            android:textColor="@color/white"
+            android:textAlignment="center"
+            android:gravity="center"/>
+
+    </LinearLayout>
+
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="horizontal"
+            android:gravity="top">
+
+            <TextView
+                android:id="@+id/txtdaystart"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="15/11/2023"
+                android:padding="10dp"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:singleLine="true"/>
+
+            <ImageButton
+                android:id="@+id/idstart"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_weight="1"
+                android:src="@drawable/schedule_icon"
+                android:contentDescription="@string/schedule" />
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="horizontal"
+            android:gravity="top">
+
+            <TextView
+                android:id="@+id/txtdayend"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="15/11/2023"
+                android:padding="10dp"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:singleLine="true"/>
+
+            <ImageButton
+                android:id="@+id/idend"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_weight="1"
+                android:src="@drawable/schedule_icon"
+                android:contentDescription="@string/schedule" />
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+
+
+    <Spinner
+        android:id="@+id/spinner"
+        android:layout_width="200dp"
+        android:layout_height="50dp"
+        />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="450dp"
+        android:orientation="vertical"
+        >
+            <ListView
+                android:id="@+id/lvorder"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        >
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            tools:ignore="UselessParent">
+            <ImageButton
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:src="@drawable/product_icon"
+                android:contentDescription="@string/back" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Sản Phẩm"
+                android:textAlignment="center"
+                android:layout_gravity="center"/>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            tools:ignore="UselessParent">
+            <ImageButton
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:src="@drawable/order_icon"
+                android:contentDescription="@string/back" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Đơn Hàng"
+                android:textAlignment="center"
+                android:layout_gravity="center"/>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            tools:ignore="UselessParent"
+            >
+            <ImageButton
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:src="@drawable/statictis_icon"
+                android:contentDescription="@string/back" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Thống Kê"
+                android:textAlignment="center"
+                android:layout_gravity="center"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            tools:ignore="UselessParent">
+            <ImageButton
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:src="@drawable/account_icon"
+                android:contentDescription="@string/back" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Tài Khoản"
+                android:textAlignment="center"
+                android:layout_gravity="center"/>
+        </LinearLayout>
+
+
+
+
+    </LinearLayout>
+
+
+
+
+
+
+
+
+
+</LinearLayout>

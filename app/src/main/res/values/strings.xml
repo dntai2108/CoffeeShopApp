@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">CoffeeShopApp</string>
+    <string name="back">back</string>
+    <string name="thongke">THỐNG KÊ</string>
+    <string name="schedule">schedule</string>
+    <string name="imglighton">Imglighton</string>
+    <string name="thongkesp">THỐNG KÊ SẢN PHẨM</string>
 </resources>
