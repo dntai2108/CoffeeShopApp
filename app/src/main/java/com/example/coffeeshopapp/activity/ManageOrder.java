@@ -180,31 +180,4 @@ public class ManageOrder extends AppCompatActivity {
 
         }
     };
-
-    public int soluongnguoidungdatmon(String idSanPhamMuonTim){
-        DatabaseReference databaseReferences = FirebaseDatabase.getInstance().getReference("Customer");
-        int soLuongNguoiMuaSPNay = 0;
-        databaseReferences.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for(DataSnapshot customerSnapshot: snapshot.getChildren()){
-                    // customerSnapshot ở đây là customer
-                    for(DataSnapshot orderSnapshot : customerSnapshot.child("Order").getChildren()){
-                        for(DataSnapshot cartSnapshot: orderSnapshot.child("cartList").getChildren()){
-                            Productimgurl productimgurl = productSnapshot.child("productimgurl").getValue(Productimgurl.class);
-                            if(productimgurl.getId() == idSanPhamMuonTim){
-                                soLuongNguoiMuaSPNay+=1;
-                                break;
-                            }
-                        }
-                    }
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        })
-    }
 }
