@@ -1,8 +1,13 @@
 package com.example.coffeeshopapp.model;
 
 import java.util.List;
+import java.io.Serializable;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
 
-public class Order {
+public class Order implements Serializable {
+
     private String orderId;
     private List<Cart> cartList;
     private String status;
@@ -11,6 +16,7 @@ public class Order {
     private Customer customer;
 
     public Order() {
+
     }
 
     public Order(String orderId, List<Cart> cartList, String status, String orderDate, String totalAmount, Customer customer) {
@@ -19,6 +25,23 @@ public class Order {
         this.status = status;
         this.orderDate = orderDate;
         this.totalAmount = totalAmount;
+        this.customer = customer;
+    }
+
+    public Order(String madonhang, String time, String status, String tongtien) {
+        this.orderId = madonhang;
+        this.orderDate = time;
+        this.status = status;
+        this.totalAmount = tongtien;
+    }
+
+
+
+    public Customer getCustomer() {
+        return customer;
+    }
+
+    public void setCustomer(Customer customer) {
         this.customer = customer;
     }
 
@@ -62,11 +85,5 @@ public class Order {
         this.totalAmount = totalAmount;
     }
 
-    public Customer getCustomer() {
-        return customer;
-    }
 
-    public void setCustomer(Customer customer) {
-        this.customer = customer;
-    }
 }

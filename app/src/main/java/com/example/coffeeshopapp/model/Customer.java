@@ -2,6 +2,7 @@ package com.example.coffeeshopapp.model;
 
 public class Customer {
 
+
     private String id;
     private String name;
     private String address;
@@ -22,7 +23,6 @@ public class Customer {
         this.phone = phone;
         this.gender = gender;
         this.account = account;
-
     }
 
     public String getId() {
@@ -49,6 +49,14 @@ public class Customer {
         this.address = address;
     }
 
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
     public String getPhone() {
         return phone;
     }
@@ -71,13 +79,5 @@ public class Customer {
 
     public void setAccount(Account account) {
         this.account = account;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
     }
 }

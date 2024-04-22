@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".activity.UpdateAddress">
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Update Your Address"
+        android:gravity="center"
+        android:textSize="30dp"
+        android:textStyle="bold"
+        android:textColor="@color/green"
+        android:background="#EFEFEF"></TextView>
+
+    <android.inputmethodservice.ExtractEditText
+        android:id="@+id/edtAddress"
+        android:layout_width="match_parent"
+        android:layout_height="67dp"
+        android:layout_marginTop="15dp"
+        android:background="@drawable/button_vien_xanh"
+        android:hint="      Input your address"></android.inputmethodservice.ExtractEditText>
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnsubmit"
+        android:layout_width="130dp"
+        android:layout_height="wrap_content"
+        android:text="Submit"
+        android:textStyle="bold"
+        android:textSize="20dp"
+        android:layout_marginTop="15dp"
+        android:layout_gravity="center"
+        android:textColor="@color/green"
+        android:background="@drawable/button_vien_xanh"></androidx.appcompat.widget.AppCompatButton>
+</LinearLayout>
