@@ -10,14 +10,11 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.example.coffeeshopapp.Adapter.CartItemAdapter;
-import com.example.coffeeshopapp.Adapter.ChitietdondathangdadatAdapter;
-import com.example.coffeeshopapp.Adapter.RecyclerViewDetaiOrderAdapter;
+import com.example.coffeeshopapp.adapter.ChitietdondathangdadatAdapter;
 import com.example.coffeeshopapp.R;
 import com.example.coffeeshopapp.databinding.ActivityChitietDonhangDadatBinding;
 import com.example.coffeeshopapp.model.Cart;
-import com.example.coffeeshopapp.model.Order;
-import com.example.coffeeshopapp.model.Productimgurl;
+import com.example.coffeeshopapp.model.Product;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -25,7 +22,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class Chitiet_donhang_dadat_activity extends AppCompatActivity {
     private ActivityChitietDonhangDadatBinding bd;
@@ -33,16 +29,16 @@ public class Chitiet_donhang_dadat_activity extends AppCompatActivity {
     private ChitietdondathangdadatAdapter recyclerViewDetaiOrderAdapter;
     private ArrayList<Cart> carttemList;
     // Nhận mã đơn hàng từ Intent
-    private String maDonHang =  getIntent().getStringExtra("madonhang");
+    private String maDonHang = getIntent().getStringExtra("madonhang");
     private DatabaseReference databaseReference = FirebaseDatabase.getInstance()
             .getReference("Customer").child("Customer123").child("Order").child(maDonHang).child("cartList");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        bd=ActivityChitietDonhangDadatBinding.inflate(getLayoutInflater());
+        bd = ActivityChitietDonhangDadatBinding.inflate(getLayoutInflater());
         setContentView(bd.getRoot());
-        maDonHang= getIntent().getStringExtra("madonhang");
+        maDonHang = getIntent().getStringExtra("madonhang");
 
         // Khởi tạo RecyclerView
         recyclerView = findViewById(R.id.recyclerviewdetaiorder);
@@ -56,6 +52,7 @@ public class Chitiet_donhang_dadat_activity extends AppCompatActivity {
         layThongTinDonHang();
         fetchDataFromFirebase();
     }
+
     private void layThongTinDiaChi() {
 
         // Lấy thông tin địa chỉ
@@ -87,6 +84,7 @@ public class Chitiet_donhang_dadat_activity extends AppCompatActivity {
             }
         });
     }
+
     private void layThongTinDonHang() {
 
         // Lấy thông tin địa chỉ
@@ -118,6 +116,7 @@ public class Chitiet_donhang_dadat_activity extends AppCompatActivity {
             }
         });
     }
+
     private void fetchDataFromFirebase() {
 
         databaseReference.addValueEventListener(new ValueEventListener() {
@@ -130,10 +129,10 @@ public class Chitiet_donhang_dadat_activity extends AppCompatActivity {
                     // Duyệt qua tất cả các nút con (các sản phẩm) trong giỏ hàng
                     for (DataSnapshot productSnapshot : snapshot.getChildren()) {
                         // Lấy thông tin về sản phẩm
-                        Productimgurl productimgurl = productSnapshot.child("productimgurl").getValue(Productimgurl.class);
+                        Product product = productSnapshot.child("product").getValue(Product.class);
                         String quantity = productSnapshot.child("quantity").getValue(String.class);
                         String size = productSnapshot.child("size").getValue(String.class);
-                        Cart cart = new Cart(productimgurl, quantity, size);
+                        Cart cart = new Cart(product, quantity, size);
                         carttemList.add(cart);
                     }
                     recyclerViewDetaiOrderAdapter.notifyDataSetChanged();

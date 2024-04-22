@@ -11,10 +11,11 @@ import com.example.coffeeshopapp.model.Product;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ProductDAO extends GenericDAO<Product>{
+public class ProductDAO extends GenericDAO<Product> {
     public ProductDAO(Context context) {
         super(context);
     }
+
     private static final String TABLE_NAME = "Product";
     private static final String COLUMN_ID = "ID";
     private static final String COLUMN_NAME = "NameProduct";
@@ -26,7 +27,7 @@ public class ProductDAO extends GenericDAO<Product>{
         SQLiteDatabase db = getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put("NameProduct", item.getName());
-        values.put("Image", item.getImageUrl());
+        values.put("Image", item.getImage());
         values.put("PriceProduct", item.getPrice());
         db.insert(TABLE_NAME, null, values);
         db.close();
@@ -39,7 +40,7 @@ public class ProductDAO extends GenericDAO<Product>{
         SQLiteDatabase db = getReadableDatabase();
 
         List<Product> productList = new ArrayList<>();
-        Cursor cursor = db.rawQuery("select NameProduct,PriceProduct from Product",null);
+        Cursor cursor = db.rawQuery("select NameProduct,PriceProduct from Product", null);
         /*if (cursor != null && cursor.moveToFirst()) {
             do {
 
@@ -64,9 +65,9 @@ public class ProductDAO extends GenericDAO<Product>{
         SQLiteDatabase db = getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(COLUMN_NAME, item.getName());
-        values.put(COLUMN_IMAGE, item.getImageUrl());
+        values.put(COLUMN_IMAGE, item.getImage());
         values.put(COLUMN_PRICE, item.getPrice());
-       // db.update(TABLE_NAME, values, COLUMN_ID + " = ?", new String[]{String.valueOf(item.getId())});
+        // db.update(TABLE_NAME, values, COLUMN_ID + " = ?", new String[]{String.valueOf(item.getId())});
         db.close();
     }
 
@@ -76,6 +77,7 @@ public class ProductDAO extends GenericDAO<Product>{
         db.delete(TABLE_NAME, COLUMN_ID + " = ?", new String[]{String.valueOf(id)});
         db.close();
     }
+
     public List<byte[]> getAllImages() {
         SQLiteDatabase db = getReadableDatabase();
         List<byte[]> imageList = new ArrayList<>();
@@ -90,7 +92,6 @@ public class ProductDAO extends GenericDAO<Product>{
         db.close();
         return imageList;
     }
-
 
 
     @Override

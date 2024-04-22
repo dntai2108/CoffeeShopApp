@@ -1,4 +1,4 @@
-package com.example.coffeeshopapp.Adapter;
+package com.example.coffeeshopapp.adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -20,6 +20,7 @@ import java.util.List;
 public class ChitietdondathangdadatAdapter extends RecyclerView.Adapter<ChitietdondathangdadatAdapter.OrderItemViewHolder> {
     private List<Cart> cartItemList;
     private Context context;
+
     public ChitietdondathangdadatAdapter(List<Cart> cartItemList, Context context) {
         this.cartItemList = cartItemList;
 
@@ -38,17 +39,16 @@ public class ChitietdondathangdadatAdapter extends RecyclerView.Adapter<Chitietd
     @Override
     public void onBindViewHolder(@NonNull ChitietdondathangdadatAdapter.OrderItemViewHolder holder, int position) {
         Cart cartItem = cartItemList.get(position);
-        holder.tvProductName.setText(cartItem.getProductimgurl().getName());
-        holder.tvProductPrice.setText(cartItem.getProductimgurl().getPrice());
+        holder.tvProductName.setText(cartItem.getProduct().getName());
+        holder.tvProductPrice.setText(cartItem.getProduct().getPrice());
         holder.tvQuantity.setText(String.valueOf(cartItem.getQuantity()));
-        holder.size.setText(cartItem.getSize());
+
         // Sử dụng Glide để tải hình ảnh và thiết lập vào ImageView
         Glide.with(holder.itemView.getContext())
-                .load(cartItem.getProductimgurl().getImgurl()) // Thay thế "getImageUrl()" bằng phương thức lấy URL của hình ảnh từ đối tượng Productimgurl của bạn
+                .load(cartItem.getProduct().getImage()) // Thay thế "getImageUrl()" bằng phương thức lấy URL của hình ảnh từ đối tượng Productimgurl của bạn
                 .into(holder.imgproductflc);
 
     }
-
 
 
     @Override
@@ -63,18 +63,18 @@ public class ChitietdondathangdadatAdapter extends RecyclerView.Adapter<Chitietd
         ImageView imgproductflc;
         TextView size;
         Button btnDeleteproductflc;
-        ImageView btnTang,btnGiam;
+        ImageView btnTang, btnGiam;
 
         public OrderItemViewHolder(@NonNull View itemView) {
             super(itemView);
             tvProductName = itemView.findViewById(R.id.tvNameProductflc);
             tvProductPrice = itemView.findViewById(R.id.tvPriceProductflc);
             tvQuantity = itemView.findViewById(R.id.tvQuantityofProductflc);
-            imgproductflc=itemView.findViewById(R.id.imgflc);
-            btnDeleteproductflc=itemView.findViewById(R.id.btnDeleteflc);
-            btnTang=itemView.findViewById(R.id.imgPlusflc);
-            btnGiam=itemView.findViewById(R.id.imgMinusflc);
-            size=itemView.findViewById(R.id.tvSizeProductflc);
+            imgproductflc = itemView.findViewById(R.id.imgflc);
+            btnDeleteproductflc = itemView.findViewById(R.id.btnDeleteflc);
+            btnTang = itemView.findViewById(R.id.imgPlusflc);
+            btnGiam = itemView.findViewById(R.id.imgMinusflc);
+            size = itemView.findViewById(R.id.tvSizeProductflc);
 
 
         }

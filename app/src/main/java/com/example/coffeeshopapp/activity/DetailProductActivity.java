@@ -4,7 +4,6 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.RadioButton;
@@ -14,7 +13,7 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.example.coffeeshopapp.databinding.ActivityDetailProductBinding;
 import com.example.coffeeshopapp.model.Cart;
-import com.example.coffeeshopapp.model.Productimgurl;
+import com.example.coffeeshopapp.model.Product;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DatabaseReference;
@@ -29,20 +28,21 @@ public class DetailProductActivity extends AppCompatActivity {
 
     private Context context;
     private ActivityDetailProductBinding bd;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        bd=ActivityDetailProductBinding.inflate(getLayoutInflater());
+        bd = ActivityDetailProductBinding.inflate(getLayoutInflater());
         setContentView(bd.getRoot());
         // Khởi tạo context bằng this
         context = this;
         // Khởi tạo tham chiếu đến "Customers" node trong Firebase Realtime Database
         customerRef = FirebaseDatabase.getInstance().getReference("Customer");
         //Lấy dữ liệu của product
-        Productimgurl productimgurl = getIntent().getParcelableExtra("product");
-        Glide.with(context).load(productimgurl.getImgurl()).into(bd.imgctsp);
-        bd.tvNameItem.setText(productimgurl.getName());
-        bd.tvPriceItemfl.setText(productimgurl.getPrice());
+        Product product = getIntent().getParcelableExtra("product");
+        Glide.with(context).load(product.getImage()).into(bd.imgctsp);
+        bd.tvNameItem.setText(product.getName());
+        bd.tvPriceItemfl.setText(product.getPrice());
         setEvent();
 
     }// ngoài onCreate
@@ -71,7 +71,8 @@ public class DetailProductActivity extends AppCompatActivity {
                     // Giảm số lượng sản phẩm đi 1 đơn vị
                     quantity--;
                     // Cập nhật số lượng sản phẩm hiển thị trên giao diện
-                    updateQuantityTextView();}
+                    updateQuantityTextView();
+                }
             }
         });
         bd.radgroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
@@ -89,7 +90,7 @@ public class DetailProductActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 // Lấy thông tin sản phẩm từ Intent
-                Productimgurl productimgurl = getIntent().getParcelableExtra("product");
+                Product product = getIntent().getParcelableExtra("product");
 
                 // Lấy mã khách hàng của khách hàng hiện tại, nếu không có thì tạo mã mới
                 String customerId = getCustomerId();// hàm viết ở dưới
@@ -102,7 +103,7 @@ public class DetailProductActivity extends AppCompatActivity {
                     selectedSize = radioButton.getText().toString();
                 }
                 // Tạo một đối tượng Cart đại diện cho sản phẩm được chọn
-                Cart cartItem = new Cart(productimgurl, String.valueOf(quantity), selectedSize); // Cập nhật thông tin kích thước
+                Cart cartItem = new Cart(product, String.valueOf(quantity), selectedSize); // Cập nhật thông tin kích thước
                 // Gửi thông tin giỏ hàng của khách hàng lên Firebase
                 sendCartDataToFirebase(customerId, cartItem);
                 // Hiển thị thông báo hoặc thực hiện hành động khác sau khi thêm vào giỏ hàng
@@ -117,10 +118,11 @@ public class DetailProductActivity extends AppCompatActivity {
         // Nếu chưa đăng nhập, bạn có thể tạo một mã khách hàng mới dựa trên thời gian hoặc UUID
         return "Customer123";
     }
+
     private void sendCartDataToFirebase(String customerId, Cart cartItem) {
 
         // Set giá trị của cartItem lên Firebase với key là ID của sản phẩm
-        DatabaseReference cartItemRef = customerRef.child(customerId).child("Cart").child(cartItem.getProductimgurl().getId());
+        DatabaseReference cartItemRef = customerRef.child(customerId).child("Cart").child(cartItem.getProduct().getId());
         cartItemRef.child("quantity").setValue(cartItem.getQuantity()); // Lưu số lượng
         cartItemRef.child("size").setValue(cartItem.getSize()); // Lưu kích thước
 
@@ -139,6 +141,7 @@ public class DetailProductActivity extends AppCompatActivity {
                     }
                 });
     }
+
     // Phương thức cập nhật số lượng sản phẩm hiển thị trên giao diện
     private void updateQuantityTextView() {
         bd.tvQuantityofProduct.setText(String.valueOf(quantity));

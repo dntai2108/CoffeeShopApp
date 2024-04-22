@@ -1,4 +1,4 @@
-package com.example.coffeeshopapp.Adapter;
+package com.example.coffeeshopapp.adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -21,24 +21,30 @@ import java.util.List;
 public class CartItemAdapter extends RecyclerView.Adapter<CartItemAdapter.CartItemViewHolder> {
     private List<Cart> cartItemList;
     private Context context;
+
     public CartItemAdapter(List<Cart> cartItemList, Context context) {
         this.cartItemList = cartItemList;
 
         this.context = context;
 
     }
+
     // dùng để xóa sản phẩm trong giỏ
     public interface OnDeleteItemClickListener {
         void onDeleteItemClick(int position);
     }
+
     private OnDeleteItemClickListener mListener;
+
     public void setOnDeleteItemClickListener(OnDeleteItemClickListener listener) {
         mListener = listener;
     }
+
     // dùng để tăng giảm số lượng sản phẩm trong giỏ
     // Interface để xử lý sự kiện khi người dùng thay đổi số lượng sản phẩm
     public interface OnQuantityChangeListener {
         void onIncreaseQuantity(int position);
+
         void onDecreaseQuantity(int position);
     }
 
@@ -72,19 +78,18 @@ public class CartItemAdapter extends RecyclerView.Adapter<CartItemAdapter.CartIt
     @Override
     public void onBindViewHolder(@NonNull CartItemViewHolder holder, int position) {
         Cart cartItem = cartItemList.get(position);
-        holder.tvProductName.setText(cartItem.getProductimgurl().getName());
-        holder.tvProductPrice.setText(cartItem.getProductimgurl().getPrice());
+        holder.tvProductName.setText(cartItem.getProduct().getName());
+        holder.tvProductPrice.setText(cartItem.getProduct().getPrice());
         holder.tvQuantity.setText(String.valueOf(cartItem.getQuantity()));
-        holder.size.setText(cartItem.getSize());
         // Sử dụng Glide để tải hình ảnh và thiết lập vào ImageView
         Glide.with(holder.itemView.getContext())
-                .load(cartItem.getProductimgurl().getImgurl()) // Thay thế "getImageUrl()" bằng phương thức lấy URL của hình ảnh từ đối tượng Productimgurl của bạn
+                .load(cartItem.getProduct().getImage()) // Thay thế "getImageUrl()" bằng phương thức lấy URL của hình ảnh từ đối tượng Productimgurl của bạn
                 .into(holder.imgproductflc);
-       // xử lí xóa sản phẩm trong giỏ
+        // xử lí xóa sản phẩm trong giỏ
         holder.btnDeleteproductflc.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(mListener != null){
+                if (mListener != null) {
                     // Lấy vị trí của mục trong danh sách
                     int position = holder.getAdapterPosition();
                     // Kiểm tra xem vị trí hợp lệ
@@ -124,18 +129,18 @@ public class CartItemAdapter extends RecyclerView.Adapter<CartItemAdapter.CartIt
         ImageView imgproductflc;
         TextView size;
         Button btnDeleteproductflc;
-        ImageView btnTang,btnGiam;
+        ImageView btnTang, btnGiam;
 
         public CartItemViewHolder(@NonNull View itemView) {
             super(itemView);
             tvProductName = itemView.findViewById(R.id.tvNameProductflc);
             tvProductPrice = itemView.findViewById(R.id.tvPriceProductflc);
             tvQuantity = itemView.findViewById(R.id.tvQuantityofProductflc);
-            imgproductflc=itemView.findViewById(R.id.imgflc);
-            btnDeleteproductflc=itemView.findViewById(R.id.btnDeleteflc);
-            btnTang=itemView.findViewById(R.id.imgPlusflc);
-            btnGiam=itemView.findViewById(R.id.imgMinusflc);
-            size=itemView.findViewById(R.id.tvSizeProductflc);
+            imgproductflc = itemView.findViewById(R.id.imgflc);
+            btnDeleteproductflc = itemView.findViewById(R.id.btnDeleteflc);
+            btnTang = itemView.findViewById(R.id.imgPlusflc);
+            btnGiam = itemView.findViewById(R.id.imgMinusflc);
+            size = itemView.findViewById(R.id.tvSizeProductflc);
 
 
         }

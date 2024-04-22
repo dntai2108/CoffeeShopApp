@@ -34,8 +34,10 @@ import java.util.UUID;
 public class DetailProduct extends AppCompatActivity {
     public interface YesNoDialogListener {
         void onYesClicked();
+
         void onNoClicked();
     }
+
     private ActivityDetailProductAdminBinding bd;
     FirebaseStorage storage = FirebaseStorage.getInstance();
     DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
@@ -43,7 +45,6 @@ public class DetailProduct extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_detail_product_admin);
         bd = ActivityDetailProductAdminBinding.inflate(getLayoutInflater());
         setContentView(bd.getRoot());
         setEvent();
@@ -55,12 +56,6 @@ public class DetailProduct extends AppCompatActivity {
         bd.edtProductName.setText(product.getName().toString());
         bd.edtProductPrice.setText(product.getPrice().toString());
         bd.edtDescription.setText(product.getDescription().toString());
-        if(product.getSize().toString().equals("L")){
-            bd.radioButtonSizeL.setChecked(true);
-        }
-        else{
-            bd.radioButtonSizeM.setChecked(true);
-        }
         storageRef.child(product.getImage()).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override
             public void onSuccess(Uri uri) {
@@ -101,14 +96,14 @@ public class DetailProduct extends AppCompatActivity {
                     public void onYesClicked() {
                         StorageReference desertRef = storageRef.child(product.getImage());
                         Drawable drawable = bd.imgProduct.getDrawable();
-                        if(drawable != null){
+                        if (drawable != null) {
                             desertRef.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override
                                 public void onSuccess(Void aVoid) {
                                     databaseReference.child("Product").child(product.getId()).removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
                                         @Override
                                         public void onComplete(@NonNull Task<Void> task) {
-                                            Toast.makeText(DetailProduct.this,"Xóa thành công", Toast.LENGTH_LONG).show();
+                                            Toast.makeText(DetailProduct.this, "Xóa thành công", Toast.LENGTH_LONG).show();
                                             onBackPressed();
                                         }
                                     });
@@ -116,14 +111,14 @@ public class DetailProduct extends AppCompatActivity {
                             }).addOnFailureListener(new OnFailureListener() {
                                 @Override
                                 public void onFailure(@NonNull Exception exception) {
-                                    Toast.makeText(DetailProduct.this,"Có lỗi khi xóa", Toast.LENGTH_LONG).show();
+                                    Toast.makeText(DetailProduct.this, "Có lỗi khi xóa", Toast.LENGTH_LONG).show();
                                 }
                             });
-                        }
-                        else{
-                            Toast.makeText(DetailProduct.this,"Xóa ảnh thành công", Toast.LENGTH_LONG).show();
+                        } else {
+                            Toast.makeText(DetailProduct.this, "Xóa ảnh thành công", Toast.LENGTH_LONG).show();
                         }
                     }
+
                     @Override
                     public void onNoClicked() {
                         return;
@@ -135,16 +130,16 @@ public class DetailProduct extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Drawable drawable = bd.imgProduct.getDrawable();
-                if(drawable == null){
-                    Toast.makeText(DetailProduct.this,"Hình ảnh không thể trống", Toast.LENGTH_LONG).show();
+                if (drawable == null) {
+                    Toast.makeText(DetailProduct.this, "Hình ảnh không thể trống", Toast.LENGTH_LONG).show();
                     return;
                 }
-                if(bd.edtProductName.getText().toString().trim().isEmpty()){
-                    Toast.makeText(DetailProduct.this,"Tên sản phẩm không thể trống", Toast.LENGTH_LONG).show();
+                if (bd.edtProductName.getText().toString().trim().isEmpty()) {
+                    Toast.makeText(DetailProduct.this, "Tên sản phẩm không thể trống", Toast.LENGTH_LONG).show();
                     return;
                 }
-                if(bd.edtProductPrice.getText().toString().trim().isEmpty()){
-                    Toast.makeText(DetailProduct.this,"Giá không thể trống", Toast.LENGTH_LONG).show();
+                if (bd.edtProductPrice.getText().toString().trim().isEmpty()) {
+                    Toast.makeText(DetailProduct.this, "Giá không thể trống", Toast.LENGTH_LONG).show();
                     return;
                 }
                 ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -163,19 +158,13 @@ public class DetailProduct extends AppCompatActivity {
                     public void onSuccess(Void aVoid) {
                         product.setImage(key);
                         product.setName(bd.edtProductName.getText().toString());
-                        product.setPrice(Double.parseDouble(bd.edtProductPrice.getText().toString()));
+                        product.setPrice(bd.edtProductPrice.getText().toString());
                         product.setDescription(bd.edtDescription.getText().toString());
-                        if(bd.radioButtonSizeM.isChecked()){
-                            product.setSize("M");
-                        }
-                        else{
-                            product.setSize("L");
-                        }
                         UploadTask uploadTask = imageChild.putBytes(data);
                         uploadTask.addOnFailureListener(new OnFailureListener() {
                             @Override
                             public void onFailure(@NonNull Exception e) {
-                                Toast.makeText(DetailProduct.this,"Có lỗi khi đẩy ảnh lên server", Toast.LENGTH_LONG).show();
+                                Toast.makeText(DetailProduct.this, "Có lỗi khi đẩy ảnh lên server", Toast.LENGTH_LONG).show();
                                 return;
                             }
                         });
@@ -183,19 +172,20 @@ public class DetailProduct extends AppCompatActivity {
                         databaseReference.child("Product").child(product.getId()).setValue(product).addOnCompleteListener(new OnCompleteListener<Void>() {
                             @Override
                             public void onComplete(@NonNull Task<Void> task) {
-                                Toast.makeText(DetailProduct.this,"Sửa thành công", Toast.LENGTH_LONG).show();
+                                Toast.makeText(DetailProduct.this, "Sửa thành công", Toast.LENGTH_LONG).show();
                             }
                         });
                     }
                 }).addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception exception) {
-                        Toast.makeText(DetailProduct.this,"Có lỗi khi Sửa", Toast.LENGTH_LONG).show();
+                        Toast.makeText(DetailProduct.this, "Có lỗi khi Sửa", Toast.LENGTH_LONG).show();
                     }
                 });
             }
         });
     }
+
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 1 && resultCode == RESULT_OK && data != null && data.getData() != null) {

@@ -1,4 +1,4 @@
-package com.example.coffeeshopapp.Adapter;
+package com.example.coffeeshopapp.adapter;
 
 import android.content.Context;
 import android.content.Intent;
@@ -17,19 +17,21 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.coffeeshopapp.R;
 import com.example.coffeeshopapp.activity.DetailProductActivity;
-import com.example.coffeeshopapp.model.Productimgurl;
+import com.example.coffeeshopapp.model.Product;
 
 
 import java.util.ArrayList;
 
 
 public class RecycleViewAdapterProduct extends RecyclerView.Adapter<RecycleViewAdapterProduct.ViewHolder> {
-    private final ArrayList<Productimgurl> productList;
+    private final ArrayList<Product> productList;
     private final Context context;
-    public RecycleViewAdapterProduct(ArrayList<Productimgurl> productList,Context context) {
+
+    public RecycleViewAdapterProduct(ArrayList<Product> productList, Context context) {
         this.productList = productList;
         this.context = context;
     }
+
     public static class ViewHolder extends RecyclerView.ViewHolder {
         TextView textViewName;
         TextView textViewPrice;
@@ -43,10 +45,11 @@ public class RecycleViewAdapterProduct extends RecyclerView.Adapter<RecycleViewA
             textViewName = itemView.findViewById(R.id.tvNameItemfl);
             textViewPrice = itemView.findViewById(R.id.tvPriceItemfl);
             hinh = itemView.findViewById(R.id.imgItemfl);
-            button=itemView.findViewById(R.id.btnAddItem);
-            hinhcart=itemView.findViewById(R.id.imgCart);
+            button = itemView.findViewById(R.id.btnAddItem);
+            hinhcart = itemView.findViewById(R.id.imgCart);
         }
     }
+
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -56,28 +59,28 @@ public class RecycleViewAdapterProduct extends RecyclerView.Adapter<RecycleViewA
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        Productimgurl product = productList.get(position);
+        Product product = productList.get(position);
         holder.textViewName.setText(product.getName());
         holder.textViewPrice.setText(product.getPrice());
         // Log đường dẫn ảnh
-        Log.d("ProductImage", "Đường dẫn ảnh: " + product.getImgurl());
+        Log.d("ProductImage", "Đường dẫn ảnh: " + product.getImage());
         // Load ảnh vào ImageView bằng Glide
         Glide.with(context)
-                .load(product.getImgurl())
+                .load(product.getImage())
                 .into(holder.hinh);
         // truyền sáng detail
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, DetailProductActivity.class);
-                intent.putExtra("product",  (Parcelable) product);
+                intent.putExtra("product", (Parcelable) product);
                 context.startActivity(intent);
             }
         });
 
 
-
     }
+
     @Override
     public int getItemCount() {
         return productList.size();

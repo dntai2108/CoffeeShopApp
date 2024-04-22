@@ -7,20 +7,17 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.coffeeshopapp.R;
 import com.example.coffeeshopapp.databinding.ActivityCartBinding;
 import com.example.coffeeshopapp.model.Cart;
-import com.example.coffeeshopapp.Adapter.CartItemAdapter;
-import com.example.coffeeshopapp.model.Productimgurl;
+import com.example.coffeeshopapp.adapter.CartItemAdapter;
+import com.example.coffeeshopapp.model.Product;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
@@ -142,10 +139,10 @@ public class CartActivity extends AppCompatActivity implements CartItemAdapter.O
         for (Cart cartItem : cartItemList) {
             // Tính giá tiền cho từng sản phẩm và cộng vào tổng giá tiền
             //String "100.000" -> 100000.0 rồi lấy giá nhân số lượng
-            double cartItemPrice= Double.parseDouble(cartItem.getProductimgurl().getPrice().replace(".",""));
-            int cartItemQuantity=Integer.parseInt(cartItem.getQuantity());
+            double cartItemPrice = Double.parseDouble(cartItem.getProduct().getPrice().replace(".", ""));
+            int cartItemQuantity = Integer.parseInt(cartItem.getQuantity());
 
-            totalPrice +=cartItemPrice * cartItemQuantity;
+            totalPrice += cartItemPrice * cartItemQuantity;
         }
         // Hiển thị tổng giá tiền trên giao diện
         displayTotalPrice(totalPrice);
@@ -178,10 +175,10 @@ public class CartActivity extends AppCompatActivity implements CartItemAdapter.O
                     // Duyệt qua tất cả các nút con (các sản phẩm) trong giỏ hàng
                     for (DataSnapshot productSnapshot : snapshot.getChildren()) {
                         // Lấy thông tin về sản phẩm
-                        Productimgurl productimgurl = productSnapshot.child("productimgurl").getValue(Productimgurl.class);
+                        Product product = productSnapshot.child("product").getValue(Product.class);
                         String quantity = productSnapshot.child("quantity").getValue(String.class);
                         String size = productSnapshot.child("size").getValue(String.class);
-                        Cart cart = new Cart(productimgurl, quantity, size);
+                        Cart cart = new Cart(product, quantity, size);
                         cartItemList.add(cart);
                     }
                     cartItemAdapter.notifyDataSetChanged();
@@ -234,7 +231,7 @@ public class CartActivity extends AppCompatActivity implements CartItemAdapter.O
     @Override
     public void onDeleteItemClick(int position) {
         Cart deleteItem = cartItemList.get(position);
-        String productId = deleteItem.getProductimgurl().getId(); // Lấy id sản phẩm
+        String productId = deleteItem.getProduct().getId(); // Lấy id sản phẩm
         //  final private DatabaseReference databaseReference = FirebaseDatabase.getInstance()
         //            .getReference("Customer").child("Customer123").child("Cart");
         DatabaseReference itemRef = databaseReference.child(productId);
@@ -264,7 +261,7 @@ public class CartActivity extends AppCompatActivity implements CartItemAdapter.O
         cartItem.setQuantity(String.valueOf(currentQuantity));
 
         // Cập nhật số lượng sản phẩm trong Firebase
-        DatabaseReference itemRef = databaseReference.child(cartItem.getProductimgurl().getId()); // Giả sử có một trường id trong đối tượng Cart để định danh mỗi sản phẩm
+        DatabaseReference itemRef = databaseReference.child(cartItem.getProduct().getId()); // Giả sử có một trường id trong đối tượng Cart để định danh mỗi sản phẩm
         itemRef.child("quantity").setValue(String.valueOf(currentQuantity));
 
         // Cập nhật lại giao diện
@@ -282,7 +279,7 @@ public class CartActivity extends AppCompatActivity implements CartItemAdapter.O
             cartItem.setQuantity(String.valueOf(currentQuantity));
 
             // Cập nhật số lượng sản phẩm trong Firebase bằng id
-            DatabaseReference itemRef = databaseReference.child(cartItem.getProductimgurl().getId());
+            DatabaseReference itemRef = databaseReference.child(cartItem.getProduct().getId());
             itemRef.child("quantity").setValue(String.valueOf(currentQuantity));
 
             // Cập nhật lại giao diện

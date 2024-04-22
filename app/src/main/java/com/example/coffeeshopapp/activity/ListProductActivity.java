@@ -9,16 +9,14 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.example.coffeeshopapp.Adapter.RecycleViewAdapterProduct;
+import com.example.coffeeshopapp.adapter.RecycleViewAdapterProduct;
 import com.example.coffeeshopapp.R;
 import com.example.coffeeshopapp.model.Product;
-import com.example.coffeeshopapp.model.Productimgurl;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -30,7 +28,7 @@ import java.util.ArrayList;
 public class ListProductActivity extends AppCompatActivity {
     RecyclerView recyclerView;
     RecycleViewAdapterProduct adapter;
-    ArrayList<Productimgurl> datalist;
+    ArrayList<Product> datalist;
     Button buttonthem;
     ImageView imgcart;
 
@@ -60,11 +58,12 @@ public class ListProductActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 datalist.clear(); // Xóa dữ liệu cũ
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                    Productimgurl product = dataSnapshot.getValue(Productimgurl.class);
+                    Product product = dataSnapshot.getValue(Product.class);
                     datalist.add(product);
                 }
                 adapter.notifyDataSetChanged();
             }
+
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
             }
@@ -89,6 +88,7 @@ public class ListProductActivity extends AppCompatActivity {
                             Toast.makeText(ListProductActivity.this, "Giỏ hàng của bạn đang trống", Toast.LENGTH_SHORT).show();
                         }
                     }
+
                     @Override
                     public void onCancelled(@NonNull DatabaseError error) {
                         // Xử lý khi có lỗi xảy ra

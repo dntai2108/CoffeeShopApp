@@ -84,7 +84,7 @@ public class LoginActivity extends AppCompatActivity {
                                 binding.edtSoDienThoai.requestFocus();
                                 return;
                             } else {
-                                String layMatKhau = snapshot.child(soDienThoai).child("matKhau").getValue(String.class);
+                                String layMatKhau = snapshot.child(soDienThoai).child("password").getValue(String.class);
                                 String sDT = soDienThoai.substring(1);
                                 if (layMatKhau.equals(matKhau)) {
                                     binding.pbXuLy.setVisibility(VISIBLE);

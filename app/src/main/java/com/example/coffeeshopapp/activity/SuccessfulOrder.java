@@ -14,7 +14,7 @@ import com.example.coffeeshopapp.databinding.ActivitySuccessfulOrderBinding;
 import com.example.coffeeshopapp.model.Cart;
 import com.example.coffeeshopapp.model.Customer;
 import com.example.coffeeshopapp.model.Order;
-import com.example.coffeeshopapp.model.Productimgurl;
+import com.example.coffeeshopapp.model.Product;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
@@ -82,10 +82,10 @@ public class SuccessfulOrder extends AppCompatActivity {
                 if (snapshot.exists()) {
                     List<Cart> cartList = new ArrayList<>();
                     for (DataSnapshot productSnapshot : snapshot.getChildren()) {
-                        Productimgurl productimgurl = productSnapshot.child("productimgurl").getValue(Productimgurl.class);
+                        Product product = productSnapshot.child("product").getValue(Product.class);
                         String quantity = productSnapshot.child("quantity").getValue(String.class);
                         String size = productSnapshot.child("size").getValue(String.class);
-                        Cart cart = new Cart(productimgurl, quantity, size);
+                        Cart cart = new Cart(product, quantity, size);
                         cartList.add(cart);
                     }
                     createOrder(cartList);
@@ -113,7 +113,7 @@ public class SuccessfulOrder extends AppCompatActivity {
         DatabaseReference addressRef = FirebaseDatabase.getInstance().getReference()
                 .child("Customer")
                 .child("Customer123").child("Info");
-            addressRef.addListenerForSingleValueEvent(new ValueEventListener() {
+        addressRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.exists()) {
@@ -123,15 +123,15 @@ public class SuccessfulOrder extends AppCompatActivity {
                     String customerAddress = snapshot.child("address").getValue(String.class);
 
                     // Tạo một đối tượng Customer với thông tin từ Firebase
-                    Customer customer = new Customer(customerName,customerAddress,customerPhone);
-                    String keyorder= UUID.randomUUID().toString().substring(0,10);
+                    Customer customer = new Customer(customerName, customerAddress, customerPhone);
+                    String keyorder = UUID.randomUUID().toString().substring(0, 10);
 
                     // Tạo một đơn hàng mới
                     Order order = new Order();
                     order.setStatus("Pending");
                     order.setOrderDate(formattedDateTime);
                     DecimalFormat decimalFormatS = new DecimalFormat("###,###,###");
-                    String tongtien = decimalFormatS.format(totalAmount)+" vnd";
+                    String tongtien = decimalFormatS.format(totalAmount) + " vnd";
                     order.setTotalAmount(tongtien);
                     order.setCustomer(customer); // Thiết lập đối tượng Customer
                     order.setCartList(cartList);
@@ -153,13 +153,14 @@ public class SuccessfulOrder extends AppCompatActivity {
             }
         });
     }
+
     private double calculateTotalAmount(List<Cart> cartList) {
         double totalAmount = 0;
         for (Cart cartItem : cartList) {
-            Double cartItemPrice= Double.parseDouble(cartItem.getProductimgurl().getPrice().replace(".",""));
-            int cartItemQuantity=Integer.parseInt(cartItem.getQuantity());
+            Double cartItemPrice = Double.parseDouble(cartItem.getProduct().getPrice().replace(".", ""));
+            int cartItemQuantity = Integer.parseInt(cartItem.getQuantity());
 
-            totalAmount +=cartItemPrice*cartItemQuantity;
+            totalAmount += cartItemPrice * cartItemQuantity;
         }
         return totalAmount;
     }

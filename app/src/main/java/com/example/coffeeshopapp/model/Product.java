@@ -14,17 +14,16 @@ public class Product implements Serializable {
     private String price;
 
     private String description;
-    private String size;
+
     private String date;
 
 
-    public Product(String id, String name, String image, String price, String description, String size, String date) {
+    public Product(String id, String name, String image, String price, String description, String date) {
         this.id = id;
         this.name = name;
         this.image = image;
         this.price = price;
         this.description = description;
-        this.size = size;
         this.date = date;
     }
 
@@ -77,6 +76,14 @@ public class Product implements Serializable {
 
     public void setDate(String date) {
         this.date = date;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
 }

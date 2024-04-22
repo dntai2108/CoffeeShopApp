@@ -121,7 +121,7 @@ public class RegisterActivity extends AppCompatActivity {
                     binding.edtXacNhanMatKhau.requestFocus();
                     return;
                 }
-                if (!checkPhoneExist(soDienThoai)) {
+                if (checkPhoneExist(soDienThoai)) {
                     Toast.makeText(RegisterActivity.this, "Số điện thoại đã tồn tại", Toast.LENGTH_SHORT).show();
                     binding.edtSoDienThoai.setError("Nhập số điện thoại: ");
                     binding.edtSoDienThoai.requestFocus();

@@ -25,6 +25,12 @@ public class Customer {
         this.account = account;
     }
 
+    public Customer(String name, String address, String phone) {
+        this.name = name;
+        this.address = address;
+        this.phone = phone;
+    }
+
     public String getId() {
         return id;
     }

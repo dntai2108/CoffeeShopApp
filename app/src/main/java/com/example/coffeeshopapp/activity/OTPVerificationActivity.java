@@ -55,6 +55,7 @@ public class OTPVerificationActivity extends AppCompatActivity {
 
     private void setEven() {
         String soDienThoai = getIntent().getStringExtra("phone");
+        String sDT = "0" + soDienThoai;
         binding.tvSoDienThoai.setText(String.format("+84-%s", soDienThoai));
         String verificationId = getIntent().getStringExtra("verificationId");
         String hoTen = getIntent().getStringExtra("name");
@@ -98,9 +99,9 @@ public class OTPVerificationActivity extends AppCompatActivity {
                                 public void onComplete(@NonNull Task<AuthResult> task) {
                                     if (task.isSuccessful()) {
                                         String node = UUID.randomUUID().toString();
-                                        Account account = new Account(soDienThoai, matKhau, "user", true);
-                                        Customer customer = new Customer(node, hoTen, "", email, soDienThoai, "", account);
-                                        databaseReference.child("Account").child(soDienThoai).setValue(account).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                        Account account = new Account(sDT, matKhau, "user", true);
+                                        Customer customer = new Customer(node, hoTen, "", email, sDT, "", account);
+                                        databaseReference.child("Account").child(sDT).setValue(account).addOnCompleteListener(new OnCompleteListener<Void>() {
                                             @Override
                                             public void onComplete(@NonNull Task<Void> task) {
 

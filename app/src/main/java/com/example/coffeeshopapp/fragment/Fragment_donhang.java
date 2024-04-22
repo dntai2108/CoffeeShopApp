@@ -1,7 +1,6 @@
 package com.example.coffeeshopapp.fragment;
 
 import android.annotation.SuppressLint;
-import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -16,9 +15,7 @@ import android.view.ViewGroup;
 
 import com.example.coffeeshopapp.Adapter.RecyclerViewDonHangAdapter;
 import com.example.coffeeshopapp.R;
-import com.example.coffeeshopapp.activity.Chitiet_donhang_dadat_activity;
 import com.example.coffeeshopapp.model.Order;
-import com.example.coffeeshopapp.model.Productimgurl;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -26,7 +23,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 /**
  * A simple {@link Fragment} subclass.
