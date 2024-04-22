@@ -4,19 +4,18 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activity.ManageUser">
+    tools:context=".activity.ManageOrder">
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbarmnguser"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white"
         android:minHeight="?attr/actionBarSize"
-        app:title="QUẢN LÝ KHÁCH HÀNG"
+        app:title="QUẢN LÝ ĐƠN HÀNG"
         android:theme="?attr/actionBarTheme"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
     <View
         android:id="@+id/borderToolBar"
         android:layout_width="match_parent"
@@ -25,26 +24,32 @@
         android:background="@android:color/black"
         app:layout_constraintBottom_toBottomOf="@+id/toolbarmnguser" />
 
-    <SearchView
-        android:id="@+id/svUser"
+    <Spinner
+        android:id="@+id/SpinnerOder"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/toolbarmnguser" />
 
-    <ScrollView
-        android:id="@+id/scrvUser"
+    <SearchView
+        android:id="@+id/SearchViewOrder"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:fillViewport="true"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/SpinnerOder" />
+
+    <ScrollView
+        android:id="@+id/ScrollViewOrder"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/svUser">
+        app:layout_constraintTop_toBottomOf="@+id/SearchViewOrder"
+        android:fillViewport="true">
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/RecyclerViewUser"
+            android:id="@+id/RecyclerViewOrder"
             android:layout_width="match_parent"
-            android:layout_height="200dp" />
+            android:layout_height="wrap_content"/>
     </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>

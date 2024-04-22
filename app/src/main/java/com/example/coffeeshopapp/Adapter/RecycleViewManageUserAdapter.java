@@ -12,7 +12,6 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.coffeeshopapp.R;
-import com.example.coffeeshopapp.activity.ManageUser;
 import com.example.coffeeshopapp.model.Account;
 import com.example.coffeeshopapp.model.Customer;
 import com.google.firebase.database.DataSnapshot;

@@ -5,7 +5,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.os.Bundle;
-import android.widget.LinearLayout;
 import android.widget.SearchView;
 
 import com.example.coffeeshopapp.Adapter.RecycleViewManageUserAdapter;
@@ -24,7 +23,7 @@ public class ManageUser extends AppCompatActivity {
     private ActivityManageUserBinding bd;
     private ArrayList<Customer> listCustomers;
     private RecycleViewManageUserAdapter recycleViewManageUserAdapter;
-    DatabaseReference databaseReferences = FirebaseDatabase.getInstance().getReference("Customers");
+    DatabaseReference databaseReferences = FirebaseDatabase.getInstance().getReference("Customer");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,7 +86,7 @@ public class ManageUser extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-//        reloadCustomers();
+        reloadCustomers();
     }
     public void reloadCustomers (){
         databaseReferences.addValueEventListener(new ValueEventListener() {
@@ -95,7 +94,6 @@ public class ManageUser extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 listCustomers.clear();
                 for(DataSnapshot dataSnapshot: snapshot.getChildren()){
-
                     Customer customer = dataSnapshot.getValue(Customer.class);
                     listCustomers.add(customer);
                 }

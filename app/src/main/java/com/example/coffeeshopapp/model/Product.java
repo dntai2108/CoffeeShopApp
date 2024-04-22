@@ -1,6 +1,7 @@
 package com.example.coffeeshopapp.model;
 
 import java.io.Serializable;
+import java.util.Date;
 
 public class Product implements Serializable {
 
@@ -8,9 +9,19 @@ public class Product implements Serializable {
     private String name;
     private String image;
     private Double price;
-
     private String description;
     private String size;
+    private String date;
+
+    public Product(String id, String name, String image, Double price, String description, String size, String date) {
+        this.id = id;
+        this.name = name;
+        this.image = image;
+        this.price = price;
+        this.description = description;
+        this.size = size;
+        this.date = date;
+    }
 
     public Product(String id, String name, String image, Double price, String description, String size) {
         this.id = id;
@@ -71,5 +82,13 @@ public class Product implements Serializable {
 
     public void setSize(String size) {
         this.size = size;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
     }
 }
