@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    >
+
+    <ImageView
+        android:id="@+id/img_product"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:src="@drawable/capuchino"
+        android:layout_marginStart="10dp"
+        />
+    <TextView
+        android:id="@+id/txtname"
+        android:layout_width="180dp"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:textSize="20sp"/>
+<!--    <Button-->
+<!--        android:id="@+id/btn_detail"-->
+<!--        android:layout_marginStart="10dp"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:text="Chi tiết"-->
+<!--        android:layout_gravity="center"/>-->
+
+
+
+
+</LinearLayout>
