@@ -94,35 +94,39 @@ public class LoginActivity extends AppCompatActivity {
                                 String layMatKhau = snapshot.child(soDienThoai).child("password").getValue(String.class);
                                 String role = snapshot.child(soDienThoai).child("role").getValue(String.class);
                                 String sDT = soDienThoai.substring(1);
+                                DatabaseReference customerRef = databaseReference.child("Customer");
+                                customerRef.addValueEventListener(new ValueEventListener() {
 
+
+                                    @Override
+                                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                        String a = "";
+                                        for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                                            Customer customer = dataSnapshot.getValue(Customer.class);
+                                            if (customer.getAccount().getUsername().equals(soDienThoai)) {
+                                                userId = customer.getId();
+                                                SharedPreferences sharedPreferences = getSharedPreferences("User", Context.MODE_PRIVATE);
+                                                SharedPreferences.Editor edittor = sharedPreferences.edit();
+                                                edittor.putString("phone", soDienThoai);
+                                                edittor.putString("userId", userId);
+                                                edittor.commit();
+                                                break;
+                                            }
+                                        }
+                                    }
+
+                                    @Override
+                                    public void onCancelled(@NonNull DatabaseError error) {
+
+                                    }
+                                });
                                 if (layMatKhau.equals(matKhau)) {
                                     binding.pbXuLy.setVisibility(VISIBLE);
                                     binding.btnDangNhap.setVisibility(INVISIBLE);
-                                    DatabaseReference customerRef = databaseReference.child("Customer");
-                                    customerRef.addValueEventListener(new ValueEventListener() {
-                                        @Override
-                                        public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                            for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                                                Customer customer = dataSnapshot.getValue(Customer.class);
-                                                if (customer.getAccount().getUsername().equals(soDienThoai)) {
-                                                    userId = customer.getId();
-                                                    break;
-                                                }
-                                            }
-                                        }
 
-                                        @Override
-                                        public void onCancelled(@NonNull DatabaseError error) {
 
-                                        }
-                                    });
-                                    SharedPreferences sharedPreferences = getSharedPreferences("User", Context.MODE_PRIVATE);
-                                    SharedPreferences.Editor edittor = sharedPreferences.edit();
-                                    edittor.putString("phone", soDienThoai);
-                                    edittor.putString("userId", userId);
-                                    edittor.commit();
                                     if (role.equals("user")) {
-                                        Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
+                                        Intent intent = new Intent(LoginActivity.this, Bottom_nav.class);
                                         startActivity(intent);
 //                                    mCallbacks = new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
 //

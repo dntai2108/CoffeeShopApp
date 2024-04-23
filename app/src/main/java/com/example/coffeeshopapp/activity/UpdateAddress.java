@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
@@ -18,18 +19,20 @@ import com.google.firebase.database.FirebaseDatabase;
 public class UpdateAddress extends AppCompatActivity {
     private ActivityUpdateAddressBinding bd;
     private DatabaseReference customerRef;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        bd=ActivityUpdateAddressBinding.inflate(getLayoutInflater());
+        bd = ActivityUpdateAddressBinding.inflate(getLayoutInflater());
         setContentView(bd.getRoot());
-
-        customerRef= FirebaseDatabase.getInstance().getReference("Customer")
-                .child("Customer123").child("Info").child("address");
+        SharedPreferences sharedPreferences = getSharedPreferences("User", MODE_PRIVATE);
+        String userId = sharedPreferences.getString("userId", "");
+        customerRef = FirebaseDatabase.getInstance().getReference("Customer")
+                .child(userId).child("address");
         bd.btnsubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String newAddress= bd.edtAddress.getText().toString();
+                String newAddress = bd.edtAddress.getText().toString();
                 // Kiểm tra xem người dùng đã nhập địa chỉ mới hay chưa
                 if (!newAddress.isEmpty()) {
                     // Cập nhật địa chỉ mới vào Firebase
@@ -56,7 +59,7 @@ public class UpdateAddress extends AppCompatActivity {
                 }
             }
         });
-            }
+    }
 
 
 }

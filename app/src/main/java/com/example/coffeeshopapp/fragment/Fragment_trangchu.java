@@ -1,14 +1,32 @@
 package com.example.coffeeshopapp.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import com.example.coffeeshopapp.R;
+import com.example.coffeeshopapp.activity.CartActivity;
+import com.example.coffeeshopapp.activity.HomeActivity;
+import com.example.coffeeshopapp.adapter.ItemAdapter;
+import com.example.coffeeshopapp.model.Product;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
+import java.util.Comparator;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -25,6 +43,11 @@ public class Fragment_trangchu extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+    RecyclerView rvMonMoi;
+    ImageView ivGioHang;
+    ItemAdapter itemAdapter;
+    private ArrayList<Product> productList;
+    DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
 
     public Fragment_trangchu() {
         // Required empty public constructor
@@ -62,5 +85,55 @@ public class Fragment_trangchu extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_trangchu, container, false);
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        rvMonMoi = view.findViewById(R.id.rvMonMoi);
+        ivGioHang = view.findViewById(R.id.ivGioHang);
+        productList = new ArrayList<>();
+        itemAdapter = new ItemAdapter(productList, getContext());
+        setEven();
+    }
+
+    private void setEven() {
+        rvMonMoi.setHasFixedSize(true);
+        rvMonMoi.setLayoutManager(new GridLayoutManager(getContext(), 2));
+        itemAdapter = new ItemAdapter(productList, getContext());
+        rvMonMoi.setAdapter(itemAdapter);
+        ivGioHang.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getContext(), CartActivity.class);
+                startActivity(intent);
+            }
+        });
+    }
+
+    private void reloadProduct() {
+
+        databaseReference.child("Product").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                    Product product = dataSnapshot.getValue(Product.class);
+                    productList.add(product);
+                    productList.sort(new Comparator<Product>() {
+                        @Override
+                        public int compare(Product o1, Product o2) {
+                            return o1.getDate().compareTo(o2.getDate());
+                        }
+                    });
+                }
+                itemAdapter.setData(productList);
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 }

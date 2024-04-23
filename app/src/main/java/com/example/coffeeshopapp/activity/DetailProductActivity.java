@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
@@ -125,10 +126,9 @@ public class DetailProductActivity extends AppCompatActivity {
     }// ngoài setEvent()
 
     private String getCustomerId() {
-        // TODO: Thực hiện logic để lấy mã khách hàng hiện tại, nếu không có thì tạo mới
-        // Ví dụ: Nếu đã đăng nhập, bạn có thể lấy mã khách hàng từ thông tin đăng nhập
-        // Nếu chưa đăng nhập, bạn có thể tạo một mã khách hàng mới dựa trên thời gian hoặc UUID
-        return "Customer123";
+        SharedPreferences sharedPreferences = getSharedPreferences("User", MODE_PRIVATE);
+        String userId = sharedPreferences.getString("userId", "");
+        return userId;
     }
 
     private void sendCartDataToFirebase(String customerId, Cart cartItem) {

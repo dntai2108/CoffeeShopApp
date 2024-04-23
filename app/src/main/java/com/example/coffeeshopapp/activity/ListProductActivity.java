@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -52,6 +53,8 @@ public class ListProductActivity extends AppCompatActivity {
     }
 
     private void setEvent() {
+        SharedPreferences sharedPreferences = getSharedPreferences("User", MODE_PRIVATE);
+        String userId = sharedPreferences.getString("userId", "");
         imgBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -81,7 +84,7 @@ public class ListProductActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 DatabaseReference cartRef = FirebaseDatabase.getInstance().getReference("Customer")
-                        .child("Customer123").child("Cart");
+                        .child(userId).child("Cart");
                 cartRef.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {

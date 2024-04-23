@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -33,8 +34,7 @@ import java.util.UUID;
 
 public class SuccessfulOrder extends AppCompatActivity {
     private ActivitySuccessfulOrderBinding bd;
-    final private DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference().child("Customer")
-            .child("Customer123").child("Cart");
+    private DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,7 +63,9 @@ public class SuccessfulOrder extends AppCompatActivity {
     }// đóng setEvent()
 
     private void clearCart() {
-        databaseReference.removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
+        SharedPreferences sharedPreferences = getSharedPreferences("User", MODE_PRIVATE);
+        String userId = sharedPreferences.getString("userId", "");
+        databaseReference.child("Customer").child(userId).child("Cart").removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if (task.isSuccessful()) {
@@ -76,7 +78,9 @@ public class SuccessfulOrder extends AppCompatActivity {
     }
 
     private void createOrderFromCart() {
-        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+        SharedPreferences sharedPreferences = getSharedPreferences("User", MODE_PRIVATE);
+        String userId = sharedPreferences.getString("userId", "");
+        databaseReference.child("Customer").child(userId).child("Cart").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.exists()) {
@@ -101,6 +105,8 @@ public class SuccessfulOrder extends AppCompatActivity {
     }
 
     private void createOrder(List<Cart> cartList) {
+        SharedPreferences sharedPreferences = getSharedPreferences("User", MODE_PRIVATE);
+        String userId = sharedPreferences.getString("userId", "");
         Date currentTime = new Date();
         // Định dạng ngày giờ
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -111,8 +117,7 @@ public class SuccessfulOrder extends AppCompatActivity {
 
 
         DatabaseReference addressRef = FirebaseDatabase.getInstance().getReference()
-                .child("Customer")
-                .child("Customer123").child("Info");
+                .child("Customer").child(userId);
         addressRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -129,7 +134,7 @@ public class SuccessfulOrder extends AppCompatActivity {
 
                     // Tạo một đơn hàng mới
                     Order order = new Order();
-                    order.setStatus("Pending");
+                    order.setStatus("Chờ duyệt");
                     order.setOrderDate(formattedDateTime);
                     DecimalFormat decimalFormatS = new DecimalFormat("###,###,###");
                     String tongtien = decimalFormatS.format(totalAmount) + " vnd";
@@ -140,7 +145,7 @@ public class SuccessfulOrder extends AppCompatActivity {
 
                     // Ghi đơn hàng lên Firebase
                     DatabaseReference orderRef = FirebaseDatabase.getInstance().getReference().child("Customer")
-                            .child("Customer123").child("Order").child(keyorder);
+                            .child(userId).child("Order").child(keyorder);
                     orderRef.setValue(order);
                 } else {
                     Toast.makeText(SuccessfulOrder.this, "No customer address found", Toast.LENGTH_SHORT).show();

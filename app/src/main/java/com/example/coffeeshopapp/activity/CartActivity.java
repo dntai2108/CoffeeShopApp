@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -42,11 +43,9 @@ public class CartActivity extends AppCompatActivity implements
     private ActivityCartBinding bd;
 
     private static final int REQUEST_CHANGE_ADDRESS = 1;
-    private static final String magiamgia = "CAFE";
+
     private static final Double phivanchuyen = 10000.0;
-    private static final Double giam5phantram = 0.95;// giảm 5%
-    final private DatabaseReference databaseReference = FirebaseDatabase.getInstance()
-            .getReference("Customer").child("Customer123").child("Cart");
+    private DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
 
 
     @Override
@@ -100,6 +99,7 @@ public class CartActivity extends AppCompatActivity implements
     }
 
     private void setEvent() {
+
         // nút back
         bd.imgbackincart.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -124,16 +124,16 @@ public class CartActivity extends AppCompatActivity implements
             public void onClick(View v) {
                 String couponPercent = bd.tvPhantramCoupon.getText().toString().trim();
 
-                    // Kiểm tra xem mã giảm giá có đúng không
+                // Kiểm tra xem mã giảm giá có đúng không
 
-                        // Áp dụng mã giảm giá
-                        double totalPrice = Double.parseDouble(bd.tvpriceofcart.getText().toString()
-                                .replace(" vnd", "").replace(",", ""));
+                // Áp dụng mã giảm giá
+                double totalPrice = Double.parseDouble(bd.tvpriceofcart.getText().toString()
+                        .replace(" vnd", "").replace(",", ""));
 
-                        double giamgia=Double.parseDouble(couponPercent.replace(" %",""));
+                double giamgia = Double.parseDouble(couponPercent.replace(" %", ""));
 
-                        displayTotalPrice(totalPrice, giamgia);
-                        Toast.makeText(CartActivity.this, "Áp dụng mã giảm giá thành công", Toast.LENGTH_SHORT).show();
+                displayTotalPrice(totalPrice, giamgia);
+                Toast.makeText(CartActivity.this, "Áp dụng mã giảm giá thành công", Toast.LENGTH_SHORT).show();
 
 
             }
@@ -184,20 +184,22 @@ public class CartActivity extends AppCompatActivity implements
         String formattedPricetotal = decimalFormat.format(totalPrice + phivanchuyen);
         bd.tvpricetotalofcart.setText(formattedPricetotal + " vnd");
     }
+
     private void displayTotalPrice(double totalPrice, double percent) {
         // Chuyển đổi tổng giá tiền sang định dạng số tiền Việt Nam
         String formattedPrice = decimalFormat.format(totalPrice);
         // Hiển thị tổng giá tiền trên giao diện khi chưa có phí vận chuyển
         bd.tvpriceofcart.setText(formattedPrice + " vnd");
         // tổng tiền khi cộng thêm phí vận chuyển
-        String formattedPricetotal = decimalFormat.format((totalPrice*((100 - percent)/100)) + phivanchuyen);
+        String formattedPricetotal = decimalFormat.format((totalPrice * ((100 - percent) / 100)) + phivanchuyen);
         bd.tvpricetotalofcart.setText(formattedPricetotal + " vnd");
     }
 
     //Lấy dữ liệu các sản phẩm trong giỏ hàng từ Firebase
     private void fetchDataFromFirebase() {
-
-        databaseReference.addValueEventListener(new ValueEventListener() {
+        SharedPreferences sharedPreferences = getSharedPreferences("User", MODE_PRIVATE);
+        String userId = sharedPreferences.getString("userId", "");
+        databaseReference.child("Customer").child(userId).child("Cart").addValueEventListener(new ValueEventListener() {
             @SuppressLint("NotifyDataSetChanged")
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -229,9 +231,11 @@ public class CartActivity extends AppCompatActivity implements
     }// end fetch data from firebase
 
     private void layThongTinDiaChi() {
+        SharedPreferences sharedPreferences = getSharedPreferences("User", MODE_PRIVATE);
+        String userId = sharedPreferences.getString("userId", "");
         // Lấy thông tin địa chỉ
         DatabaseReference customerInfoRef = FirebaseDatabase.getInstance().getReference("Customer")
-                .child("Customer123").child("Info");
+                .child(userId);
         customerInfoRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {

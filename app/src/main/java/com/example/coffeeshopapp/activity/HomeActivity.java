@@ -2,6 +2,9 @@ package com.example.coffeeshopapp.activity;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.GridLayoutManager;
 
 import android.content.Intent;
@@ -45,20 +48,23 @@ public class HomeActivity extends AppCompatActivity {
             if (itemId == R.id.bottomnav_taikhoan) {
                 startActivity(new Intent(HomeActivity.this, AccountActivity.class));
             }
+            if (itemId == R.id.bottomnav_donhang) {
+
+            }
             return true;
         });
 
-        binding.rvMonMoi.setHasFixedSize(true);
-        binding.rvMonMoi.setLayoutManager(new GridLayoutManager(this, 2));
-        itemAdapter = new ItemAdapter(productList, this);
-        binding.rvMonMoi.setAdapter(itemAdapter);
-        binding.ivGioHang.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(HomeActivity.this, CartActivity.class);
-                startActivity(intent);
-            }
-        });
+//        binding.rvMonMoi.setHasFixedSize(true);
+//        binding.rvMonMoi.setLayoutManager(new GridLayoutManager(this, 2));
+//        itemAdapter = new ItemAdapter(productList, this);
+//        binding.rvMonMoi.setAdapter(itemAdapter);
+//        binding.ivGioHang.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent intent = new Intent(HomeActivity.this, CartActivity.class);
+//                startActivity(intent);
+//            }
+//        });
 
 
     }
@@ -87,5 +93,12 @@ public class HomeActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+    private void replaceFragment(Fragment fragment) {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.framelayout, fragment);
+        fragmentTransaction.commit();
     }
 }
