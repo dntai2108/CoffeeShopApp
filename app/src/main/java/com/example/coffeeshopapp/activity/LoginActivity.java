@@ -26,6 +26,8 @@ import android.widget.Toast;
 
 import com.example.coffeeshopapp.R;
 import com.example.coffeeshopapp.databinding.ActivityLoginBinding;
+import com.example.coffeeshopapp.model.Account;
+import com.example.coffeeshopapp.model.Customer;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.FirebaseException;
 import com.google.firebase.auth.FirebaseAuth;
@@ -43,7 +45,7 @@ import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
 public class LoginActivity extends AppCompatActivity {
-
+    String userId = "";
     private ActivityLoginBinding binding;
     DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
     FirebaseAuth mAuth = FirebaseAuth.getInstance();
@@ -88,15 +90,36 @@ public class LoginActivity extends AppCompatActivity {
                                 binding.edtSoDienThoai.requestFocus();
                                 return;
                             } else {
+
                                 String layMatKhau = snapshot.child(soDienThoai).child("password").getValue(String.class);
                                 String role = snapshot.child(soDienThoai).child("role").getValue(String.class);
                                 String sDT = soDienThoai.substring(1);
+
                                 if (layMatKhau.equals(matKhau)) {
                                     binding.pbXuLy.setVisibility(VISIBLE);
                                     binding.btnDangNhap.setVisibility(INVISIBLE);
+                                    DatabaseReference customerRef = databaseReference.child("Customer");
+                                    customerRef.addValueEventListener(new ValueEventListener() {
+                                        @Override
+                                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                            for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                                                Customer customer = dataSnapshot.getValue(Customer.class);
+                                                if (customer.getAccount().getUsername().equals(soDienThoai)) {
+                                                    userId = customer.getId();
+                                                    break;
+                                                }
+                                            }
+                                        }
+
+                                        @Override
+                                        public void onCancelled(@NonNull DatabaseError error) {
+
+                                        }
+                                    });
                                     SharedPreferences sharedPreferences = getSharedPreferences("User", Context.MODE_PRIVATE);
                                     SharedPreferences.Editor edittor = sharedPreferences.edit();
                                     edittor.putString("phone", soDienThoai);
+                                    edittor.putString("userId", userId);
                                     edittor.commit();
                                     if (role.equals("user")) {
                                         Intent intent = new Intent(LoginActivity.this, HomeActivity.class);

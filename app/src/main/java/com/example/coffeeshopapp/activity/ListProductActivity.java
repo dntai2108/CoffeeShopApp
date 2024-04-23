@@ -30,7 +30,7 @@ public class ListProductActivity extends AppCompatActivity {
     RecycleViewAdapterProduct adapter;
     ArrayList<Product> datalist;
 
-    ImageView imgcart;
+    ImageView imgcart, imgBack;
 
     final private DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Product");
 
@@ -40,6 +40,7 @@ public class ListProductActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_product);
         recyclerView = findViewById(R.id.recyclerViewListproduct);
+        imgBack = findViewById(R.id.imgBack);
         recyclerView.setHasFixedSize(true);
         // số cột là 2
         recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
@@ -51,6 +52,12 @@ public class ListProductActivity extends AppCompatActivity {
     }
 
     private void setEvent() {
+        imgBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(ListProductActivity.this, HomeActivity.class));
+            }
+        });
         //Lấy dữ liệu product từ firebase
         databaseReference.addValueEventListener(new ValueEventListener() {
             @SuppressLint("NotifyDataSetChanged")

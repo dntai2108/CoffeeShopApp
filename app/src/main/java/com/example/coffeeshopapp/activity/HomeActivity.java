@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 
 import com.example.coffeeshopapp.R;
 import com.example.coffeeshopapp.adapter.ItemAdapter;
@@ -51,6 +52,13 @@ public class HomeActivity extends AppCompatActivity {
         binding.rvMonMoi.setLayoutManager(new GridLayoutManager(this, 2));
         itemAdapter = new ItemAdapter(productList, this);
         binding.rvMonMoi.setAdapter(itemAdapter);
+        binding.ivGioHang.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(HomeActivity.this, CartActivity.class);
+                startActivity(intent);
+            }
+        });
 
 
     }
@@ -66,7 +74,7 @@ public class HomeActivity extends AppCompatActivity {
                     productList.sort(new Comparator<Product>() {
                         @Override
                         public int compare(Product o1, Product o2) {
-                            return o2.getDate().compareTo(o1.getDate());
+                            return o1.getDate().compareTo(o2.getDate());
                         }
                     });
                 }
