@@ -28,5 +28,27 @@ public class AccountActivityAdmin extends AppCompatActivity {
                 finish();
             }
         });
+
+        bd.tvProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(AccountActivityAdmin.this, ProfileActivity.class));
+            }
+        });
+
+        bd.btnLogout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(AccountActivityAdmin.this, LoginActivity.class));
+                finish();
+            }
+        });
+
+        bd.ivQuayLai.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(AccountActivityAdmin.this, ManageProductActivity.class));
+            }
+        });
     }
 }
