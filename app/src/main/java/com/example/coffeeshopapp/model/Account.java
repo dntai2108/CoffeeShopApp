@@ -18,7 +18,7 @@ public class Account {
         this.username = username;
         this.password = password;
         this.role = role;
-        this.State = true;
+        this.State = state;
     }
 
     public String getUsername() {
