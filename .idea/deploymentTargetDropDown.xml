@@ -2,10 +2,13 @@
 <project version="4">
   <component name="deploymentTargetDropDown">
     <value>
-      <entry key="Bottom_nav">
+      <entry key="CartActivity">
         <State />
       </entry>
       <entry key="CouponActivity">
+        <State />
+      </entry>
+      <entry key="Customer_ListCouPonActivity">
         <State />
       </entry>
       <entry key="ListCouponActivity">
