@@ -1,6 +1,7 @@
 package com.example.coffeeshopapp.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -10,9 +11,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.coffeeshopapp.R;
+import com.example.coffeeshopapp.activity.DetailProductActivity;
 import com.example.coffeeshopapp.model.Product;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -42,6 +45,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
     public static class ViewHolder extends RecyclerView.ViewHolder {
         TextView tvTenSanPham, tvGiaSanPham, tvThem;
         ImageView ivAnhSanPham;
+        CardView cvSanPham;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -49,6 +53,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
             tvGiaSanPham = itemView.findViewById(R.id.tvPriceItemfl);
             ivAnhSanPham = itemView.findViewById(R.id.imgItemfl);
             tvThem = itemView.findViewById(R.id.tvAddItem);
+
         }
 
 
@@ -68,6 +73,14 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
             return;
         }
         holder.tvTenSanPham.setText(product.getName());
+        holder.ivAnhSanPham.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, DetailProductActivity.class);
+                intent.putExtra("productId", position);
+                context.startActivity(intent);
+            }
+        });
         holder.tvGiaSanPham.setText(product.getPrice().toString());
         StorageReference storageRef = storage.getReference();
         storageRef.child(product.getImage()).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
