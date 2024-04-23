@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".activity.ProductStatiticsAtivity">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:orientation="horizontal"
+        tools:ignore="UselessParent"
+        android:background="@color/green">
+
+        <ImageButton
+            android:id="@+id/btnBack"
+            android:layout_width="50dp"
+            android:layout_height="match_parent"
+            android:src="@drawable/btnback_icon"
+            android:layout_gravity="center"
+            android:contentDescription="@string/back"
+            android:background="@color/green"
+            android:textAlignment="center"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="@string/thongkesp"
+            android:textSize="20sp"
+            android:textColor="@color/white"
+            android:textAlignment="center"
+            android:gravity="center"/>
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="550dp"
+        android:orientation="vertical"
+        >
+        <ListView
+            android:id="@+id/lvsanpham"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        >
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            tools:ignore="UselessParent">
+            <ImageButton
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:src="@drawable/product_icon"
+                android:contentDescription="@string/back" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Sản Phẩm"
+                android:textAlignment="center"
+                android:layout_gravity="center"/>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            tools:ignore="UselessParent">
+            <ImageButton
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:src="@drawable/order_icon"
+                android:contentDescription="@string/back" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Đơn Hàng"
+                android:textAlignment="center"
+                android:layout_gravity="center"/>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            tools:ignore="UselessParent"
+            >
+            <ImageButton
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:src="@drawable/statictis_icon"
+                android:contentDescription="@string/back" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Thống Kê"
+                android:textAlignment="center"
+                android:layout_gravity="center"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            tools:ignore="UselessParent">
+            <ImageButton
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:src="@drawable/account_icon"
+                android:contentDescription="@string/back" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Tài Khoản"
+                android:textAlignment="center"
+                android:layout_gravity="center"/>
+        </LinearLayout>
+
+
+
+
+    </LinearLayout>
+
+
+
+
+
+
+
+
+
+</LinearLayout>

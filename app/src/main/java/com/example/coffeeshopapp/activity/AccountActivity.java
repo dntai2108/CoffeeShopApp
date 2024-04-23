@@ -31,6 +31,13 @@ public class AccountActivity extends AppCompatActivity {
         binding.btnLogout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                startActivity(new Intent(AccountActivity.this, LoginActivity.class));
+            }
+        });
+        binding.ivQuayLai.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(AccountActivity.this, HomeActivity.class));
 
             }
         });

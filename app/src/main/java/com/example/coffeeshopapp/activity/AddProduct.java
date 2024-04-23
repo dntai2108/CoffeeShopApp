@@ -85,12 +85,6 @@ public class AddProduct extends AppCompatActivity {
                 String name = bd.edtTenSP.getText().toString();
                 String price = bd.edtGia.getText().toString();
                 String description = bd.edtDescription.getText().toString();
-                String size = "";
-                if (bd.radioButtonSizeL.isChecked()) {
-                    size = "L";
-                } else {
-                    size = "M";
-                }
                 StorageReference storageRef = storage.getReference();
                 ByteArrayOutputStream baos = new ByteArrayOutputStream();
                 bd.imgProduct.setDrawingCacheEnabled(true);

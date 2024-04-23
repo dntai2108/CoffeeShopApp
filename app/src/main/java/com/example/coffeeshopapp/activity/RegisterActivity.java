@@ -153,6 +153,7 @@ public class RegisterActivity extends AppCompatActivity {
                         intent.putExtra("name", hoTen);
                         intent.putExtra("email", email);
                         intent.putExtra("password", matKhau);
+                        intent.putExtra("direction", "register");
                         startActivity(intent);
                     }
                 };
@@ -174,9 +175,11 @@ public class RegisterActivity extends AppCompatActivity {
         databaseReference.child("Account").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if (snapshot.exists()) {
+                if (snapshot.hasChild(phone)) {
                     isExist = true;
+                    return;
                 }
+
             }
 
             @Override
