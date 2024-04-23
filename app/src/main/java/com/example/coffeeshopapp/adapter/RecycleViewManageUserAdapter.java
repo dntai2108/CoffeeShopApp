@@ -1,4 +1,4 @@
-package com.example.coffeeshopapp.Adapter;
+package com.example.coffeeshopapp.adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -12,11 +12,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.coffeeshopapp.R;
-import com.example.coffeeshopapp.activity.ManageUser;
 import com.example.coffeeshopapp.model.Account;
 import com.example.coffeeshopapp.model.Customer;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;

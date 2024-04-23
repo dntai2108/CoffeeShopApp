@@ -10,7 +10,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -29,7 +28,7 @@ public class ListProductActivity extends AppCompatActivity {
     RecyclerView recyclerView;
     RecycleViewAdapterProduct adapter;
     ArrayList<Product> datalist;
-    Button buttonthem;
+
     ImageView imgcart;
 
     final private DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Products");

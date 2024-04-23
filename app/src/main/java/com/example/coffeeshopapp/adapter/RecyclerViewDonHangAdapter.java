@@ -1,4 +1,4 @@
-package com.example.coffeeshopapp.Adapter;
+package com.example.coffeeshopapp.adapter;
 
 import android.content.Context;
 import android.content.Intent;

@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import android.os.Bundle;
 import android.widget.SearchView;
 
-import com.example.coffeeshopapp.Adapter.RecycleViewManageUserAdapter;
+import com.example.coffeeshopapp.adapter.RecycleViewManageUserAdapter;
 import com.example.coffeeshopapp.R;
 import com.example.coffeeshopapp.databinding.ActivityManageUserBinding;
 import com.example.coffeeshopapp.model.Customer;

@@ -1,4 +1,4 @@
-package com.example.coffeeshopapp.Adapter;
+package com.example.coffeeshopapp.adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -14,7 +14,6 @@ import com.bumptech.glide.Glide;
 import com.example.coffeeshopapp.R;
 import com.example.coffeeshopapp.model.Product;
 
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 
 public class CartAdapter extends ArrayAdapter<Product> {
