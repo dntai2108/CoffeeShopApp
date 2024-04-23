@@ -15,7 +15,6 @@ import android.os.Environment;
 
 import android.view.View;
 import android.widget.Toast;
-
 import com.example.coffeeshopapp.R;
 import com.example.coffeeshopapp.databinding.ActivityAddProductBinding;
 import com.example.coffeeshopapp.model.Product;
@@ -38,7 +37,6 @@ public class AddProduct extends AppCompatActivity {
     private ActivityAddProductBinding bd;
     FirebaseStorage storage = FirebaseStorage.getInstance();
     DatabaseReference firebaseDatabase = FirebaseDatabase.getInstance().getReference();
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -70,27 +68,21 @@ public class AddProduct extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Drawable drawable = bd.imgProduct.getDrawable();
-                if (drawable == null) {
-                    Toast.makeText(AddProduct.this, "Vui lòng thêm hình ảnh", Toast.LENGTH_LONG).show();
+                if(drawable == null){
+                    Toast.makeText(AddProduct.this,"Vui lòng thêm hình ảnh", Toast.LENGTH_LONG).show();
                     return;
                 }
-                if (bd.edtTenSP.getText().toString().trim().isEmpty()) {
-                    Toast.makeText(AddProduct.this, "Vui lòng nhập tên sản phẩm", Toast.LENGTH_LONG).show();
+                if(bd.edtTenSP.getText().toString().trim().isEmpty()){
+                    Toast.makeText(AddProduct.this,"Vui lòng nhập tên sản phẩm", Toast.LENGTH_LONG).show();
                     return;
                 }
-                if (bd.edtGia.getText().toString().trim().isEmpty()) {
-                    Toast.makeText(AddProduct.this, "Vui lòng nhập giá sản phẩm", Toast.LENGTH_LONG).show();
+                if(bd.edtGia.getText().toString().trim().isEmpty()){
+                    Toast.makeText(AddProduct.this,"Vui lòng nhập giá sản phẩm", Toast.LENGTH_LONG).show();
                     return;
                 }
                 String name = bd.edtTenSP.getText().toString();
-                String price = bd.edtGia.getText().toString();
+                Double price = Double.parseDouble(bd.edtGia.getText().toString());
                 String description = bd.edtDescription.getText().toString();
-                String size = "";
-                if (bd.radioButtonSizeL.isChecked()) {
-                    size = "L";
-                } else {
-                    size = "M";
-                }
                 StorageReference storageRef = storage.getReference();
                 ByteArrayOutputStream baos = new ByteArrayOutputStream();
                 bd.imgProduct.setDrawingCacheEnabled(true);
@@ -107,9 +99,9 @@ public class AddProduct extends AppCompatActivity {
                 Date curDate = new Date();
                 SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                 String formattedDateTime = dateFormat.format(curDate);
-                Product p = new Product(keyProduct, name, key, price, description, formattedDateTime);
+                Product p = new Product(keyProduct, name, key,  price,  description,formattedDateTime);
                 firebaseDatabase.child("Product").child(keyProduct).setValue(p);
-                Toast.makeText(AddProduct.this, "Thêm thành công", Toast.LENGTH_LONG).show();
+                Toast.makeText(AddProduct.this,"Thêm thành công",Toast.LENGTH_LONG).show();
                 onBackPressed();
             }
         });
