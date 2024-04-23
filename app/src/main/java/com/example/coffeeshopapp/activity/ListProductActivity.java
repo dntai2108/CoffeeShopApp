@@ -21,6 +21,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
 
 import java.util.ArrayList;
 
@@ -31,7 +32,7 @@ public class ListProductActivity extends AppCompatActivity {
 
     ImageView imgcart;
 
-    final private DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Products");
+    final private DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Product");
 
     @SuppressLint("MissingInflatedId")
     @Override

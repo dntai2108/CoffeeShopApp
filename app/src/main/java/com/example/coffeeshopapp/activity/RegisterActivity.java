@@ -63,7 +63,7 @@ public class RegisterActivity extends AppCompatActivity {
         binding.btnDangKy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                binding.btnDangKy.setVisibility(INVISIBLE);
                 binding.pbXuLy.setVisibility(VISIBLE);
                 String hoTen = binding.edtHoTen.getText().toString();
                 String email = binding.edtEmail.getText().toString();
@@ -171,22 +171,11 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     private Boolean checkPhoneExist(String phone) {
-
-        databaseReference.child("Account").addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if (snapshot.hasChild(phone)) {
-                    isExist = true;
-                    return;
-                }
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
+        String sDT = "";
+        sDT = databaseReference.child("Account").child(phone).getKey();
+        if (sDT.equals(phone)) {
+            isExist = true;
+        }
         return isExist;
     }
 

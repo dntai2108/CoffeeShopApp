@@ -83,8 +83,13 @@ public class LoginActivity extends AppCompatActivity {
                                 Toast.makeText(LoginActivity.this, "Số điện thoại chưa được đăng ký", Toast.LENGTH_SHORT).show();
                                 binding.edtSoDienThoai.requestFocus();
                                 return;
+                            } else if (!snapshot.child(soDienThoai).child("state").getValue(Boolean.class)) {
+                                Toast.makeText(LoginActivity.this, "Tài khoản của bạn đã bị khóa! Liên hệ CSKH để được hỗ trợ!", Toast.LENGTH_SHORT).show();
+                                binding.edtSoDienThoai.requestFocus();
+                                return;
                             } else {
                                 String layMatKhau = snapshot.child(soDienThoai).child("password").getValue(String.class);
+                                String role = snapshot.child(soDienThoai).child("role").getValue(String.class);
                                 String sDT = soDienThoai.substring(1);
                                 if (layMatKhau.equals(matKhau)) {
                                     binding.pbXuLy.setVisibility(VISIBLE);
@@ -93,8 +98,9 @@ public class LoginActivity extends AppCompatActivity {
                                     SharedPreferences.Editor edittor = sharedPreferences.edit();
                                     edittor.putString("phone", soDienThoai);
                                     edittor.commit();
-                                    Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
-                                    startActivity(intent);
+                                    if (role.equals("user")) {
+                                        Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
+                                        startActivity(intent);
 //                                    mCallbacks = new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
 //
 //                                        @Override
@@ -132,6 +138,10 @@ public class LoginActivity extends AppCompatActivity {
 //                                    SharedPreferences.Editor edittor = sharedPreferences.edit();
 //                                    edittor.putString("phone", soDienThoai);
 //                                    edittor.apply();
+                                    } else if (role.equals("admin")) {
+                                        Intent intent = new Intent(LoginActivity.this, ManageProductActivity.class);
+                                        startActivity(intent);
+                                    }
 
                                 } else {
                                     Toast.makeText(LoginActivity.this, "Sai mật khẩu", Toast.LENGTH_SHORT).show();
