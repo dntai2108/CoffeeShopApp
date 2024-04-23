@@ -153,6 +153,7 @@ public class RegisterActivity extends AppCompatActivity {
                         intent.putExtra("name", hoTen);
                         intent.putExtra("email", email);
                         intent.putExtra("password", matKhau);
+                        intent.putExtra("direction", "register");
                         startActivity(intent);
                     }
                 };

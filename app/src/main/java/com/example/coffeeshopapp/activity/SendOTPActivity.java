@@ -79,6 +79,7 @@ public class SendOTPActivity extends AppCompatActivity {
                         Intent intent = new Intent(SendOTPActivity.this, OTPVerificationActivity.class);
                         intent.putExtra("phone", binding.edtSoDienThoai.getText().toString());
                         intent.putExtra("verificationId", verificationId);
+                        intent.putExtra("direction", "forget");
                         startActivity(intent);
                     }
                 };
