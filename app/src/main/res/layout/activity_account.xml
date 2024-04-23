@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".activity.AccountActivity">
 
     <LinearLayout
@@ -35,49 +36,14 @@
         android:layout_height="150dp"
         android:layout_marginStart="128dp"
         android:layout_marginTop="48dp"
-        android:src="@drawable/user_def"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:src="@drawable/user_def" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="64dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
+        android:layout_margin="16dp"
         android:orientation="horizontal"
-        android:visibility="gone"
-        android:background="@drawable/button_background"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ivUserImage">
-
-        <ImageView
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:src="@drawable/group"
-            android:layout_margin="8dp" />
-
-        <TextView
-            android:id="@+id/tvManageCustomer"
-            android:layout_width="match_parent"
-            android:layout_height="55dp"
-            android:text="Quản lý khách hàng"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            android:layout_marginTop="8dp"
-            android:padding="8dp" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="150dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:orientation="horizontal"
-        android:background="@drawable/button_background"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ivUserImage">
+        android:background="@drawable/button_background">
 
         <ImageView
             android:layout_width="40dp"
@@ -99,13 +65,9 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="230dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
+        android:layout_margin="16dp"
         android:orientation="horizontal"
-        android:background="@drawable/button_background"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ivUserImage">
+        android:background="@drawable/button_background">
 
         <ImageView
             android:layout_width="40dp"
@@ -128,12 +90,10 @@
         android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="310dp"
+        android:layout_margin="16dp"
+
         android:background="@drawable/button_background"
-        android:orientation="horizontal"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ivUserImage">
+        android:orientation="horizontal">
 
         <ImageView
             android:layout_width="40dp"
@@ -155,9 +115,7 @@
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout">
+        android:layout_margin="16dp">
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btnLogout"
@@ -166,9 +124,7 @@
             android:layout_margin="16dp"
             android:background="@drawable/background_buttton"
             android:text="ĐĂNG XUẤT"
-            android:textColor="@color/white"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
+            android:textColor="@color/white" />
 
         <ProgressBar
             android:id="@+id/pbXuLy"
@@ -179,4 +135,4 @@
     </FrameLayout>
 
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>
