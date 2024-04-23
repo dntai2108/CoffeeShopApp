@@ -37,7 +37,7 @@
             android:id="@+id/ivGioHang"
             android:layout_width="24dp"
             android:layout_height="24dp"
-            android:background="@drawable/" />
+            android:background="@drawable/shopping_cart" />
     </LinearLayout>
 
     <ScrollView

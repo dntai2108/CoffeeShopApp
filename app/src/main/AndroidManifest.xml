@@ -98,7 +98,7 @@
             android:exported="false" />
         <activity
             android:name=".activity.ListProductActivity"
-            android:exported="false" />
+            android:exported="true" />
 
         <meta-data
             android:name="preloaded_fonts"

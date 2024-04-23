@@ -46,16 +46,32 @@
                 android:layout_height="match_parent"
                 android:background="#F1EAEA"
                 ></androidx.recyclerview.widget.RecyclerView>
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/btnSelectCoupon"
-                android:layout_width="160dp"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Select Coupon"
-                android:layout_marginTop="5dp"
-                android:textColor="@color/white"
-                android:background="@drawable/red_button">
+                android:orientation="horizontal">
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/btnSelectCoupon"
+                    android:layout_width="160dp"
+                    android:layout_height="wrap_content"
+                    android:text="Select Coupon"
+                    android:layout_marginTop="5dp"
+                    android:textColor="@color/white"
+                    android:background="@drawable/red_button">
 
-            </androidx.appcompat.widget.AppCompatButton>
+                </androidx.appcompat.widget.AppCompatButton>
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/btnCouPon"
+                    android:background="@drawable/red_button"
+                    android:layout_width="130dp"
+                    android:layout_marginLeft="30dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textColor="@color/white"
+                    android:text="Appyly Coupon" />
+            </LinearLayout>
+
 
 
             <LinearLayout
@@ -71,20 +87,26 @@
                     android:layout_weight="1"
                     android:background="@drawable/viewcart"
                     android:ems="10"
-
+                    android:hint="Cupon"
                    android:gravity="center"
 
 
-                    android:textSize="14dp" />
-
-                <androidx.appcompat.widget.AppCompatButton
-                    android:id="@+id/btnCouPon"
-                    android:background="@drawable/red_button"
-                    android:layout_width="145dp"
+                    android:textSize="25dp" />
+                <TextView
+                    android:id="@+id/tvPhantramCoupon"
+                    android:layout_width="wrap_content"
                     android:layout_height="40dp"
                     android:layout_weight="1"
-                    android:textColor="@color/white"
-                    android:text="Appyly Coupon" />
+                    android:hint="Percent Cupon"
+                    android:background="@drawable/viewcart"
+                    android:ems="10"
+
+                    android:gravity="center"
+
+
+                    android:textSize="25dp" />
+
+
             </LinearLayout>
 
             <LinearLayout

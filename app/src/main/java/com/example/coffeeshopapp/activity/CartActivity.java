@@ -80,7 +80,8 @@ public class CartActivity extends AppCompatActivity implements
         if (intent1 != null) {
             String couponCode = intent1.getStringExtra("COUPON_CODE");
             String discountPercent = intent1.getStringExtra("DISCOUNT_PERCENT");
-            bd.tvCoupon.setText(couponCode+"/"+discountPercent+" %");
+            bd.tvCoupon.setText(couponCode);
+            bd.tvPhantramCoupon.setText(discountPercent);
         }
     }
 
@@ -121,24 +122,20 @@ public class CartActivity extends AppCompatActivity implements
         bd.btnCouPon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String couponCode = bd.tvCoupon.getText().toString().trim();
-                if (couponCode.isEmpty()) {
-                    // Kiểm tra xem mã giảm giá có được nhập hay không
-                    Toast.makeText(CartActivity.this, "Vui lòng nhập mã giảm giá", Toast.LENGTH_SHORT).show();
-                } else {
+                String couponPercent = bd.tvPhantramCoupon.getText().toString().trim();
+
                     // Kiểm tra xem mã giảm giá có đúng không
-                    if (couponCode.equals(magiamgia)) {
+
                         // Áp dụng mã giảm giá
-                        double totalPrice = Double.parseDouble(bd.tvpricetotalofcart.getText().toString()
+                        double totalPrice = Double.parseDouble(bd.tvpriceofcart.getText().toString()
                                 .replace(" vnd", "").replace(",", ""));
-                        double discountedPrice = totalPrice * giam5phantram;
-                        displayTotalPrice(discountedPrice);
+
+                        double giamgia=Double.parseDouble(couponPercent.replace(" %",""));
+
+                        displayTotalPrice(totalPrice, giamgia);
                         Toast.makeText(CartActivity.this, "Áp dụng mã giảm giá thành công", Toast.LENGTH_SHORT).show();
-                    } else {
-                        // Mã giảm giá không đúng
-                        Toast.makeText(CartActivity.this, "Mã giảm giá không hợp lệ", Toast.LENGTH_SHORT).show();
-                    }
-                }
+
+
             }
         });
         // nút đặt hàng bằng tiền mặt
@@ -185,6 +182,15 @@ public class CartActivity extends AppCompatActivity implements
         bd.tvpriceofcart.setText(formattedPrice + " vnd");
         // tổng tiền khi cộng thêm phí vận chuyển
         String formattedPricetotal = decimalFormat.format(totalPrice + phivanchuyen);
+        bd.tvpricetotalofcart.setText(formattedPricetotal + " vnd");
+    }
+    private void displayTotalPrice(double totalPrice, double percent) {
+        // Chuyển đổi tổng giá tiền sang định dạng số tiền Việt Nam
+        String formattedPrice = decimalFormat.format(totalPrice);
+        // Hiển thị tổng giá tiền trên giao diện khi chưa có phí vận chuyển
+        bd.tvpriceofcart.setText(formattedPrice + " vnd");
+        // tổng tiền khi cộng thêm phí vận chuyển
+        String formattedPricetotal = decimalFormat.format((totalPrice*((100 - percent)/100)) + phivanchuyen);
         bd.tvpricetotalofcart.setText(formattedPricetotal + " vnd");
     }
 
