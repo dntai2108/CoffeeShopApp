@@ -18,6 +18,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 public class HomeActivity extends AppCompatActivity {
     private ActivityHomeBinding binding;
@@ -50,6 +52,7 @@ public class HomeActivity extends AppCompatActivity {
         itemAdapter = new ItemAdapter(productList, this);
         binding.rvMonMoi.setAdapter(itemAdapter);
 
+
     }
 
     private void reloadProduct() {
@@ -60,6 +63,12 @@ public class HomeActivity extends AppCompatActivity {
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                     Product product = dataSnapshot.getValue(Product.class);
                     productList.add(product);
+                    productList.sort(new Comparator<Product>() {
+                        @Override
+                        public int compare(Product o1, Product o2) {
+                            return o2.getDate().compareTo(o1.getDate());
+                        }
+                    });
                 }
                 itemAdapter.setData(productList);
 

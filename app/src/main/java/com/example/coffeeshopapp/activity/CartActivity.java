@@ -14,9 +14,11 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.example.coffeeshopapp.R;
+import com.example.coffeeshopapp.adapter.Customer_RecyclerViewListCouPonAdapter;
 import com.example.coffeeshopapp.databinding.ActivityCartBinding;
 import com.example.coffeeshopapp.model.Cart;
 import com.example.coffeeshopapp.adapter.CartItemAdapter;
+import com.example.coffeeshopapp.model.Coupon;
 import com.example.coffeeshopapp.model.Product;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -30,7 +32,10 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CartActivity extends AppCompatActivity implements CartItemAdapter.OnDeleteItemClickListener, CartItemAdapter.OnQuantityChangeListener {
+public class CartActivity extends AppCompatActivity implements
+        CartItemAdapter.OnDeleteItemClickListener,
+        CartItemAdapter.OnQuantityChangeListener {
+
     private RecyclerView recyclerView;
     private CartItemAdapter cartItemAdapter;
     private List<Cart> cartItemList;
@@ -59,14 +64,25 @@ public class CartActivity extends AppCompatActivity implements CartItemAdapter.O
         cartItemAdapter = new CartItemAdapter(cartItemList, this);
         recyclerView.setAdapter(cartItemAdapter);
 
-
+        eventNhanMaGiamGia();
         fetchDataFromFirebase();
         layThongTinDiaChi();
         cartItemAdapter.setOnDeleteItemClickListener(this);
         cartItemAdapter.setOnQuantityChangeListener(this);
         setEvent();
 
+
     }// ngoài onCreate()
+
+    private void eventNhanMaGiamGia() {
+        // nhận mã giảm giá từ list
+        Intent intent1 = getIntent();
+        if (intent1 != null) {
+            String couponCode = intent1.getStringExtra("COUPON_CODE");
+            String discountPercent = intent1.getStringExtra("DISCOUNT_PERCENT");
+            bd.tvCoupon.setText(couponCode+"/"+discountPercent+" %");
+        }
+    }
 
     // Nhận thng tin cập nhật địa chỉ
     @Override
@@ -95,15 +111,17 @@ public class CartActivity extends AppCompatActivity implements CartItemAdapter.O
         bd.btnSelectCoupon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent= new Intent(CartActivity.this,Customer_ListCouPonActivity.class);
+                Intent intent = new Intent(CartActivity.this, Customer_ListCouPonActivity.class);
                 startActivity(intent);
             }
         });
+
+
         // nút áp mã giảm giá
         bd.btnCouPon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String couponCode = bd.edtCoupon.getText().toString().trim();
+                String couponCode = bd.tvCoupon.getText().toString().trim();
                 if (couponCode.isEmpty()) {
                     // Kiểm tra xem mã giảm giá có được nhập hay không
                     Toast.makeText(CartActivity.this, "Vui lòng nhập mã giảm giá", Toast.LENGTH_SHORT).show();
@@ -295,4 +313,7 @@ public class CartActivity extends AppCompatActivity implements CartItemAdapter.O
             calculateTotalPrice();
         }
     }
+
+
 }
+

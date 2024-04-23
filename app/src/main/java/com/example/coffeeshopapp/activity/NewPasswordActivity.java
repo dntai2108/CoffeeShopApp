@@ -24,11 +24,13 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.Objects;
+
 public class NewPasswordActivity extends AppCompatActivity {
 
     private ActivityNewPasswordBinding binding;
     DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
-    private FirebaseAuth mAuth = FirebaseAuth.getInstance();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,12 +44,12 @@ public class NewPasswordActivity extends AppCompatActivity {
     private void setEven() {
         SharedPreferences sharedPreferences = getSharedPreferences("User", MODE_PRIVATE);
         String phone = sharedPreferences.getString("phone", "");
-        String matKhau = binding.edtMatKhauMoi.getText().toString();
-        String xacNhanMatKhau = binding.edtXacNhanMatKhau.getText().toString();
         binding.btnXacNhan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (TextUtils.isEmpty(matKhau)) {
+                String matKhauMoi = binding.edtMatKhauMoi.getText().toString();
+                String xacNhanMatKhau = binding.edtXacNhanMatKhau.getText().toString();
+                if (TextUtils.isEmpty(matKhauMoi)) {
                     Toast.makeText(NewPasswordActivity.this, "Mật khẩu không được để trống", Toast.LENGTH_SHORT).show();
                     binding.edtMatKhauMoi.setError("Nhập mật khẩu: ");
                     binding.edtMatKhauMoi.requestFocus();
@@ -60,7 +62,7 @@ public class NewPasswordActivity extends AppCompatActivity {
                     binding.edtXacNhanMatKhau.requestFocus();
                     return;
                 }
-                if (!matKhau.equals(xacNhanMatKhau)) {
+                if (!matKhauMoi.equals(xacNhanMatKhau)) {
                     Toast.makeText(NewPasswordActivity.this, "Mật khẩu xác nhận không trùng khớp", Toast.LENGTH_SHORT).show();
                     binding.edtXacNhanMatKhau.setError("Nhập mật khẩu: ");
                     binding.edtXacNhanMatKhau.requestFocus();
@@ -75,9 +77,11 @@ public class NewPasswordActivity extends AppCompatActivity {
                             Customer customer = dataSnapshot.getValue(Customer.class);
                             Account account = customer.getAccount();
                             if (customer.getAccount().getUsername().equals(phone)) {
-                                account.setPassword(matKhau);
+                                account.setPassword(matKhauMoi);
                                 customer.setAccount(account);
-                                accountRef.child(phone).child("password").setValue(matKhau);
+                                accountRef.child(phone).child("password").setValue(matKhauMoi);
+                                customerRef.child(customer.getId()).child("account").setValue(account);
+                                Toast.makeText(NewPasswordActivity.this, "Mật khẩu đã được thay đổi thành công! Vui lòng đăng nhập lại!", Toast.LENGTH_SHORT).show();
                                 break;
                             }
                         }
@@ -90,8 +94,8 @@ public class NewPasswordActivity extends AppCompatActivity {
                 });
                 Intent intent = new Intent(NewPasswordActivity.this, LoginActivity.class);
                 startActivity(intent);
-
             }
+
         });
     }
 }

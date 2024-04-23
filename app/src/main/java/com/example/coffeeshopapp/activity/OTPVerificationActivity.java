@@ -99,26 +99,26 @@ public class OTPVerificationActivity extends AppCompatActivity {
                                 @Override
                                 public void onComplete(@NonNull Task<AuthResult> task) {
                                     if (task.isSuccessful()) {
-                                        String node = UUID.randomUUID().toString();
-                                        Account account = new Account(sDT, matKhau, "user", true);
-                                        Customer customer = new Customer(node, hoTen, "", email, sDT, "", account);
-                                        databaseReference.child("Account").child(sDT).setValue(account).addOnCompleteListener(new OnCompleteListener<Void>() {
-                                            @Override
-                                            public void onComplete(@NonNull Task<Void> task) {
-
-                                            }
-                                        });
-                                        databaseReference.child("Customer").child(node).setValue(customer).addOnCompleteListener(new OnCompleteListener<Void>() {
-                                            @Override
-                                            public void onComplete(@NonNull Task<Void> task) {
-
-                                            }
-                                        });
                                         SharedPreferences sharedPreferences = getSharedPreferences("User", Context.MODE_PRIVATE);
                                         SharedPreferences.Editor edittor = sharedPreferences.edit();
                                         edittor.putString("phone", sDT);
                                         edittor.commit();
                                         if (direction.equals("register")) {
+                                            String node = UUID.randomUUID().toString();
+                                            Account account = new Account(sDT, matKhau, "user", true);
+                                            Customer customer = new Customer(node, hoTen, "", email, sDT, "", account);
+                                            databaseReference.child("Account").child(sDT).setValue(account).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                @Override
+                                                public void onComplete(@NonNull Task<Void> task) {
+
+                                                }
+                                            });
+                                            databaseReference.child("Customer").child(node).setValue(customer).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                @Override
+                                                public void onComplete(@NonNull Task<Void> task) {
+
+                                                }
+                                            });
                                             Intent intent = new Intent(OTPVerificationActivity.this, HomeActivity.class);
                                             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                                             startActivity(intent);

@@ -14,25 +14,33 @@ import com.example.coffeeshopapp.model.Coupon;
 
 import java.util.ArrayList;
 
-public class Customer_RecyclerViewListCouPonAdapter  extends RecyclerView.Adapter<Customer_RecyclerViewListCouPonAdapter.ViewHolder>{
+public class Customer_RecyclerViewListCouPonAdapter extends RecyclerView.Adapter<Customer_RecyclerViewListCouPonAdapter.ViewHolder> {
     private Context context;
-    private ArrayList<Coupon> couponArrayList;
+    private static ArrayList<Coupon> couponArrayList;
+    private static OnCouponSelectedListener listener;
 
-    public Customer_RecyclerViewListCouPonAdapter(Context context, ArrayList<Coupon> couponArrayList) {
+
+    public Customer_RecyclerViewListCouPonAdapter(Context context, ArrayList<Coupon> couponArrayList, OnCouponSelectedListener listener) {
         this.context = context;
         this.couponArrayList = couponArrayList;
+        this.listener = listener;
     }
+
+    public interface OnCouponSelectedListener {
+        void onCouponSelected(Coupon coupon);
+    }
+
 
     @NonNull
     @Override
     public Customer_RecyclerViewListCouPonAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View v= LayoutInflater.from(context).inflate(R.layout.activity_customer_list_cou_pon,parent,false);
+        View v = LayoutInflater.from(context).inflate(R.layout.custom_customer_item_coupon, parent, false);
         return new ViewHolder(v);
     }
 
     @Override
     public void onBindViewHolder(@NonNull Customer_RecyclerViewListCouPonAdapter.ViewHolder holder, int position) {
-        Coupon coupon=couponArrayList.get(position);
+        Coupon coupon = couponArrayList.get(position);
         holder.tvCoupon.setText(coupon.getTenMa());
         holder.tvPhantramgiam.setText(coupon.getPhanTramGiam());
         holder.tvThoigianbatdau.setText(coupon.getNgayBatDau());
@@ -46,13 +54,24 @@ public class Customer_RecyclerViewListCouPonAdapter  extends RecyclerView.Adapte
 
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        TextView tvCoupon,tvThoigianbatdau,tvThoigianketthuc,tvPhantramgiam;
+        TextView tvCoupon, tvThoigianbatdau, tvThoigianketthuc, tvPhantramgiam;
+
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            tvCoupon=itemView.findViewById(R.id.tvCoupon);
-            tvThoigianbatdau=itemView.findViewById(R.id.tvThoigianbatdau);
-            tvThoigianketthuc=itemView.findViewById(R.id.tvThoigianketthuc);
-            tvPhantramgiam=itemView.findViewById(R.id.tvPhantramgiam);
+            tvCoupon = itemView.findViewById(R.id.tvCoupon);
+            tvThoigianbatdau = itemView.findViewById(R.id.tvThoigianbatdau);
+            tvThoigianketthuc = itemView.findViewById(R.id.tvThoigianketthuc);
+            tvPhantramgiam = itemView.findViewById(R.id.tvPhantramgiam);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int position = getAdapterPosition();
+                    if (position != RecyclerView.NO_POSITION && listener != null) {
+                        listener.onCouponSelected(couponArrayList.get(position));
+                    }
+                }
+            });
         }
     }
 }
