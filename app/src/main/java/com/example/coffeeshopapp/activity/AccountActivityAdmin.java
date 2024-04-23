@@ -5,8 +5,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-
-import com.example.coffeeshopapp.R;
 import com.example.coffeeshopapp.databinding.ActivityAccountAdminBinding;
 
 public class AccountActivityAdmin extends AppCompatActivity {
