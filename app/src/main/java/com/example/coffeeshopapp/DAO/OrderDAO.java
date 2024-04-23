@@ -50,6 +50,7 @@ public class OrderDAO {
         this.context = context;
 //        database = dbHelper.getWritableDatabase(); // Mở cơ sở dữ liệu để ghi
     }
+
     // LẤY TOÀN BỘ DANH SÁCH
     public void Get_All_Order(OrderDataListener listener) {
         DatabaseReference orderRef = FirebaseDatabase.getInstance().getReference("Orders");
@@ -123,14 +124,14 @@ public class OrderDAO {
     }
 
 
-    public void getAllOrders(String ordertimestart, String ordertimeend, int status, OrderDataListener listener) {
+    public void getAllOrders(String ordertimestart, String ordertimeend, String status, OrderDataListener listener) {
         Get_All_Order(new OrderDataListener() {
             @Override
             public void onOrderListLoaded(ArrayList<Order> orderList) {
                 ArrayList<Order> order_list_time = new ArrayList<>();
 
                 for (Order order : orderList) {
-                    if (order.getStatus() == status && isOrderInTimeRange(order, ordertimestart, ordertimeend)) {
+                    if (order.getStatus().equals(status) && isOrderInTimeRange(order, ordertimestart, ordertimeend)) {
                         order_list_time.add(order);
                     }
                 }
@@ -145,7 +146,7 @@ public class OrderDAO {
     }
 
     private boolean isOrderInTimeRange(Order order, String ordertimestart, String ordertimeend) {
-        long orderTime = FormatDate(order.getOrderTime()).getTime();
+        long orderTime = FormatDate(order.getOrderDate()).getTime();
         long startTime = Format_String_to_Date(ordertimestart).getTime();
         long endTime = Format_String_to_Date(ordertimeend).getTime();
         return orderTime >= startTime && orderTime <= endTime;
@@ -195,13 +196,12 @@ public class OrderDAO {
                 for (DataSnapshot data : snapshot.getChildren()) {
                     Order order = data.getValue(Order.class);
                     assert order != null;
-                    String year = String.valueOf(Format_Year(order.getOrderTime()));
-                    String month = String.valueOf(Format_Month(order.getOrderTime()));
-                    double total = order.getTotal();
+                    String year = String.valueOf(Format_Year(order.getOrderDate()));
+                    String month = String.valueOf(Format_Month(order.getOrderDate()));
+                    double total = Double.parseDouble(order.getTotalAmount());
 
-                    if (order.getStatus() == 3) {
-                        if(year.equals(String.valueOf(year1)))
-                        {
+                    if (order.getStatus().equalsIgnoreCase("Hoàn thành")) {
+                        if (year.equals(String.valueOf(year1))) {
                             totalOrders.merge(month, total, Double::sum);
                         }
 
@@ -230,10 +230,10 @@ public class OrderDAO {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for (DataSnapshot data : snapshot.getChildren()) {
                     Order order = data.getValue(Order.class);
-                    String year = String.valueOf(Format_Year(order.getOrderTime()));
-                    double total = order.getTotal();
+                    String year = String.valueOf(Format_Year(order.getOrderDate()));
+                    double total = Double.parseDouble(order.getTotalAmount());
 
-                    if (order.getStatus() == 3) {
+                    if (order.getStatus().equalsIgnoreCase("Hoàn thành")) {
                         totalOrders.merge(year, total, Double::sum);
                     }
                 }
@@ -272,6 +272,7 @@ public class OrderDAO {
 //        }
         return total_orders;
     }
+
     public int Format_Year(String dateTime) {
         @SuppressLint("SimpleDateFormat") SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy HH:mm");
         try {
@@ -284,6 +285,7 @@ public class OrderDAO {
             return -1; // Trả về giá trị không hợp lệ nếu có lỗi phân tích cú pháp
         }
     }
+
     public int Format_Month(String dateTime) {
         @SuppressLint("SimpleDateFormat") SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy HH:mm");
         try {
@@ -307,8 +309,8 @@ public class OrderDAO {
                 for (DataSnapshot data : snapshot.getChildren()) {
                     Order order = data.getValue(Order.class);
                     assert order != null;
-                    if(!list_year.contains(Format_Year(order.getOrderTime()))) {
-                        list_year.add(Format_Year(order.getOrderTime()));
+                    if (!list_year.contains(Format_Year(order.getOrderDate()))) {
+                        list_year.add(Format_Year(order.getOrderDate()));
                     }
                 }
                 // Gọi hàm gọi lại để trả về danh sách năm
@@ -321,7 +323,6 @@ public class OrderDAO {
             }
         });
     }
-
 
 
     public CompletableFuture<ArrayList<Integer>> Get_Month_ByYear(int year1) {
@@ -337,14 +338,13 @@ public class OrderDAO {
                 for (DataSnapshot data : snapshot.getChildren()) {
                     Order order = data.getValue(Order.class);
                     assert order != null;
-                    String year = String.valueOf(Format_Year(order.getOrderTime()));
-                    String month = String.valueOf(Format_Month(order.getOrderTime()));
+                    String year = String.valueOf(Format_Year(order.getOrderDate()));
+                    String month = String.valueOf(Format_Month(order.getOrderDate()));
 
 
                     if (year.equals(String.valueOf(year1))) {
 
-                        if(!List_month.contains(Integer.parseInt(month)))
-                        {
+                        if (!List_month.contains(Integer.parseInt(month))) {
                             List_month.add(Integer.parseInt(month));
                         }
 

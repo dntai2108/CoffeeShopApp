@@ -34,6 +34,13 @@ public class AccountActivity extends AppCompatActivity {
 
             }
         });
+        binding.ivQuayLai.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(AccountActivity.this, HomeActivity.class));
+
+            }
+        });
     }
 
 

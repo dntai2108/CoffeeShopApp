@@ -1,6 +1,6 @@
 package com.example.coffeeshopapp.activity;
 
-import static com.example.coffeeshopapp.activity.Main_Activity.getKeyByValue;
+import static com.example.coffeeshopapp.activity.Revenue_Statistics_Activity.getKeyByValue;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -52,7 +52,8 @@ public class StatisticsActivity extends AppCompatActivity {
     DatePickerDialog.OnDateSetListener dateEndListener;
     OrderDAO orderDAO;
     Context context;
-    HashMap<Integer, String> status = new HashMap<>();;
+    HashMap<Integer, String> status = new HashMap<>();
+    ;
     int selectedId = -1;
 
 
@@ -62,7 +63,7 @@ public class StatisticsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_statistics);
         AnhXa();
-        orderDAO  = new OrderDAO(this);
+        orderDAO = new OrderDAO(this);
 //        processCopy();
         calendarStart = Calendar.getInstance();
         calendarEnd = Calendar.getInstance();
@@ -87,14 +88,15 @@ public class StatisticsActivity extends AppCompatActivity {
     }
 
     public static String selectedDisplay = "";
+
     public void getStatusSpinner() {
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 String selectedStatus = (String) parent.getItemAtPosition(position);
-                 selectedId = getKeyByValue(status, selectedStatus);
-                 selectedDisplay = selectedStatus;
+                selectedId = getKeyByValue(status, selectedStatus);
+                selectedDisplay = selectedStatus;
                 updateOrderList();
 
             }
@@ -105,6 +107,7 @@ public class StatisticsActivity extends AppCompatActivity {
             }
         });
     }
+
     private String FormatDate(String day) {
 
         String formattedDate = "";
@@ -114,7 +117,7 @@ public class StatisticsActivity extends AppCompatActivity {
         try {
 
             Date date = inputFormat.parse(day);
-             formattedDate = outputFormat.format(date);
+            formattedDate = outputFormat.format(date);
         } catch (ParseException e) {
             e.printStackTrace();
         }
@@ -125,11 +128,11 @@ public class StatisticsActivity extends AppCompatActivity {
     private void SetupSprinner() {
 
 
-        status.put(3,"Hoàn thành");
-        status.put(2,"Đã huỷ");
+        status.put(3, "Hoàn thành");
+        status.put(2, "Đã huỷ");
 
         ArrayList<String> displayStatus = new ArrayList<>(status.values());
-        ArrayAdapter<String> statusAdapter = new ArrayAdapter<>(context, android.R.layout.simple_spinner_item,displayStatus);
+        ArrayAdapter<String> statusAdapter = new ArrayAdapter<>(context, android.R.layout.simple_spinner_item, displayStatus);
         statusAdapter.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
         spinner.setAdapter(statusAdapter);
     }
@@ -216,7 +219,7 @@ public class StatisticsActivity extends AppCompatActivity {
         String start_day = txtdaystart.getText().toString();
         String end_day = txtdayend.getText().toString();
 
-        orderDAO.getAllOrders(start_day, end_day, selectedId, new OrderDataListener() {
+        orderDAO.getAllOrders(start_day, end_day, selectedDisplay, new OrderDataListener() {
             @Override
             public void onOrderListLoaded(ArrayList<Order> orderList) {
 

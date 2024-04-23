@@ -1,5 +1,7 @@
 package com.example.coffeeshopapp.activity;
 
+import static com.example.coffeeshopapp.activity.Revenue_Statistics_Activity.getKeyByValue;
+
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
@@ -21,8 +23,8 @@ import java.util.Map;
 
 public class Main_Activity extends AppCompatActivity {
     ListView listView, lv_homework;
-    HashMap<Integer,String> items;
-    HashMap<Integer,String> item_homework;
+    HashMap<Integer, String> items;
+    HashMap<Integer, String> item_homework;
     int selected_id_item = 0;
     int selected_id_item_hw = 0;
 
@@ -31,8 +33,7 @@ public class Main_Activity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        listView = findViewById(R.id.lvgiuaky);
-        lv_homework = findViewById(R.id.lv_baitap);
+        listView = findViewById(R.id.lvmain);
 
 //        Order order1 = new Order(15,"2024-04-02 11:19",125000,2);
 //        Order order2 = new Order(16,"2024-04-02 13:20",25000,2);
@@ -57,20 +58,13 @@ public class Main_Activity extends AppCompatActivity {
         Transform_Activity();
 
 
-
-
-
-
-
-
     }
-
 
 
     private void Set_Data_Homework() {
         item_homework = new HashMap<>();
-        item_homework.put(1,"Bài 4");
-        item_homework.put(2,"Bài 8");
+        item_homework.put(1, "Bài 4");
+        item_homework.put(2, "Bài 8");
         ArrayList<String> display_item_hw = new ArrayList<>(item_homework.values());
         ArrayAdapter<String> item_adapter = new ArrayAdapter<>((Context) this, android.R.layout.simple_list_item_1, display_item_hw);
         lv_homework.setAdapter(item_adapter);
@@ -78,9 +72,9 @@ public class Main_Activity extends AppCompatActivity {
 
     private void Set_Data() {
         items = new HashMap<>();
-        items.put(1,"Thống kê đơn hàng");
-        items.put(2,"Thống kê sản phẩm");
-        items.put(3,"Thống kê doanh thu");
+        items.put(1, "Thống kê đơn hàng");
+        items.put(2, "Thống kê sản phẩm");
+        items.put(3, "Thống kê doanh thu");
         ArrayList<String> display_item = new ArrayList<>(items.values());
         ArrayAdapter<String> item_adapter = new ArrayAdapter<>((Context) this, android.R.layout.simple_list_item_1, display_item);
         listView.setAdapter(item_adapter);
@@ -97,9 +91,9 @@ public class Main_Activity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 String selected_item = (String) parent.getItemAtPosition(position);
                 selected_id_item = getKeyByValue(items, selected_item);
-                if(selected_id_item == 1) {
+                if (selected_id_item == 1) {
                     Set_Intent(StatisticsActivity.class);
-                } else if(selected_id_item == 2) {
+                } else if (selected_id_item == 2) {
                     Set_Intent(ProductStatiticsAtivity.class);
                 } else {
                     Set_Intent(Revenue_Statistics_Activity.class);
@@ -109,12 +103,4 @@ public class Main_Activity extends AppCompatActivity {
     }
 
 
-    public static int getKeyByValue(HashMap<Integer, String> map, String value) {
-        for (Map.Entry<Integer, String> entry : map.entrySet()) {
-            if (value.equals(entry.getValue())) {
-                return entry.getKey();
-            }
-        }
-        return -1; // hoặc giá trị mặc định phù hợp với ứng dụng của bạn
-    }
 }

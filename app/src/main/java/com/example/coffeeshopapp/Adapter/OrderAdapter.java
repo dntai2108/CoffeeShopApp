@@ -54,10 +54,10 @@ public class OrderAdapter extends ArrayAdapter<Order> {
         TextView tvtotal = convertView.findViewById(R.id.total);
 
         // Hiển thị thông tin của Order lên các TextView tương ứng
-        tvId.setText(String.valueOf(order.getId()));
-        tvordertime.setText(String.valueOf(order.getOrderTime()));
+        tvId.setText(String.valueOf(order.getOrderId()));
+        tvordertime.setText(String.valueOf(order.getOrderDate()));
         tvstatus.setText(String.valueOf(selectedDisplay));
-        tvtotal.setText(String.valueOf(order.getTotal()));
+        tvtotal.setText(String.valueOf(order.getTotalAmount()));
 
         return convertView;
     }

@@ -115,7 +115,7 @@ public class OTPVerificationActivity extends AppCompatActivity {
                                         });
                                         SharedPreferences sharedPreferences = getSharedPreferences("User", Context.MODE_PRIVATE);
                                         SharedPreferences.Editor edittor = sharedPreferences.edit();
-                                        edittor.putString("phone", soDienThoai);
+                                        edittor.putString("phone", sDT);
                                         edittor.commit();
                                         Intent intent = new Intent(OTPVerificationActivity.this, HomeActivity.class);
                                         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);

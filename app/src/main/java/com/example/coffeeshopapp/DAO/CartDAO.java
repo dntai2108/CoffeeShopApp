@@ -28,6 +28,7 @@ import java.util.concurrent.CompletableFuture;
 public class CartDAO {
     private Database dbHelper;
     private SQLiteDatabase database;
+
     public CartDAO(Context context) {
         dbHelper = new Database(context);
         database = dbHelper.getWritableDatabase(); // Mở cơ sở dữ liệu để ghi
@@ -38,17 +39,12 @@ public class CartDAO {
         ContentValues values = new ContentValues();
         values.put("ID", product.getId());
         values.put("NameProduct", product.getName());
-        values.put("Image",product.getImage());
-        values.put("PriceProduct",product.getPrice());
+        values.put("Image", product.getImage());
+        values.put("PriceProduct", product.getPrice());
         database.insert("Product", null, values);
     }
     // Thêm Cart
-    public void AddCart(Cart cart) {
-        ContentValues values = new ContentValues();
-        values.put("ID", cart.getID());
-        values.put("Status", cart.getStatus());
-        database.insert("Cart", null, values);
-    }
+
     //Thêm CartDetail
     public void AddCartDetail(CartDetail cartDetail) {
         ContentValues values = new ContentValues();
@@ -58,6 +54,7 @@ public class CartDAO {
         values.put("Size", cartDetail.getSize());
         database.insert("CartDetail", null, values);
     }
+
     public CompletableFuture<LinkedHashMap<Product, Integer>> GetTotalOrdersByProduct() {
         CompletableFuture<LinkedHashMap<Product, Integer>> future = new CompletableFuture<>();
 
@@ -74,7 +71,7 @@ public class CartDAO {
                         for (DataSnapshot productSnapshot : orderSnapshot.child("Cart").child("Product").getChildren()) { // danh sách product
                             Product product = new Product();
                             // Lấy thông tin của product từ node Product
-                            product.setId(Integer.parseInt(Objects.requireNonNull(productSnapshot.child("DetailProduct").child("id").getValue(String.class))));
+                            product.setId(Objects.requireNonNull(productSnapshot.child("DetailProduct").child("id").getValue(String.class)));
                             product.setName(productSnapshot.child("DetailProduct").child("name").getValue(String.class));
                             product.setImage(productSnapshot.child("DetailProduct").child("image").getValue(String.class));
 
@@ -132,10 +129,6 @@ public class CartDAO {
 //            } while (cursor.moveToNext());
 //            cursor.close();
 //        }
-
-
-
-
 
 
 }

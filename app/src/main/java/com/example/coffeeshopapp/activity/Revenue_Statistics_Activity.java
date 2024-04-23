@@ -1,7 +1,5 @@
 package com.example.coffeeshopapp.activity;
 
-import static com.example.coffeeshopapp.activity.Main_Activity.getKeyByValue;
-
 import android.annotation.SuppressLint;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -38,8 +36,6 @@ import java.util.List;
 import java.util.Map;
 
 
-
-
 public class Revenue_Statistics_Activity extends AppCompatActivity {
     LineChart linechart;
     XAxis axis;
@@ -49,15 +45,15 @@ public class Revenue_Statistics_Activity extends AppCompatActivity {
     Spinner spinner_type_time, spinner_year;
     ArrayList<Integer> year;
     Spinner spinner_month;
-   HashMap<Integer,String> type_time,months;
+    HashMap<Integer, String> type_time, months;
 
-//    int key_default_year = 0;
+    //    int key_default_year = 0;
     int selected_idtypetime = 0;
     int selected_year = 0;
     int selected_month = 0;
     int size_year = 0;
     List<Entry> entries;
-    HashMap<String,Double> totalOrder;
+    HashMap<String, Double> totalOrder;
     ArrayList<String> years;
 
     @Override
@@ -68,7 +64,7 @@ public class Revenue_Statistics_Activity extends AppCompatActivity {
         Set_Component();//set thành phần giao diện
         Set_Declare();// định nghĩa thành phần
         Setup_Data_Sprinner_Typetime();// Set up data spinner typetime
-        selected_idtypetime = Get_Key_Default(spinner_type_time,type_time );// đặt mặc định cho selected_idtypetime
+        selected_idtypetime = Get_Key_Default(spinner_type_time, type_time);// đặt mặc định cho selected_idtypetime
 //        Get_Data_Spinner_Year();
         Setup_Data_Spinner_Year(); // tương tự
 //        selected_year = Get_Key_Year_Default();
@@ -100,17 +96,14 @@ public class Revenue_Statistics_Activity extends AppCompatActivity {
         spinner_month.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                String display_month =(String) parent.getItemAtPosition(position);
-                selected_month = getKeyByValue(months,display_month);
+                String display_month = (String) parent.getItemAtPosition(position);
+                selected_month = getKeyByValue(months, display_month);
                 totalOrder.clear();
                 Set_up_X();
-                totalOrder = orderDAO.GetTotalOrdersByDay(selected_month,selected_year);
-                if(totalOrder.isEmpty())
-                {
+                totalOrder = orderDAO.GetTotalOrdersByDay(selected_month, selected_year);
+                if (totalOrder.isEmpty()) {
                     Clear_Data();
-                }
-                else
-                {
+                } else {
                     Set_Data();
                 }
             }
@@ -127,12 +120,11 @@ public class Revenue_Statistics_Activity extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
-                String year =  String.valueOf(parent.getItemAtPosition(position));
+                String year = String.valueOf(parent.getItemAtPosition(position));
                 selected_year = Integer.parseInt(year);
 
                 totalOrder.clear();
-                if(selected_idtypetime == 2)
-                {
+                if (selected_idtypetime == 2) {
                     Set_up_X();
                     orderDAO.GetTotalOrdersByMonth(selected_year).thenAccept(hashMap -> {
                         for (Map.Entry<String, Double> entry : hashMap.entrySet()) {
@@ -141,27 +133,19 @@ public class Revenue_Statistics_Activity extends AppCompatActivity {
                             totalOrder.put(year1, total);
                         }
 
-                        if(totalOrder.isEmpty())
-                        {
+                        if (totalOrder.isEmpty()) {
                             Clear_Data();
-                        }
-                        else
-                        {
+                        } else {
                             Set_Data();
                         }
                     });
 
-                }
-                else if(selected_idtypetime == 3)
-                {
+                } else if (selected_idtypetime == 3) {
 //                    Set_up_X();
-                    totalOrder = orderDAO.GetTotalOrdersByDay(selected_month,selected_year);
-                    if(totalOrder.isEmpty())
-                    {
+                    totalOrder = orderDAO.GetTotalOrdersByDay(selected_month, selected_year);
+                    if (totalOrder.isEmpty()) {
                         Clear_Data();
-                    }
-                    else
-                    {
+                    } else {
                         Set_Data();
                     }
                 }
@@ -176,23 +160,23 @@ public class Revenue_Statistics_Activity extends AppCompatActivity {
     }
 
     private void Set_Up_Data_Spinner_Month() {
-        months.put(1,"Tháng 1");
-        months.put(2,"Tháng 2");
-        months.put(3,"Tháng 3");
-        months.put(4,"Tháng 4");
-        months.put(5,"Tháng 5");
-        months.put(6,"Tháng 6");
-        months.put(7,"Tháng 7");
-        months.put(8,"Tháng 8");
-        months.put(9,"Tháng 9");
-        months.put(10,"Tháng 10");
-        months.put(11,"Tháng 11");
-        months.put(12,"Tháng 12");
+        months.put(1, "Tháng 1");
+        months.put(2, "Tháng 2");
+        months.put(3, "Tháng 3");
+        months.put(4, "Tháng 4");
+        months.put(5, "Tháng 5");
+        months.put(6, "Tháng 6");
+        months.put(7, "Tháng 7");
+        months.put(8, "Tháng 8");
+        months.put(9, "Tháng 9");
+        months.put(10, "Tháng 10");
+        months.put(11, "Tháng 11");
+        months.put(12, "Tháng 12");
 
         String firstValue = months.get(months.keySet().toArray()[0]);
         ArrayList<String> display_month = new ArrayList<>(months.values());
         int posotion = new ArrayList<>(months.values()).indexOf(firstValue);
-        ArrayAdapter<String> months_Adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item,display_month);
+        ArrayAdapter<String> months_Adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, display_month);
         months_Adapter.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
         spinner_month.setAdapter(months_Adapter);
         spinner_month.setSelection(posotion);
@@ -203,23 +187,19 @@ public class Revenue_Statistics_Activity extends AppCompatActivity {
         spinner_type_time.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                String selected_time =(String) parent.getItemAtPosition(position);
+                String selected_time = (String) parent.getItemAtPosition(position);
 
-                selected_idtypetime = getKeyByValue(type_time,selected_time);
+                selected_idtypetime = getKeyByValue(type_time, selected_time);
 
 
-
-                if(selected_idtypetime == 1)
-                {
+                if (selected_idtypetime == 1) {
                     Set_up_X();
                     spinner_year.setVisibility(View.GONE);
                     spinner_month.setVisibility(View.GONE);
                     Load_Data_Default();
 
 
-                }
-                else if(selected_idtypetime == 2)
-                {
+                } else if (selected_idtypetime == 2) {
                     Set_up_X();
                     spinner_year.setVisibility(View.VISIBLE);
                     totalOrder.clear();
@@ -234,29 +214,21 @@ public class Revenue_Statistics_Activity extends AppCompatActivity {
                         Load_Data_Y_ByYear();
                         Display_Chart();
                     });
-                    if(totalOrder.isEmpty())
-                    {
+                    if (totalOrder.isEmpty()) {
                         Clear_Data();
-                    }
-                    else
-                    {
+                    } else {
                         Set_Data();
                     }
-                }
-                else
-                {
+                } else {
 
                     spinner_month.setVisibility(View.VISIBLE);
                     spinner_year.setVisibility(View.VISIBLE);
 //                    Set_up_X();
                     totalOrder.clear();
-                    totalOrder = orderDAO.GetTotalOrdersByDay(selected_month,selected_year);
-                    if(totalOrder.isEmpty())
-                    {
+                    totalOrder = orderDAO.GetTotalOrdersByDay(selected_month, selected_year);
+                    if (totalOrder.isEmpty()) {
                         Clear_Data();
-                    }
-                    else
-                    {
+                    } else {
                         Set_Data();
                     }
                 }
@@ -330,24 +302,24 @@ public class Revenue_Statistics_Activity extends AppCompatActivity {
 
     private void Setup_Data_Sprinner_Typetime() {
 
-        type_time.put(1,"Năm");
-        type_time.put(2,"Tháng");
-        type_time.put(3,"Ngày");
+        type_time.put(1, "Năm");
+        type_time.put(2, "Tháng");
+        type_time.put(3, "Ngày");
         String firstValue = type_time.get(type_time.keySet().toArray()[0]);
         ArrayList<String> display_typetime = new ArrayList<>(type_time.values());
         int posotion = new ArrayList<>(type_time.values()).indexOf(firstValue);
-        ArrayAdapter<String> typetime_Adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item,display_typetime);
+        ArrayAdapter<String> typetime_Adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, display_typetime);
         typetime_Adapter.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
         spinner_type_time.setAdapter(typetime_Adapter);
         spinner_type_time.setSelection(posotion);
 
     }
-    private void Get_Data_Spinner_Year()
-    {
 
+    private void Get_Data_Spinner_Year() {
 
 
     }
+
     private void Setup_Data_Spinner_Year() {
         orderDAO.Get_Year(new OrderDataListener() {
             @Override
@@ -364,19 +336,17 @@ public class Revenue_Statistics_Activity extends AppCompatActivity {
         });
     }
 
-    private void Load_Data_Y_ByYear()
-    {
+    private void Load_Data_Y_ByYear() {
         int i = 1;
         for (Map.Entry<String, Double> entry : totalOrder.entrySet()) {
             double revenue = entry.getValue();
-            entries.add(new Entry(i,(float) revenue));
+            entries.add(new Entry(i, (float) revenue));
             i++;
         }
 
     }
 
-    private void Display_Chart()
-    {
+    private void Display_Chart() {
         LineDataSet dataset1 = new LineDataSet(entries, "Doanh Thu(VND)");
         dataset1.setColor(Color.BLUE);
         LineData lineData = new LineData(dataset1);
@@ -384,13 +354,11 @@ public class Revenue_Statistics_Activity extends AppCompatActivity {
         linechart.invalidate();
     }
 
-    private void Set_up_X()
-    {
+    private void Set_up_X() {
 
         axis.setPosition(XAxis.XAxisPosition.BOTTOM);
         axis.setGranularity(1f);
-        if(selected_idtypetime == 1)
-        {
+        if (selected_idtypetime == 1) {
             xValues.clear();
 //            xValues.add("");
             orderDAO.Get_Year(new OrderDataListener() {
@@ -404,8 +372,7 @@ public class Revenue_Statistics_Activity extends AppCompatActivity {
                     HashSet<Integer> hashSet = new HashSet<>(yearList);
                     ArrayList<Integer> uniqueList = new ArrayList<>(hashSet);
                     Collections.sort(uniqueList);
-                    for(Integer year : yearList)
-                    {
+                    for (Integer year : yearList) {
                         xValues.add(String.valueOf(year));
                     }
                     axis.setValueFormatter(new IndexAxisValueFormatter(xValues));
@@ -415,12 +382,7 @@ public class Revenue_Statistics_Activity extends AppCompatActivity {
             });
 
 
-
-
-
-        }
-        else if(selected_idtypetime == 2)
-        {
+        } else if (selected_idtypetime == 2) {
             xValues.clear();
             xValues.add(""); // Thêm giá trị rỗng vào đầu danh sách
 
@@ -429,8 +391,7 @@ public class Revenue_Statistics_Activity extends AppCompatActivity {
                 Collections.sort(arrayList);
 
                 // Thêm các tháng đã sắp xếp vào danh sách xValues
-                for(Integer month : arrayList)
-                {
+                for (Integer month : arrayList) {
 
                     xValues.add(String.valueOf(month));
                 }
@@ -439,57 +400,52 @@ public class Revenue_Statistics_Activity extends AppCompatActivity {
                 axis.setValueFormatter(new IndexAxisValueFormatter(xValues));
                 axis.setLabelCount(arrayList.size());
             });
-        }
-
-        else if(selected_idtypetime == 3)
-        {
+        } else if (selected_idtypetime == 3) {
             xValues.clear();
             xValues.add("");
-            for(Integer month: orderDAO.Get_Day_ByMonthAndYear(selected_month,selected_year))
-            {
+            for (Integer month : orderDAO.Get_Day_ByMonthAndYear(selected_month, selected_year)) {
                 xValues.add(String.valueOf(month));
             }
 
             axis.setValueFormatter(new IndexAxisValueFormatter(xValues));
-            axis.setLabelCount(orderDAO.Get_Day_ByMonthAndYear(selected_month,selected_year).size());
+            axis.setLabelCount(orderDAO.Get_Day_ByMonthAndYear(selected_month, selected_year).size());
         }
     }
-    private void Set_up_Default_X(ArrayList<Integer> list_year)
-    {
+
+    private void Set_up_Default_X(ArrayList<Integer> list_year) {
 
         axis.setPosition(XAxis.XAxisPosition.BOTTOM);
         axis.setGranularity(1f);
 
         xValues.add("");
-        for(Integer year : list_year)
-        {
+        for (Integer year : list_year) {
             xValues.add(String.valueOf(year));
         }
         axis.setValueFormatter(new IndexAxisValueFormatter(xValues));
         axis.setLabelCount(list_year.size());
     }
-    private void Clear_Data()
-    {
+
+    private void Clear_Data() {
         entries.clear();
-        LineDataSet dataset1 = new LineDataSet(entries,null);
+        LineDataSet dataset1 = new LineDataSet(entries, null);
         dataset1.setColor(Color.BLUE);
         LineData lineData = new LineData(dataset1);
         linechart.setData(lineData);
         linechart.invalidate();
     }
-    private void Set_Data()
-    {
+
+    private void Set_Data() {
         entries.clear();
         Load_Data_Y_ByYear();
         Display_Chart();
     }
 
-    private int Get_Key_Default(Spinner spinner, HashMap<Integer,String> list_data)
-    {
+    private int Get_Key_Default(Spinner spinner, HashMap<Integer, String> list_data) {
         int defaultPosition = spinner.getSelectedItemPosition();
         ArrayAdapter<String> adapter = (ArrayAdapter<String>) spinner.getAdapter();
-        return getKeyByValue(list_data,adapter.getItem(defaultPosition));
+        return getKeyByValue(list_data, adapter.getItem(defaultPosition));
     }
+
     private int Get_Key_Year_Default() {
         int default_year_position = spinner_year.getSelectedItemPosition();
         ArrayAdapter<Integer> year_adapter = (ArrayAdapter<Integer>) spinner_year.getAdapter();
@@ -498,5 +454,12 @@ public class Revenue_Statistics_Activity extends AppCompatActivity {
         return default_year; // Chuyển đổi chuỗi thành số nguyên
     }
 
-
+    public static int getKeyByValue(HashMap<Integer, String> map, String value) {
+        for (Map.Entry<Integer, String> entry : map.entrySet()) {
+            if (value.equals(entry.getValue())) {
+                return entry.getKey();
+            }
+        }
+        return -1; // hoặc giá trị mặc định phù hợp với ứng dụng của bạn
+    }
 }
