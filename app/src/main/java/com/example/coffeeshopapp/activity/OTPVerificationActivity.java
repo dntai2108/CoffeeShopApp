@@ -61,6 +61,7 @@ public class OTPVerificationActivity extends AppCompatActivity {
         String hoTen = getIntent().getStringExtra("name");
         String matKhau = getIntent().getStringExtra("password");
         String email = getIntent().getStringExtra("email");
+        String direction = getIntent().getStringExtra("direction");
 
 
         binding.tvGuiLai.setOnClickListener(new View.OnClickListener() {
@@ -117,9 +118,16 @@ public class OTPVerificationActivity extends AppCompatActivity {
                                         SharedPreferences.Editor edittor = sharedPreferences.edit();
                                         edittor.putString("phone", sDT);
                                         edittor.commit();
-                                        Intent intent = new Intent(OTPVerificationActivity.this, HomeActivity.class);
-                                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                                        startActivity(intent);
+                                        if (direction.equals("register")) {
+                                            Intent intent = new Intent(OTPVerificationActivity.this, HomeActivity.class);
+                                            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                                            startActivity(intent);
+                                        }
+                                        if (direction.equals("forget")) {
+                                            Intent intent = new Intent(OTPVerificationActivity.this, NewPasswordActivity.class);
+                                            startActivity(intent);
+                                        }
+
                                     } else {
                                         binding.pbXuLy.setVisibility(GONE);
                                         binding.btnXacNhan.setVisibility(VISIBLE);
