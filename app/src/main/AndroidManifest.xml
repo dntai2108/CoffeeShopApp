@@ -16,6 +16,9 @@
         android:theme="@style/Theme.CoffeeShopApp"
         tools:targetApi="31">
         <activity
+            android:name=".activity.DeliveryOrderShipper"
+            android:exported="false" />
+        <activity
             android:name=".activity.ListCouponActivity"
             android:exported="true" />
         <activity
@@ -83,19 +86,19 @@
             android:exported="false" />
         <activity
             android:name=".activity.SuccessfulOrder"
-            android:exported="false" />
+            android:exported="true" />
         <activity
             android:name=".activity.CartActivity"
             android:exported="false" />
         <activity
             android:name=".activity.DetailProductActivity"
-            android:exported="false" />
+            android:exported="true" />
         <activity
             android:name=".activity.MainActivity"
             android:exported="false" />
         <activity
             android:name=".activity.ListProductActivity"
-            android:exported="false" />
+            android:exported="true" />
 
         <meta-data
             android:name="preloaded_fonts"

@@ -31,7 +31,7 @@ public class ListProductActivity extends AppCompatActivity {
 
     ImageView imgcart;
 
-    final private DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Products");
+    final private DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Product");
 
     @SuppressLint("MissingInflatedId")
     @Override
