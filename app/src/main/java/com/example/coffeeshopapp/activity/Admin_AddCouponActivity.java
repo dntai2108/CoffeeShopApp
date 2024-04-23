@@ -1,6 +1,5 @@
 package com.example.coffeeshopapp.activity;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.DatePickerDialog;
@@ -10,20 +9,17 @@ import android.view.View;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Toast;
-import android.widget.Toolbar;
 
 import com.example.coffeeshopapp.databinding.ActivityCouponBinding;
 import com.example.coffeeshopapp.model.Coupon;
-import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
 import java.util.Calendar;
 import java.util.UUID;
 
-public class AddCouponActivity extends AppCompatActivity {
+public class Admin_AddCouponActivity extends AppCompatActivity {
     private ActivityCouponBinding bd;
     final private DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Coupon");
 
@@ -63,7 +59,7 @@ public class AddCouponActivity extends AppCompatActivity {
                 String ngayBD = bd.edtNgaybatdau.getText().toString();
                 String ngayKT = bd.edtNgayketthuc.getText().toString();
                 String phantramgiam = bd.edtphantramgiam.getText().toString()+" %";
-                Coupon coupon= new Coupon(keyorder,ngayBD,ngayKT,phantramgiam,magiamgia);
+                Coupon coupon= new Coupon(keyorder,magiamgia,phantramgiam,ngayBD,ngayKT);
 
                 try {
                     databaseReference.child(keyorder).setValue(coupon, new DatabaseReference.CompletionListener() {
@@ -72,18 +68,22 @@ public class AddCouponActivity extends AppCompatActivity {
                             if (error != null) {
                                 // Xảy ra lỗi khi thực hiện thêm dữ liệu
                                 Log.e("AddCouponActivity", "Error adding coupon to database: " + error.getMessage());
-                                Toast.makeText(AddCouponActivity.this, "Thêm mã giảm giá thất bại", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(Admin_AddCouponActivity.this, "Thêm mã giảm giá thất bại", Toast.LENGTH_SHORT).show();
                             } else {
                                 // Thêm dữ liệu thành công
                                 Log.d("AddCouponActivity", "Coupon added successfully");
-                                Toast.makeText(AddCouponActivity.this, "Thêm mã giảm giá thành công", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(Admin_AddCouponActivity.this, "Thêm mã giảm giá thành công", Toast.LENGTH_SHORT).show();
+                                 bd.edtmagiamgia.setText("");
+                                 bd.edtNgaybatdau.setText("");
+                                 bd.edtNgayketthuc.setText("");
+                                 bd.edtphantramgiam.setText("");
                             }
                         }
                     });
                 } catch(Exception e) {
                     // Xảy ra lỗi không mong muốn
                     Log.e("AddCouponActivity", "Unexpected error: " + e.getMessage(), e);
-                    Toast.makeText(AddCouponActivity.this, "Đã xảy ra lỗi không mong muốn", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Admin_AddCouponActivity.this, "Đã xảy ra lỗi không mong muốn", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -94,7 +94,7 @@ public class AddCouponActivity extends AppCompatActivity {
         int month = calendar.get(Calendar.MONTH);
         int dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
 
-        DatePickerDialog datePickerDialog = new DatePickerDialog(AddCouponActivity.this,
+        DatePickerDialog datePickerDialog = new DatePickerDialog(Admin_AddCouponActivity.this,
                 new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {

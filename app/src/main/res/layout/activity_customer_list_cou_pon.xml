@@ -4,39 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activity.Admin_ListCouponActivity">
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/btnAddCoupon"
-        android:layout_width="70dp"
-        android:layout_height="70dp"
-        android:layout_margin="16dp"
-        android:text="+"
-        android:gravity="center"
-        android:backgroundTint="#F86565"
-        android:textSize="40dp"
-        android:background="@drawable/custom_nuttron"
-        android:textColor="@color/white"
-        android:elevation="8dp"
-        app:layout_constraintBottom_toTopOf="@id/guideline_bottom_margin"
-        app:layout_constraintEnd_toStartOf="@id/guideline_end_margin"
-        app:layout_constraintBottom_toBottomOf="@id/guideline_bottom_margin"
-        app:layout_constraintEnd_toEndOf="@id/guideline_end_margin"
-        app:layout_constraintCircleRadius="20dp"
-        app:layout_constraintCircleAngle="45" />
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline_bottom_margin"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.9" />
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline_end_margin"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.9" />
+    tools:context=".activity.Customer_ListCouPonActivity">
     <ImageView
         android:id="@+id/btnBack"
         android:layout_width="35dp"
@@ -72,4 +40,5 @@
         app:layout_constraintTop_toBottomOf="@+id/textView10">
 
     </androidx.recyclerview.widget.RecyclerView>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
