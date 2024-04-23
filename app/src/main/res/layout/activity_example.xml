@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activity.ExampleActivity"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/idlayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        >
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar_orders"
+            android:layout_width="130dp"
+            android:layout_height="?attr/actionBarSize"
+            app:title="Đơn Hàng"
+            android:background="@color/green"
+             />
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar_product"
+            android:layout_width="130dp"
+            android:layout_height="?attr/actionBarSize"
+            app:title="Sản Phẩm"
+            android:background="@color/green"/>
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar_revenue"
+            android:layout_width="150dp"
+            android:layout_height="?attr/actionBarSize"
+            app:title="Doanh Thu"
+            android:background="@color/green"/>
+
+
+
+
+    </LinearLayout>
+    <FrameLayout
+        android:id="@+id/container_statistics"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/idlayout" />
+
+</LinearLayout>

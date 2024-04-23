@@ -3,6 +3,9 @@ plugins {
     id("com.google.gms.google-services")
 }
 
+
+
+
 android {
     namespace = "com.example.coffeeshopapp"
     compileSdk = 34
@@ -36,6 +39,7 @@ android {
 
 }
 
+
 dependencies {
     implementation("com.squareup.picasso:picasso:2.8")
     // Import the BoM for the Firebase platform
@@ -57,6 +61,10 @@ dependencies {
     implementation("androidx.navigation:navigation-ui:2.7.7")
     implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.7.0")
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.7.0")
+    implementation("com.github.bumptech.glide:glide:4.12.0")
+    annotationProcessor("com.github.bumptech.glide:compiler:4.12.0")
+    implementation("com.github.PhilJay:MPAndroidChart:v3.1.0")
+    implementation("com.google.firebase:firebase-analytics")
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
