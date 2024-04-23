@@ -124,6 +124,7 @@ public class SuccessfulOrder extends AppCompatActivity {
 
                     // Tạo một đối tượng Customer với thông tin từ Firebase
                     Customer customer = new Customer(customerName, customerAddress, customerPhone);
+                    // sinh mã tự động
                     String keyorder = UUID.randomUUID().toString().substring(0, 10);
 
                     // Tạo một đơn hàng mới

@@ -2,16 +2,13 @@
 <project version="4">
   <component name="deploymentTargetDropDown">
     <value>
-      <entry key="AddProduct">
+      <entry key="Bottom_nav">
         <State />
       </entry>
-      <entry key="All Tests">
+      <entry key="CouponActivity">
         <State />
       </entry>
-      <entry key="ManageProductActivity">
-        <State />
-      </entry>
-      <entry key="WelcomeActivity">
+      <entry key="ListCouponActivity">
         <State />
       </entry>
       <entry key="app">

@@ -29,7 +29,7 @@ public class ListProductActivity extends AppCompatActivity {
     RecyclerView recyclerView;
     RecycleViewAdapterProduct adapter;
     ArrayList<Product> datalist;
-    Button buttonthem;
+
     ImageView imgcart;
 
     final private DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Products");
