@@ -2,16 +2,10 @@
 <project version="4">
   <component name="deploymentTargetDropDown">
     <value>
-      <entry key="AddProduct">
+      <entry key="OrderShipper">
         <State />
       </entry>
-      <entry key="All Tests">
-        <State />
-      </entry>
-      <entry key="ManageProductActivity">
-        <State />
-      </entry>
-      <entry key="WelcomeActivity">
+      <entry key="Test_Activity">
         <State />
       </entry>
       <entry key="app">

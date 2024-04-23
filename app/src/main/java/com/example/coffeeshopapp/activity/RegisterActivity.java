@@ -175,9 +175,11 @@ public class RegisterActivity extends AppCompatActivity {
         databaseReference.child("Account").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if (snapshot.exists()) {
+                if (snapshot.hasChild(phone)) {
                     isExist = true;
+                    return;
                 }
+
             }
 
             @Override
