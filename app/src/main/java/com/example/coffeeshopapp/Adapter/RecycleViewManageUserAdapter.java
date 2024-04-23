@@ -12,8 +12,11 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.coffeeshopapp.R;
+import com.example.coffeeshopapp.activity.ManageUser;
 import com.example.coffeeshopapp.model.Account;
 import com.example.coffeeshopapp.model.Customer;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -56,32 +59,75 @@ public class RecycleViewManageUserAdapter extends RecyclerView.Adapter<RecycleVi
     public void onBindViewHolder(@NonNull RecycleViewManageUserAdapter.ViewHolder holder, int position) {
         Customer customer = customerList.get(position);
         holder.tvName.setText(customer.getName());
-        holder.imgActivity.setImageResource(R.drawable.hoatdong);
+        Account a = customer.getAccount();
+        boolean b = customer.getAccount().isState();
+        if(customer.getAccount().isState()){
+            holder.tvActivity.setText("Hoạt động");
+            holder.imgActivity.setImageResource(R.drawable.hoatdong);
+            holder.tvLock.setText("Khóa");
+        }
+        else{
+            holder.tvActivity.setText("Không hoạt động");
+            holder.imgActivity.setImageResource(R.drawable.khonghoatdong);
+            holder.tvLock.setText("Mở khóa");
+        }
         holder.tvSDT.setText(customer.getPhone());
         holder.tvLock.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DatabaseReference databaseAcountReferences  = FirebaseDatabase.getInstance().getReference("Account");
-                databaseAcountReferences.addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        for(DataSnapshot dataSnapshot: snapshot.getChildren()){
-                            Account a = dataSnapshot.getValue(Account.class);
-                            if(customer.getAccount().equals(a)){
-                                a.setState(false);
+                DatabaseReference databaseAcountReferences  = FirebaseDatabase.getInstance().getReference("Customer");
+                if(customer.getAccount().isState()){
+                    databaseAcountReferences.addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            for(DataSnapshot dataSnapshot: snapshot.getChildren()){
+                                Customer customerSnapshot = dataSnapshot.getValue(Customer.class);
+                                if(customerSnapshot.getId().equals(customer.getId())){
+                                    Account a = customerSnapshot.getAccount();
+                                    a.setState(false);
+                                    DatabaseReference databaseReference = dataSnapshot.getRef();
+                                    databaseReference.child("account").setValue(a);
+                                    databaseReference  = FirebaseDatabase.getInstance().getReference("Account");
+                                    databaseReference.child(customerSnapshot.getAccount().getUsername()).setValue(a);
+                                    Toast.makeText(context,"Đổi trạng thái thành công", Toast.LENGTH_SHORT).show();
+                                }
                             }
-                            Toast.makeText(context, "Đổi trạng thái thành công", Toast.LENGTH_LONG).show();
                         }
-                    }
 
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
 
-                    }
-                });
+                        }
+                    });
+                }
+                else{
+                    databaseAcountReferences.addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            for(DataSnapshot dataSnapshot: snapshot.getChildren()){
+                                Customer customerSnapshot = dataSnapshot.getValue(Customer.class);
+                                if(customerSnapshot.getId().equals(customer.getId())){
+                                    Account a = customerSnapshot.getAccount();
+                                    a.setState(true);
+                                    DatabaseReference databaseReference = dataSnapshot.getRef();
+                                    databaseReference.child("account").setValue(a);
+                                    databaseReference  = FirebaseDatabase.getInstance().getReference("Account");
+                                    databaseReference.child(customerSnapshot.getAccount().getUsername()).setValue(a);
+                                    Toast.makeText(context,"Đổi trạng thái thành công", Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+
+                        }
+                    });
+                }
             }
         });
     }
+
 
     @Override
     public int getItemCount() {
