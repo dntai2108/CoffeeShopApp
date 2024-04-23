@@ -63,7 +63,7 @@ public class AddCouponActivity extends AppCompatActivity {
                 String ngayBD = bd.edtNgaybatdau.getText().toString();
                 String ngayKT = bd.edtNgayketthuc.getText().toString();
                 String phantramgiam = bd.edtphantramgiam.getText().toString()+" %";
-                Coupon coupon= new Coupon(keyorder,magiamgia,ngayBD,ngayKT,phantramgiam);
+                Coupon coupon= new Coupon(keyorder,ngayBD,ngayKT,phantramgiam,magiamgia);
 
                 try {
                     databaseReference.child(keyorder).setValue(coupon, new DatabaseReference.CompletionListener() {

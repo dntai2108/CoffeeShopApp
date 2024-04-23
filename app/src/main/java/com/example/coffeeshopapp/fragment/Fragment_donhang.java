@@ -13,7 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.coffeeshopapp.Adapter.RecyclerViewDonHangAdapter;
+import com.example.coffeeshopapp.adapter.RecyclerViewDonHangAdapter;
 import com.example.coffeeshopapp.R;
 import com.example.coffeeshopapp.model.Order;
 import com.google.firebase.database.DataSnapshot;

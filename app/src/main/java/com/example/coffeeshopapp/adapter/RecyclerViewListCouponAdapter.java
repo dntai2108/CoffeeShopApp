@@ -1,4 +1,4 @@
-package com.example.coffeeshopapp.Adapter;
+package com.example.coffeeshopapp.adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.coffeeshopapp.R;
 
+
 import com.example.coffeeshopapp.model.Coupon;
 
 import java.util.ArrayList;
@@ -23,6 +24,16 @@ public class RecyclerViewListCouponAdapter extends RecyclerView.Adapter<Recycler
     public RecyclerViewListCouponAdapter(Context context, ArrayList<Coupon> arrayListCoupon) {
         this.context = context;
         this.arrayListCoupon = arrayListCoupon;
+    }
+    // dùng để xóa mã giảm giá trong list
+    public interface OnDeleteItemMagiamgiaClickListener {
+        void onDeleteItemClick(int position);
+    }
+
+    private RecyclerViewListCouponAdapter.OnDeleteItemMagiamgiaClickListener mListener;
+
+    public void OnDeleteItemMagiamgiaClickListener(RecyclerViewListCouponAdapter.OnDeleteItemMagiamgiaClickListener listener) {
+        mListener = listener;
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder{
@@ -55,12 +66,17 @@ public class RecyclerViewListCouponAdapter extends RecyclerView.Adapter<Recycler
         holder.thoigianbatdau.setText(coupon.getNgayBatDau());
         holder.thoigianketthuc.setText(coupon.getNgayKetThuc());
         holder.phantramgiam.setText(coupon.getPhanTramGiam());
-       /* holder.xoa.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
+        holder.xoa.setOnClickListener(v -> {
+            if (mListener != null) {
+                // Lấy vị trí của mục trong danh sách
+                int position1 = holder.getAdapterPosition();
+                // Kiểm tra xem vị trí hợp lệ
+                if (position1 != RecyclerView.NO_POSITION) {
+                    // Gọi phương thức onDeleteItemClick từ mListener và truyền vị trí của mục
+                    mListener.onDeleteItemClick(position1);
+                }
             }
-        });*/
+        });
     }
 
 
