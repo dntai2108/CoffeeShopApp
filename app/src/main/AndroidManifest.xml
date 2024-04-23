@@ -16,6 +16,12 @@
         android:theme="@style/Theme.CoffeeShopApp"
         tools:targetApi="31">
         <activity
+            android:name=".activity.SuccessNotifyActivityShipper"
+            android:exported="false" />
+        <activity
+            android:name=".activity.BottomNavigationActivityShipper"
+            android:exported="false" />
+        <activity
             android:name=".activity.DeliveryOrderShipper"
             android:exported="false" />
         <activity
