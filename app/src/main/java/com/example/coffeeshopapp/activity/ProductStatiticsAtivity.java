@@ -5,20 +5,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ListView;
 
-import com.example.coffeeshopapp.Adapter.CartAdapter;
 import com.example.coffeeshopapp.DAO.CartDAO;
-import com.example.coffeeshopapp.DAO.OrderDAO;
 import com.example.coffeeshopapp.R;
-import com.example.coffeeshopapp.model.Cart;
-import com.example.coffeeshopapp.model.CartDetail;
-import com.example.coffeeshopapp.model.Product;
-
-import java.util.HashMap;
-import java.util.LinkedHashMap;
 
 public class ProductStatiticsAtivity extends AppCompatActivity {
 

@@ -2,6 +2,7 @@ package com.example.coffeeshopapp.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Parcelable;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -18,6 +19,9 @@ import com.bumptech.glide.Glide;
 import com.example.coffeeshopapp.R;
 import com.example.coffeeshopapp.activity.DetailProductActivity;
 import com.example.coffeeshopapp.model.Product;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 
 import java.util.ArrayList;
@@ -26,6 +30,7 @@ import java.util.ArrayList;
 public class RecycleViewAdapterProduct extends RecyclerView.Adapter<RecycleViewAdapterProduct.ViewHolder> {
     private final ArrayList<Product> productList;
     private final Context context;
+    FirebaseStorage storage = FirebaseStorage.getInstance();
 
     public RecycleViewAdapterProduct(ArrayList<Product> productList, Context context) {
         this.productList = productList;
@@ -64,10 +69,14 @@ public class RecycleViewAdapterProduct extends RecyclerView.Adapter<RecycleViewA
         holder.textViewPrice.setText(product.getPrice());
         // Log đường dẫn ảnh
         Log.d("ProductImage", "Đường dẫn ảnh: " + product.getImage());
+        StorageReference storageRef = storage.getReference();
         // Load ảnh vào ImageView bằng Glide
-        Glide.with(context)
-                .load(product.getImage())
-                .into(holder.hinh);
+        storageRef.child(product.getImage()).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+            @Override
+            public void onSuccess(Uri uri) {
+                Glide.with(context).load(uri.toString()).into(holder.hinh);
+            }
+        });
         // truyền sáng detail
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override

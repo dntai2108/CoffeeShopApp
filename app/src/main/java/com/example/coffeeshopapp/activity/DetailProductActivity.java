@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.RadioButton;
@@ -15,9 +16,12 @@ import com.example.coffeeshopapp.databinding.ActivityDetailProductBinding;
 import com.example.coffeeshopapp.model.Cart;
 import com.example.coffeeshopapp.model.Product;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 public class DetailProductActivity extends AppCompatActivity {
     // Khai báo biến để lưu số lượng sản phẩm
@@ -25,6 +29,8 @@ public class DetailProductActivity extends AppCompatActivity {
     // Khai báo tham chiếu đến node hoặc bảng trong Firebase Realtime Database
     private DatabaseReference cartRef;
     private DatabaseReference customerRef;
+    FirebaseStorage storage = FirebaseStorage.getInstance();
+
 
     private Context context;
     private ActivityDetailProductBinding bd;
@@ -40,7 +46,13 @@ public class DetailProductActivity extends AppCompatActivity {
         customerRef = FirebaseDatabase.getInstance().getReference("Customer");
         //Lấy dữ liệu của product
         Product product = getIntent().getParcelableExtra("product");
-        Glide.with(context).load(product.getImage()).into(bd.imgctsp);
+        StorageReference storageRef = storage.getReference();
+        storageRef.child(product.getImage()).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+            @Override
+            public void onSuccess(Uri uri) {
+                Glide.with(context).load(uri.toString()).into(bd.imgctsp);
+            }
+        });
         bd.tvNameItem.setText(product.getName());
         bd.tvPriceItemfl.setText(product.getPrice());
         setEvent();

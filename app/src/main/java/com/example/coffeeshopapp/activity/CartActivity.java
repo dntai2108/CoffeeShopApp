@@ -91,6 +91,14 @@ public class CartActivity extends AppCompatActivity implements CartItemAdapter.O
 
             }
         });
+        // nút chọn mã giảm giá
+        bd.btnSelectCoupon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent= new Intent(CartActivity.this,Customer_ListCouPonActivity.class);
+                startActivity(intent);
+            }
+        });
         // nút áp mã giảm giá
         bd.btnCouPon.setOnClickListener(new View.OnClickListener() {
             @Override

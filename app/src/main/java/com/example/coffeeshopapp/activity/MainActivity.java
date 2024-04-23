@@ -12,7 +12,7 @@ import android.content.Intent;
 import android.os.Bundle;
 
 
-import com.example.coffeeshopapp.Adapter.Myadapter;
+import com.example.coffeeshopapp.adapter.Myadapter;
 import com.example.coffeeshopapp.R;
 import com.example.coffeeshopapp.model.DataClass;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;

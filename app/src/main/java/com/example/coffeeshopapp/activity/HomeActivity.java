@@ -1,27 +1,16 @@
 package com.example.coffeeshopapp.activity;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.MenuItem;
-import android.view.View;
 
 import com.example.coffeeshopapp.R;
 import com.example.coffeeshopapp.adapter.ItemAdapter;
-import com.example.coffeeshopapp.adapter.NewProductAdapter;
 import com.example.coffeeshopapp.databinding.ActivityHomeBinding;
 import com.example.coffeeshopapp.model.Product;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;

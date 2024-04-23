@@ -9,7 +9,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 
-import com.example.coffeeshopapp.Adapter.RecycleViewManageOrderAdapter;
+import com.example.coffeeshopapp.adapter.RecycleViewManageOrderAdapter;
 import com.example.coffeeshopapp.R;
 import com.example.coffeeshopapp.databinding.ActivityManageOrderBinding;
 import com.example.coffeeshopapp.model.Order;
