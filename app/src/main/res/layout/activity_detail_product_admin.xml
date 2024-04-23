@@ -62,30 +62,10 @@
         android:layout_height="wrap_content"
         android:hint="Mô tả"
         />
-    <RadioGroup
-        android:id="@+id/radioGroupSize"
-        android:layout_below="@+id/edtDescription"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center">
-
-        <RadioButton
-            android:id="@+id/radioButtonSizeM"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="M" />
-
-        <RadioButton
-            android:id="@+id/radioButtonSizeL"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="L" />
-    </RadioGroup>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/radioGroupSize"
+        android:layout_below="@+id/edtDescription"
         android:orientation="horizontal"
         android:gravity="center">
         <Button
@@ -112,6 +92,4 @@
             android:layout_below="@id/edtGia"
             android:layout_centerHorizontal="true"/>
     </LinearLayout>
-
-
 </RelativeLayout>

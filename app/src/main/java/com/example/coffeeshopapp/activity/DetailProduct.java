@@ -55,12 +55,6 @@ public class DetailProduct extends AppCompatActivity {
         bd.edtProductName.setText(product.getName().toString());
         bd.edtProductPrice.setText(product.getPrice().toString());
         bd.edtDescription.setText(product.getDescription().toString());
-        if(product.getSize().toString().equals("L")){
-            bd.radioButtonSizeL.setChecked(true);
-        }
-        else{
-            bd.radioButtonSizeM.setChecked(true);
-        }
         storageRef.child(product.getImage()).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override
             public void onSuccess(Uri uri) {
@@ -165,12 +159,6 @@ public class DetailProduct extends AppCompatActivity {
                         product.setName(bd.edtProductName.getText().toString());
                         product.setPrice(Double.parseDouble(bd.edtProductPrice.getText().toString()));
                         product.setDescription(bd.edtDescription.getText().toString());
-                        if(bd.radioButtonSizeM.isChecked()){
-                            product.setSize("M");
-                        }
-                        else{
-                            product.setSize("L");
-                        }
                         UploadTask uploadTask = imageChild.putBytes(data);
                         uploadTask.addOnFailureListener(new OnFailureListener() {
                             @Override

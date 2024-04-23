@@ -83,13 +83,6 @@ public class AddProduct extends AppCompatActivity {
                 String name = bd.edtTenSP.getText().toString();
                 Double price = Double.parseDouble(bd.edtGia.getText().toString());
                 String description = bd.edtDescription.getText().toString();
-                String size = "";
-                if(bd.radioButtonSizeL.isChecked()){
-                    size = "L";
-                }
-                else{
-                    size = "M";
-                }
                 StorageReference storageRef = storage.getReference();
                 ByteArrayOutputStream baos = new ByteArrayOutputStream();
                 bd.imgProduct.setDrawingCacheEnabled(true);
@@ -106,7 +99,7 @@ public class AddProduct extends AppCompatActivity {
                 Date curDate = new Date();
                 SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                 String formattedDateTime = dateFormat.format(curDate);
-                Product p = new Product(keyProduct, name, key,  price,  description,  size,formattedDateTime);
+                Product p = new Product(keyProduct, name, key,  price,  description,formattedDateTime);
                 firebaseDatabase.child("Product").child(keyProduct).setValue(p);
                 Toast.makeText(AddProduct.this,"Thêm thành công",Toast.LENGTH_LONG).show();
                 onBackPressed();
