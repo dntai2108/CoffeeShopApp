@@ -1,6 +1,7 @@
 package com.example.coffeeshopapp.adapter;
 
 import android.content.Context;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,12 +15,18 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.coffeeshopapp.R;
 import com.example.coffeeshopapp.model.Cart;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
 public class CartItemAdapter extends RecyclerView.Adapter<CartItemAdapter.CartItemViewHolder> {
     private List<Cart> cartItemList;
     private Context context;
+
+    FirebaseStorage storage = FirebaseStorage.getInstance();
 
     public CartItemAdapter(List<Cart> cartItemList, Context context) {
         this.cartItemList = cartItemList;
@@ -81,9 +88,16 @@ public class CartItemAdapter extends RecyclerView.Adapter<CartItemAdapter.CartIt
         holder.tvProductPrice.setText(cartItem.getProduct().getPrice());
         holder.tvQuantity.setText(String.valueOf(cartItem.getQuantity()));
         // Sử dụng Glide để tải hình ảnh và thiết lập vào ImageView
-        Glide.with(holder.itemView.getContext())
-                .load(cartItem.getProduct().getImage()) // Thay thế "getImageUrl()" bằng phương thức lấy URL của hình ảnh từ đối tượng Productimgurl của bạn
-                .into(holder.imgproductflc);
+        StorageReference storageRef = storage.getReference();
+        storageRef.child(cartItem.getProduct().getImage()).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+            @Override
+            public void onSuccess(Uri uri) {
+                Picasso.get().load(uri.toString()).into(holder.imgproductflc);
+            }
+        });
+//        Glide.with(holder.itemView.getContext())
+//                .load(cartItem.getProduct().getImage()) // Thay thế "getImageUrl()" bằng phương thức lấy URL của hình ảnh từ đối tượng Productimgurl của bạn
+//                .into(holder.imgproductflc);
         // xử lí xóa sản phẩm trong giỏ
         holder.btnDeleteproductflc.setOnClickListener(new View.OnClickListener() {
             @Override
