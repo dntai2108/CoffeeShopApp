@@ -3,6 +3,7 @@ package com.example.coffeeshopapp.adapter;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Parcelable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -76,7 +77,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, DetailProductActivity.class);
-                intent.putExtra("productId", position);
+                intent.putExtra("product", (Parcelable) product);
                 context.startActivity(intent);
             }
         });
