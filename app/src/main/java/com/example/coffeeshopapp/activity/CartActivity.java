@@ -14,9 +14,11 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.example.coffeeshopapp.R;
+import com.example.coffeeshopapp.adapter.Customer_RecyclerViewListCouPonAdapter;
 import com.example.coffeeshopapp.databinding.ActivityCartBinding;
 import com.example.coffeeshopapp.model.Cart;
 import com.example.coffeeshopapp.adapter.CartItemAdapter;
+import com.example.coffeeshopapp.model.Coupon;
 import com.example.coffeeshopapp.model.Product;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -30,7 +32,10 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CartActivity extends AppCompatActivity implements CartItemAdapter.OnDeleteItemClickListener, CartItemAdapter.OnQuantityChangeListener {
+public class CartActivity extends AppCompatActivity implements
+        CartItemAdapter.OnDeleteItemClickListener,
+        CartItemAdapter.OnQuantityChangeListener {
+
     private RecyclerView recyclerView;
     private CartItemAdapter cartItemAdapter;
     private List<Cart> cartItemList;
@@ -59,14 +64,26 @@ public class CartActivity extends AppCompatActivity implements CartItemAdapter.O
         cartItemAdapter = new CartItemAdapter(cartItemList, this);
         recyclerView.setAdapter(cartItemAdapter);
 
-
+        eventNhanMaGiamGia();
         fetchDataFromFirebase();
         layThongTinDiaChi();
         cartItemAdapter.setOnDeleteItemClickListener(this);
         cartItemAdapter.setOnQuantityChangeListener(this);
         setEvent();
 
+
     }// ngoài onCreate()
+
+    private void eventNhanMaGiamGia() {
+        // nhận mã giảm giá từ list
+        Intent intent1 = getIntent();
+        if (intent1 != null) {
+            String couponCode = intent1.getStringExtra("COUPON_CODE");
+            String discountPercent = intent1.getStringExtra("DISCOUNT_PERCENT");
+            bd.tvCoupon.setText(couponCode);
+            bd.tvPhantramCoupon.setText(discountPercent);
+        }
+    }
 
     // Nhận thng tin cập nhật địa chỉ
     @Override
@@ -95,32 +112,30 @@ public class CartActivity extends AppCompatActivity implements CartItemAdapter.O
         bd.btnSelectCoupon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent= new Intent(CartActivity.this,Customer_ListCouPonActivity.class);
+                Intent intent = new Intent(CartActivity.this, Customer_ListCouPonActivity.class);
                 startActivity(intent);
             }
         });
+
+
         // nút áp mã giảm giá
         bd.btnCouPon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String couponCode = bd.edtCoupon.getText().toString().trim();
-                if (couponCode.isEmpty()) {
-                    // Kiểm tra xem mã giảm giá có được nhập hay không
-                    Toast.makeText(CartActivity.this, "Vui lòng nhập mã giảm giá", Toast.LENGTH_SHORT).show();
-                } else {
+                String couponPercent = bd.tvPhantramCoupon.getText().toString().trim();
+
                     // Kiểm tra xem mã giảm giá có đúng không
-                    if (couponCode.equals(magiamgia)) {
+
                         // Áp dụng mã giảm giá
-                        double totalPrice = Double.parseDouble(bd.tvpricetotalofcart.getText().toString()
+                        double totalPrice = Double.parseDouble(bd.tvpriceofcart.getText().toString()
                                 .replace(" vnd", "").replace(",", ""));
-                        double discountedPrice = totalPrice * giam5phantram;
-                        displayTotalPrice(discountedPrice);
+
+                        double giamgia=Double.parseDouble(couponPercent.replace(" %",""));
+
+                        displayTotalPrice(totalPrice, giamgia);
                         Toast.makeText(CartActivity.this, "Áp dụng mã giảm giá thành công", Toast.LENGTH_SHORT).show();
-                    } else {
-                        // Mã giảm giá không đúng
-                        Toast.makeText(CartActivity.this, "Mã giảm giá không hợp lệ", Toast.LENGTH_SHORT).show();
-                    }
-                }
+
+
             }
         });
         // nút đặt hàng bằng tiền mặt
@@ -167,6 +182,15 @@ public class CartActivity extends AppCompatActivity implements CartItemAdapter.O
         bd.tvpriceofcart.setText(formattedPrice + " vnd");
         // tổng tiền khi cộng thêm phí vận chuyển
         String formattedPricetotal = decimalFormat.format(totalPrice + phivanchuyen);
+        bd.tvpricetotalofcart.setText(formattedPricetotal + " vnd");
+    }
+    private void displayTotalPrice(double totalPrice, double percent) {
+        // Chuyển đổi tổng giá tiền sang định dạng số tiền Việt Nam
+        String formattedPrice = decimalFormat.format(totalPrice);
+        // Hiển thị tổng giá tiền trên giao diện khi chưa có phí vận chuyển
+        bd.tvpriceofcart.setText(formattedPrice + " vnd");
+        // tổng tiền khi cộng thêm phí vận chuyển
+        String formattedPricetotal = decimalFormat.format((totalPrice*((100 - percent)/100)) + phivanchuyen);
         bd.tvpricetotalofcart.setText(formattedPricetotal + " vnd");
     }
 
@@ -295,4 +319,7 @@ public class CartActivity extends AppCompatActivity implements CartItemAdapter.O
             calculateTotalPrice();
         }
     }
+
+
 }
+
