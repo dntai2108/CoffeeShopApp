@@ -1,4 +1,4 @@
-package com.example.coffeeshopapp.Adapter;
+package com.example.coffeeshopapp.adapter;
 
 import static com.example.coffeeshopapp.activity.StatisticsActivity.selectedDisplay;
 

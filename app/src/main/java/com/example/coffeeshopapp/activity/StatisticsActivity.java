@@ -18,7 +18,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.coffeeshopapp.Adapter.OrderAdapter;
+import com.example.coffeeshopapp.adapter.OrderAdapter;
 import com.example.coffeeshopapp.DAO.OrderDAO;
 import com.example.coffeeshopapp.DAO.OrderDataListener;
 import com.example.coffeeshopapp.R;
