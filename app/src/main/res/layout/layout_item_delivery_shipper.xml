@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
-    android:padding="16dp"
+    android:padding="0dp"
     android:background="@color/gray2">
 
     <LinearLayout
@@ -30,11 +30,12 @@
                 android:layout_marginTop="10dp"
                 android:padding="5dp"
                 android:text="#DH123456"
-                android:textSize="16sp"
+                android:textSize="10sp"
                 android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/ordertime"
+                android:textSize="10dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="5dp"
@@ -50,10 +51,10 @@
                 android:id="@+id/status"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-
+                android:textSize="10dp"
                 android:layout_marginTop="10dp"
                 android:padding="5dp"
-                android:text="Đang chuẩn bị đơn hàng"
+                android:text="chuẩn bị đơn hàng"
                 android:textColor="@color/green" />
 
             <TextView
@@ -61,11 +62,17 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="2dp"
+                android:textSize="10dp"
                 android:padding="5dp"
                 android:text="50.000 VND" />
 
         </LinearLayout>
-
+        <Button
+            android:id="@+id/btnXem"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Xem"
+            android:layout_gravity="center" />
     </LinearLayout>
 
 

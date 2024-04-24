@@ -285,6 +285,19 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/cardviewthongtindonhang"></androidx.recyclerview.widget.RecyclerView>
-
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnHuy"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:text="Hủy"
+        android:textColor="@color/white"
+        android:textSize="23dp"
+        android:background="@drawable/custom_button_mauxanh"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/recyclerviewdetaiorder"></androidx.appcompat.widget.AppCompatButton>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

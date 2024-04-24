@@ -15,6 +15,16 @@ public class Order implements Serializable {
     private String totalAmount;
     private Customer customer;
 
+    private String shipperId;
+
+    public String getShipperID() {
+        return shipperId;
+    }
+
+    public void setShipperID(String shipperID) {
+        this.shipperId = shipperID;
+    }
+
     public Order() {
 
     }

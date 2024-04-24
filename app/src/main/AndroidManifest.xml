@@ -16,19 +16,22 @@
         android:theme="@style/Theme.CoffeeShopApp"
         tools:targetApi="31">
         <activity
+            android:name=".activity.shipper_chitietdonhang"
+            android:exported="false" />
+        <activity
             android:name=".activity.SuccessNotifyActivityShipper"
             android:exported="false" />
         <activity
             android:name=".activity.BottomNavigationActivityShipper"
-            android:exported="false" />
-        <activity
-            android:name=".activity.DeliveryOrderShipper"
-            android:exported="false" />
-        <activity
-            android:name=".activity.ListCouponActivity"
             android:exported="true" />
         <activity
-            android:name=".activity.AddCouponActivity"
+            android:name=".activity.DeliveryOrderShipper"
+            android:exported="true" />
+        <activity
+            android:name=".activity.Customer_ListCouPonActivity"
+            android:exported="true" />
+        <activity
+            android:name=".activity.Admin_AddCouponActivity"
             android:exported="true" />
         <activity
             android:name=".activity.ManageOrder"
@@ -104,6 +107,9 @@
             android:exported="false" />
         <activity
             android:name=".activity.ListProductActivity"
+            android:exported="true" />
+        <activity
+            android:name=".activity.OrderShipper"
             android:exported="true" />
 
         <meta-data

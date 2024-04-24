@@ -1,14 +1,29 @@
 package com.example.coffeeshopapp.fragment;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.coffeeshopapp.R;
+import com.example.coffeeshopapp.adapter.RecycleViewFragmentDelivering;
+import com.example.coffeeshopapp.databinding.FragmentDeliveringBinding;
+import com.example.coffeeshopapp.model.Order;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -16,7 +31,12 @@ import com.example.coffeeshopapp.R;
  * create an instance of this fragment.
  */
 public class Fragment_Delivering extends Fragment {
+    private FragmentDeliveringBinding bd;
 
+    private ArrayList<Order> orderList;
+    private RecycleViewFragmentDelivering recycleViewFragmentDelivering;
+
+    DatabaseReference databaseReferences = FirebaseDatabase.getInstance().getReference("Customer");
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -60,7 +80,58 @@ public class Fragment_Delivering extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        bd = FragmentDeliveringBinding.inflate(getLayoutInflater());
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment__delivering, container, false);
+        return bd.getRoot();
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        setEvent();
+    }
+
+    private void setEvent() {
+        this.orderList = new ArrayList<>();
+        reloadOrder();
+        bd.RecyclerViewOrder.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false));
+        recycleViewFragmentDelivering = new RecycleViewFragmentDelivering(orderList,getContext());
+        bd.RecyclerViewOrder.setAdapter(recycleViewFragmentDelivering);
+    }
+
+    public void reloadOrder(){
+        databaseReferences.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                SharedPreferences sharedPreferences = getContext().getSharedPreferences("User", getContext().MODE_PRIVATE);
+                String userId = sharedPreferences.getString("userId", "");
+                orderList.clear();
+                for(DataSnapshot dataSnapshot: snapshot.getChildren()){
+                    for(DataSnapshot orderSnapshot: dataSnapshot.child("Order").getChildren()){
+                        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                        Order o = new Order();
+                        String orderDate = orderSnapshot.child("orderDate").getValue(String.class);
+                        String orderId = orderSnapshot.child("orderId").getValue(String.class);
+                        String status = orderSnapshot.child("status").getValue(String.class);
+                        String totalAmount = orderSnapshot.child("totalAmount").getValue(String.class);
+                        String shipperId = orderSnapshot.child("shipperId").getValue(String.class);
+                        o.setOrderId(orderId);
+                        o.setOrderDate(orderDate);
+                        o.setStatus(status);
+                        o.setTotalAmount(totalAmount);
+                        o.setShipperID(shipperId);
+                        if(o.getStatus().equalsIgnoreCase("Chuẩn bị đơn hàng") && o.getShipperID().equals(userId)){
+                            orderList.add(o);
+                        }
+                    }
+                    recycleViewFragmentDelivering.notifyDataSetChanged();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 }
