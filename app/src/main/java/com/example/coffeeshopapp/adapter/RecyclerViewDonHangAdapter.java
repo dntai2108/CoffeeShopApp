@@ -73,6 +73,7 @@ public class RecyclerViewDonHangAdapter extends RecyclerView.Adapter<RecyclerVie
                 edittor.putString("orderid", orderid);
                 edittor.commit();
                 Intent intent = new Intent(context, Chitiet_donhang_dadat_activity.class);
+                intent.putExtra("madonhang", orderid);
                 context.startActivity(intent);
             }
         });

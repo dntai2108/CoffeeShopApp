@@ -32,7 +32,6 @@ public class AccountActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(AccountActivity.this, LoginActivity.class));
-                finish();
             }
         });
         binding.ivQuayLai.setOnClickListener(new View.OnClickListener() {

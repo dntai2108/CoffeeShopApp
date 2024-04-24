@@ -62,7 +62,6 @@ public class Chitiet_donhang_dadat_activity extends AppCompatActivity {
 
         // Khởi tạo RecyclerView
         recyclerView = findViewById(R.id.recyclerviewdetaiorder);
-        ImageView btnBack = findViewById(R.id.btnBack);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
 
@@ -73,16 +72,6 @@ public class Chitiet_donhang_dadat_activity extends AppCompatActivity {
         layThongTinDiaChi();
         layThongTinDonHang();
         fetchDataFromFirebase();
-        btnBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                FragmentManager fragmentManager = getSupportFragmentManager();
-                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                fragmentTransaction.replace(R.id.framelayout, new Fragment_donhang());
-                fragmentTransaction.commit();
-                finish();
-            }
-        });
 
     }
 
@@ -93,6 +82,7 @@ public class Chitiet_donhang_dadat_activity extends AppCompatActivity {
                 showYesNoDialog(new YesNoDialogListener() {
                     @Override
                     public void onYesClicked() {
+
                         String maDonHang = getIntent().getStringExtra("madonhang");
                         DatabaseReference databaseReference1 = FirebaseDatabase.getInstance().getReference("Customer");
                         databaseReference1.addValueEventListener(new ValueEventListener() {
@@ -100,9 +90,13 @@ public class Chitiet_donhang_dadat_activity extends AppCompatActivity {
                             public void onDataChange(@NonNull DataSnapshot snapshot) {
                                 for (DataSnapshot customerSnapshot : snapshot.getChildren()) {
                                     for (DataSnapshot orderSnapshot : customerSnapshot.child("Order").getChildren()) {
-                                        orderSnapshot.getRef().child("status").setValue("Đã hủy");
-                                        Toast.makeText(Chitiet_donhang_dadat_activity.this, "Hủy đơn hàng thành công", Toast.LENGTH_LONG).show();
-                                        databaseReference1.removeEventListener(this);
+                                        if (orderSnapshot.getKey().equals(maDonHang)) {
+                                            orderSnapshot.getRef().child("status").setValue("Đã hủy");
+                                            Toast.makeText(Chitiet_donhang_dadat_activity.this, "Hủy đơn hàng thành công", Toast.LENGTH_LONG).show();
+                                            bd.btnHuy.setVisibility(View.GONE);
+                                            databaseReference1.removeEventListener(this);
+                                        }
+
                                     }
                                 }
                             }
@@ -119,6 +113,14 @@ public class Chitiet_donhang_dadat_activity extends AppCompatActivity {
                         return;
                     }
                 });
+            }
+        });
+
+        bd.btnBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Chitiet_donhang_dadat_activity.this, Fragment_donhang.class);
+                startActivity(intent);
             }
         });
     }

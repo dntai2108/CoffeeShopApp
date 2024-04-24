@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 
 import com.example.coffeeshopapp.databinding.ActivitySuccessfulOrderBinding;
+import com.example.coffeeshopapp.fragment.Fragment_trangchu;
 import com.example.coffeeshopapp.model.Cart;
 import com.example.coffeeshopapp.model.Customer;
 import com.example.coffeeshopapp.model.Order;
@@ -56,7 +57,7 @@ public class SuccessfulOrder extends AppCompatActivity {
         bd.btnTieptucmuasam.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(SuccessfulOrder.this, ListProductActivity.class);
+                Intent intent = new Intent(SuccessfulOrder.this, Fragment_trangchu.class);
                 startActivity(intent);
             }
         });

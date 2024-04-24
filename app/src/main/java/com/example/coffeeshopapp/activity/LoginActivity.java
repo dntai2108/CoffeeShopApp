@@ -168,6 +168,9 @@ public class LoginActivity extends AppCompatActivity {
                                     } else if (role.equals("admin")) {
                                         Intent intent = new Intent(LoginActivity.this, ManageProductActivity.class);
                                         startActivity(intent);
+                                    } else {
+                                        Intent intent = new Intent(LoginActivity.this, BottomNavigationActivityShipper.class);
+                                        startActivity(intent);
                                     }
 
                                 } else {

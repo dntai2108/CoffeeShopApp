@@ -13,10 +13,6 @@ import com.example.coffeeshopapp.databinding.ActivityDeliveryOrderShipperBinding
 import com.example.coffeeshopapp.databinding.ActivityOrderShipperBinding;
 import com.example.coffeeshopapp.fragment.Fragment_Deliveried;
 import com.example.coffeeshopapp.fragment.Fragment_Delivering;
-import com.example.coffeeshopapp.fragment.Fragment_donhang;
-import com.example.coffeeshopapp.fragment.Fragment_mon;
-import com.example.coffeeshopapp.fragment.Fragment_taikhoan;
-import com.example.coffeeshopapp.fragment.Fragment_trangchu;
 
 public class DeliveryOrderShipper extends AppCompatActivity {
     private ActivityDeliveryOrderShipperBinding bd;
@@ -24,27 +20,27 @@ public class DeliveryOrderShipper extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        bd= ActivityDeliveryOrderShipperBinding.inflate(getLayoutInflater());
+        bd = ActivityDeliveryOrderShipperBinding.inflate(getLayoutInflater());
         setContentView(bd.getRoot());
         if (savedInstanceState == null) {
             replaceFragment(new Fragment_Delivering());
         }
         bd.navshipper.setOnItemSelectedListener(item -> {
-            int itemId=item.getItemId();
-            if(itemId==R.id.nav_danggiao){
+            int itemId = item.getItemId();
+            if (itemId == R.id.nav_danggiao) {
                 replaceFragment(new Fragment_Delivering());
             }
-            if(itemId==R.id.nav_dagiao){
+            if (itemId == R.id.nav_dagiao) {
                 replaceFragment(new Fragment_Deliveried());
             }
             return true;
         });
     }
 
-    private void replaceFragment(Fragment fragment){
-        FragmentManager fragmentManager= getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction= fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.FrameLayoutOrder,fragment);
+    private void replaceFragment(Fragment fragment) {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.FrameLayoutOrder, fragment);
         fragmentTransaction.commit();
     }
 }

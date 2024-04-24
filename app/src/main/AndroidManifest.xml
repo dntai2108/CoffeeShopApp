@@ -22,6 +22,9 @@
             android:name=".activity.SuccessNotifyActivityShipper"
             android:exported="false" />
         <activity
+            android:name=".activity.Bottom_nav"
+            android:exported="false" />
+        <activity
             android:name=".activity.BottomNavigationActivityShipper"
             android:exported="false" />
         <activity
@@ -87,9 +90,6 @@
         <activity
             android:name=".activity.Chitiet_donhang_dadat_activity"
             android:exported="false" />
-        <activity
-            android:name=".activity.Bottom_nav"
-            android:exported="true" />
         <activity
             android:name=".activity.UpdateAddress"
             android:exported="false" />

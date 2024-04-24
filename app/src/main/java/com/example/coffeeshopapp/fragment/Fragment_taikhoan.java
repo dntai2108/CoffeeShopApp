@@ -1,5 +1,6 @@
 package com.example.coffeeshopapp.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -11,6 +12,12 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.coffeeshopapp.R;
+import com.example.coffeeshopapp.activity.AccountActivity;
+import com.example.coffeeshopapp.activity.HomeActivity;
+import com.example.coffeeshopapp.activity.LoginActivity;
+import com.example.coffeeshopapp.activity.ProfileActivity;
+import com.example.coffeeshopapp.databinding.ActivityAccountBinding;
+import com.example.coffeeshopapp.databinding.FragmentTaikhoanBinding;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -27,6 +34,8 @@ public class Fragment_taikhoan extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+
+    private FragmentTaikhoanBinding binding;
 
     public Fragment_taikhoan() {
         // Required empty public constructor
@@ -62,12 +71,37 @@ public class Fragment_taikhoan extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_taikhoan, container, false);
+        binding = FragmentTaikhoanBinding.inflate(getLayoutInflater());
+        return binding.getRoot();
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        setEven();
+    }
+
+    private void setEven() {
+        binding.tvProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getContext(), ProfileActivity.class));
+            }
+        });
+
+        binding.btnLogout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getContext(), LoginActivity.class));
+                getActivity().finish();
+            }
+        });
+        binding.ivQuayLai.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getContext(), HomeActivity.class));
+
+            }
+        });
     }
 }
