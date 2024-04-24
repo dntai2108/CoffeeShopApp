@@ -76,6 +76,13 @@ public class Chitiet_donhang_dadat_activity extends AppCompatActivity {
     }
 
     private void setEvent() {
+        boolean flag = getIntent().getBooleanExtra("flag",false);
+        if(flag){
+            bd.btnHuy.setVisibility(View.VISIBLE);
+        }
+        else{
+            bd.btnHuy.setVisibility(View.GONE);
+        }
         bd.btnHuy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -96,7 +103,6 @@ public class Chitiet_donhang_dadat_activity extends AppCompatActivity {
                                             bd.btnHuy.setVisibility(View.GONE);
                                             databaseReference1.removeEventListener(this);
                                         }
-
                                     }
                                 }
                             }

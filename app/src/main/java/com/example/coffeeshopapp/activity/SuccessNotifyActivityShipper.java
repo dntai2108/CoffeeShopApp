@@ -23,7 +23,7 @@ public class SuccessNotifyActivityShipper extends AppCompatActivity {
         bd.btnContinue.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(SuccessNotifyActivityShipper.this,OrderShipper.class);
+                Intent intent = new Intent(SuccessNotifyActivityShipper.this,BottomNavigationActivityShipper.class);
                 startActivity(intent);
             }
         });

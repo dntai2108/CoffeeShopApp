@@ -102,6 +102,11 @@ public class Fragment_Deliveried extends Fragment {
         recycleViewFragmentDeliveried = new RecycleViewFragmentDeliveried(orderList,getContext());
         bd.recyclervieworder.setAdapter(recycleViewFragmentDeliveried);
     }
+    @Override
+    public void onResume() {
+        super.onResume();
+        reloadOrder();
+    }
     public void reloadOrder(){
         databaseReferences.addValueEventListener(new ValueEventListener() {
             @Override

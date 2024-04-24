@@ -21,8 +21,11 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -41,6 +44,8 @@ public class DetailProduct extends AppCompatActivity {
     private ActivityDetailProductAdminBinding bd;
     FirebaseStorage storage = FirebaseStorage.getInstance();
     DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
+    DatabaseReference databaseReferenceCustomer = FirebaseDatabase.getInstance().getReference("Customer");
+    boolean flag = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,34 +96,60 @@ public class DetailProduct extends AppCompatActivity {
         bd.btnDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 showYesNoDialog(new YesNoDialogListener() {
                     @Override
                     public void onYesClicked() {
-                        StorageReference desertRef = storageRef.child(product.getImage());
-                        Drawable drawable = bd.imgProduct.getDrawable();
-                        if (drawable != null) {
-                            desertRef.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
-                                @Override
-                                public void onSuccess(Void aVoid) {
-                                    databaseReference.child("Product").child(product.getId()).removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
-                                        @Override
-                                        public void onComplete(@NonNull Task<Void> task) {
-                                            Toast.makeText(DetailProduct.this, "Xóa thành công", Toast.LENGTH_LONG).show();
-                                            onBackPressed();
+                        databaseReferenceCustomer.addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                for(DataSnapshot customerSnapshot : snapshot.getChildren()){
+                                    for(DataSnapshot orderSnapshot: customerSnapshot.child("Order").getChildren()){
+                                        for(DataSnapshot cartSnapshot: orderSnapshot.child("cartList").getChildren()){
+                                            if(cartSnapshot.child("product").child("id").getValue(String.class).equals(product.getId())){
+                                                flag = false;
+                                                databaseReferenceCustomer.removeEventListener(this);
+                                                break;
+                                            }
                                         }
-                                    });
+                                    }
                                 }
-                            }).addOnFailureListener(new OnFailureListener() {
-                                @Override
-                                public void onFailure(@NonNull Exception exception) {
-                                    Toast.makeText(DetailProduct.this, "Có lỗi khi xóa", Toast.LENGTH_LONG).show();
-                                }
-                            });
-                        } else {
-                            Toast.makeText(DetailProduct.this, "Xóa ảnh thành công", Toast.LENGTH_LONG).show();
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
+
+                            }
+                        });
+                        if(flag){
+                            StorageReference desertRef = storageRef.child(product.getImage());
+                            Drawable drawable = bd.imgProduct.getDrawable();
+                            if (drawable != null) {
+                                desertRef.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+                                    @Override
+                                    public void onSuccess(Void aVoid) {
+                                        databaseReference.child("Product").child(product.getId()).removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
+                                            @Override
+                                            public void onComplete(@NonNull Task<Void> task) {
+                                                Toast.makeText(DetailProduct.this, "Xóa thành công", Toast.LENGTH_LONG).show();
+                                                onBackPressed();
+                                            }
+                                        });
+                                    }
+                                }).addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception exception) {
+                                        Toast.makeText(DetailProduct.this, "Có lỗi khi xóa", Toast.LENGTH_LONG).show();
+                                    }
+                                });
+                            } else {
+                                Toast.makeText(DetailProduct.this, "Xóa ảnh thành công", Toast.LENGTH_LONG).show();
+                            }
+                        }
+                        else{
+                            Toast.makeText(DetailProduct.this, "Sản phẩm này không thể xóa", Toast.LENGTH_LONG).show();
                         }
                     }
-
                     @Override
                     public void onNoClicked() {
                         return;

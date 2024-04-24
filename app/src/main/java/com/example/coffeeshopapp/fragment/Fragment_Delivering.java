@@ -99,6 +99,12 @@ public class Fragment_Delivering extends Fragment {
         bd.RecyclerViewOrder.setAdapter(recycleViewFragmentDelivering);
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        reloadOrder();
+    }
+
     public void reloadOrder(){
         databaseReferences.addValueEventListener(new ValueEventListener() {
             @Override

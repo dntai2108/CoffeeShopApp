@@ -98,9 +98,22 @@ public class shipper_chitietdonhang extends AppCompatActivity {
                             for(DataSnapshot customerSnapshot: snapshot.getChildren()){
                                 for(DataSnapshot orderSnapshot: customerSnapshot.child("Order").getChildren()){
                                     if(orderSnapshot.getKey().equals(maDonHang)){
-                                        orderSnapshot.getRef().child("status").setValue("Đang giao");
-                                        Toast.makeText(shipper_chitietdonhang.this,"đang giao đơn hàng", Toast.LENGTH_LONG).show();
-                                        databaseReference.removeEventListener(this);
+                                        orderSnapshot.getRef().addValueEventListener(new ValueEventListener() {
+                                            @Override
+                                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                                snapshot.child("status").getRef().setValue("Đang giao");
+                                                Toast.makeText(shipper_chitietdonhang.this,"đang giao đơn hàng", Toast.LENGTH_SHORT).show();
+                                                orderSnapshot.getRef().removeEventListener(this);
+                                                databaseReference.removeEventListener(this);
+                                                onBackPressed();
+                                                finish();
+                                            }
+
+                                            @Override
+                                            public void onCancelled(@NonNull DatabaseError error) {
+
+                                            }
+                                        });
                                     }
                                 }
                             }
