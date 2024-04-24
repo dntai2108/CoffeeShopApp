@@ -1,6 +1,7 @@
 package com.example.coffeeshopapp.activity;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -17,6 +18,10 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.content.DialogInterface;
+import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
 import android.widget.Toast;
 
 import com.example.coffeeshopapp.adapter.ChitietdondathangdadatAdapter;
@@ -35,6 +40,12 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 
 public class Chitiet_donhang_dadat_activity extends AppCompatActivity {
+    public interface YesNoDialogListener {
+        void onYesClicked();
+
+        void onNoClicked();
+    }
+
     private ActivityChitietDonhangDadatBinding bd;
     private RecyclerView recyclerView;
     private ChitietdondathangdadatAdapter recyclerViewDetaiOrderAdapter;
@@ -58,6 +69,7 @@ public class Chitiet_donhang_dadat_activity extends AppCompatActivity {
         carttemList = new ArrayList<>();
         recyclerViewDetaiOrderAdapter = new ChitietdondathangdadatAdapter(carttemList, this);
         recyclerView.setAdapter(recyclerViewDetaiOrderAdapter);
+        setEvent();
         layThongTinDiaChi();
         layThongTinDonHang();
         fetchDataFromFirebase();
@@ -72,6 +84,43 @@ public class Chitiet_donhang_dadat_activity extends AppCompatActivity {
             }
         });
 
+    }
+
+    private void setEvent() {
+        bd.btnHuy.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showYesNoDialog(new YesNoDialogListener() {
+                    @Override
+                    public void onYesClicked() {
+                        String maDonHang = getIntent().getStringExtra("madonhang");
+                        DatabaseReference databaseReference1 = FirebaseDatabase.getInstance().getReference("Customer");
+                        databaseReference1.addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                for (DataSnapshot customerSnapshot : snapshot.getChildren()) {
+                                    for (DataSnapshot orderSnapshot : customerSnapshot.child("Order").getChildren()) {
+                                        orderSnapshot.getRef().child("status").setValue("Đã hủy");
+                                        Toast.makeText(Chitiet_donhang_dadat_activity.this, "Hủy đơn hàng thành công", Toast.LENGTH_LONG).show();
+                                        databaseReference1.removeEventListener(this);
+                                    }
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
+
+                            }
+                        });
+                    }
+
+                    @Override
+                    public void onNoClicked() {
+                        return;
+                    }
+                });
+            }
+        });
     }
 
     private void layThongTinDiaChi() {
@@ -139,6 +188,26 @@ public class Chitiet_donhang_dadat_activity extends AppCompatActivity {
                 Toast.makeText(Chitiet_donhang_dadat_activity.this, "Lỗi khi đọc dữ liệu từ Firebase: " + databaseError.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    private void showYesNoDialog(final Chitiet_donhang_dadat_activity.YesNoDialogListener listener) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("Bạn có muốn tiếp tục không?")
+                .setCancelable(false)
+                .setPositiveButton("Có", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        listener.onYesClicked();
+                        dialog.dismiss(); // Đóng hộp thoại
+                    }
+                })
+                .setNegativeButton("Không", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        listener.onNoClicked();
+                        dialog.dismiss(); // Đóng hộp thoại
+                    }
+                });
+        AlertDialog alert = builder.create();
+        alert.show();
     }
 
     private void fetchDataFromFirebase() {

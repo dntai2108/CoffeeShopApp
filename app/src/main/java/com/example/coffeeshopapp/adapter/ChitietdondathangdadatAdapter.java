@@ -1,9 +1,11 @@
 package com.example.coffeeshopapp.adapter;
 
 import android.content.Context;
+
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.util.Log;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +20,7 @@ import com.bumptech.glide.Glide;
 import com.example.coffeeshopapp.R;
 import com.example.coffeeshopapp.model.Cart;
 import com.google.android.gms.tasks.OnFailureListener;
+
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -29,6 +32,7 @@ public class ChitietdondathangdadatAdapter extends RecyclerView.Adapter<Chitietd
     private List<Cart> cartItemList;
     private Context context;
     FirebaseStorage storage = FirebaseStorage.getInstance();
+
 
     public ChitietdondathangdadatAdapter(List<Cart> cartItemList, Context context) {
         this.cartItemList = cartItemList;
@@ -51,11 +55,7 @@ public class ChitietdondathangdadatAdapter extends RecyclerView.Adapter<Chitietd
         holder.tvProductName.setText(cartItem.getProduct().getName());
         holder.tvProductPrice.setText(cartItem.getProduct().getPrice());
         holder.tvQuantity.setText(String.valueOf(cartItem.getQuantity()));
-
-//        // Sử dụng Glide để tải hình ảnh và thiết lập vào ImageView
-//        Glide.with(holder.itemView.getContext())
-//                .load(cartItem.getProduct().getImage()) // Thay thế "getImageUrl()" bằng phương thức lấy URL của hình ảnh từ đối tượng Productimgurl của bạn
-//                .into(holder.imgproductflc);
+        
         StorageReference storageRef = storage.getReference();
         storageRef.child(cartItem.getProduct().getImage()).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override
@@ -69,6 +69,7 @@ public class ChitietdondathangdadatAdapter extends RecyclerView.Adapter<Chitietd
                 Log.e("ImageDownload", "Error downloading image: " + e.getMessage());
             }
         });
+
     }
 
 

@@ -16,6 +16,9 @@
         android:theme="@style/Theme.CoffeeShopApp"
         tools:targetApi="31">
         <activity
+            android:name=".activity.shipper_chitietdonhang"
+            android:exported="false" />
+        <activity
             android:name=".activity.SuccessNotifyActivityShipper"
             android:exported="false" />
         <activity
@@ -104,6 +107,9 @@
             android:exported="false" />
         <activity
             android:name=".activity.ListProductActivity"
+            android:exported="true" />
+        <activity
+            android:name=".activity.OrderShipper"
             android:exported="true" />
 
         <meta-data

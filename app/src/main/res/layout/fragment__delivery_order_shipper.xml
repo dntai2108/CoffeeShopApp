@@ -17,31 +17,31 @@
         android:paddingTop="20dp"
         android:paddingBottom="20dp"/>
 
-<!--    <LinearLayout-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:orientation="horizontal">-->
-<!--        <androidx.appcompat.widget.Toolbar-->
-<!--            android:id="@+id/tb_delivering"-->
+    <!--    <LinearLayout-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:orientation="horizontal">-->
+    <!--        <androidx.appcompat.widget.Toolbar-->
+    <!--            android:id="@+id/tb_delivering"-->
 
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_weight="1"-->
-<!--            android:background="?attr/colorPrimary"-->
-<!--            android:elevation="4dp"-->
-<!--            android:theme="@style/ThemeOverlay.AppCompat.ActionBar"-->
-<!--            app:title="Đang Giao"/>-->
+    <!--            android:layout_width="wrap_content"-->
+    <!--            android:layout_height="wrap_content"-->
+    <!--            android:layout_weight="1"-->
+    <!--            android:background="?attr/colorPrimary"-->
+    <!--            android:elevation="4dp"-->
+    <!--            android:theme="@style/ThemeOverlay.AppCompat.ActionBar"-->
+    <!--            app:title="Đang Giao"/>-->
 
-<!--        <androidx.appcompat.widget.Toolbar-->
-<!--            android:id="@+id/tb_delivered"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_weight="1"-->
-<!--            android:background="?attr/colorPrimary"-->
-<!--            android:elevation="4dp"-->
-<!--            android:theme="@style/ThemeOverlay.AppCompat.ActionBar"-->
-<!--            app:title="Đã Giao"/>-->
-<!--    </LinearLayout>-->
+    <!--        <androidx.appcompat.widget.Toolbar-->
+    <!--            android:id="@+id/tb_delivered"-->
+    <!--            android:layout_width="wrap_content"-->
+    <!--            android:layout_height="wrap_content"-->
+    <!--            android:layout_weight="1"-->
+    <!--            android:background="?attr/colorPrimary"-->
+    <!--            android:elevation="4dp"-->
+    <!--            android:theme="@style/ThemeOverlay.AppCompat.ActionBar"-->
+    <!--            app:title="Đã Giao"/>-->
+    <!--    </LinearLayout>-->
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/navshipper"
         android:layout_width="match_parent"
