@@ -7,9 +7,9 @@
         android:title="Trang chủ"/>
 
     <item
-        android:id="@+id/bottomnav_mon"
-        android:icon="@drawable/mon"
-        android:title="Món"/>
+        android:id="@+id/bottomnav_giohang"
+        android:icon="@drawable/shoppingcart"
+        android:title="Giỏ hàng"/>
 
     <item
         android:id="@+id/bottomnav_donhang"
@@ -19,6 +19,5 @@
         android:id="@+id/bottomnav_taikhoan"
         android:icon="@drawable/profile"
         android:title="Tài khoản"/>
-
 
 </menu>

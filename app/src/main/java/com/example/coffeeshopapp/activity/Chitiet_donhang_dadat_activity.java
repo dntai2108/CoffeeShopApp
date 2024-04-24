@@ -2,17 +2,28 @@ package com.example.coffeeshopapp.activity;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.coffeeshopapp.adapter.ChitietdondathangdadatAdapter;
 import com.example.coffeeshopapp.R;
 import com.example.coffeeshopapp.databinding.ActivityChitietDonhangDadatBinding;
+import com.example.coffeeshopapp.fragment.Fragment_donhang;
+import com.example.coffeeshopapp.fragment.Fragment_giohang;
 import com.example.coffeeshopapp.model.Cart;
 import com.example.coffeeshopapp.model.Product;
 import com.google.firebase.database.DataSnapshot;
@@ -29,19 +40,18 @@ public class Chitiet_donhang_dadat_activity extends AppCompatActivity {
     private ChitietdondathangdadatAdapter recyclerViewDetaiOrderAdapter;
     private ArrayList<Cart> carttemList;
     // Nhận mã đơn hàng từ Intent
-    private String maDonHang = getIntent().getStringExtra("madonhang");
-    private DatabaseReference databaseReference = FirebaseDatabase.getInstance()
-            .getReference("Customer").child("Customer123").child("Order").child(maDonHang).child("cartList");
+    private String maDonHang = "";
+    private DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         bd = ActivityChitietDonhangDadatBinding.inflate(getLayoutInflater());
         setContentView(bd.getRoot());
-        maDonHang = getIntent().getStringExtra("madonhang");
 
         // Khởi tạo RecyclerView
         recyclerView = findViewById(R.id.recyclerviewdetaiorder);
+        ImageView btnBack = findViewById(R.id.btnBack);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
 
@@ -51,14 +61,26 @@ public class Chitiet_donhang_dadat_activity extends AppCompatActivity {
         layThongTinDiaChi();
         layThongTinDonHang();
         fetchDataFromFirebase();
+        btnBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FragmentManager fragmentManager = getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.replace(R.id.framelayout, new Fragment_donhang());
+                fragmentTransaction.commit();
+                finish();
+            }
+        });
+
     }
 
     private void layThongTinDiaChi() {
-
+        SharedPreferences sharedPreferences = getSharedPreferences("User", Context.MODE_PRIVATE);
+        String userId = sharedPreferences.getString("userId", "");
+        maDonHang = sharedPreferences.getString("orderid", "");
         // Lấy thông tin địa chỉ
-        DatabaseReference customerInfoRef = FirebaseDatabase.getInstance().getReference("Customer")
-                .child("Customer123").child("Order").child(maDonHang).child("customer");
-        customerInfoRef.addListenerForSingleValueEvent(new ValueEventListener() {
+        DatabaseReference customerInfoRef = FirebaseDatabase.getInstance().getReference().child("Customer");
+        customerInfoRef.child(userId).child("Order").child(maDonHang).child("customer").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 // Kiểm tra xem có dữ liệu tồn tại không
@@ -70,7 +92,7 @@ public class Chitiet_donhang_dadat_activity extends AppCompatActivity {
                     //Set data cho textview
                     bd.tvaddress.setText(address);
                     bd.tvName.setText(name);
-                    bd.tvsdt.setText(phone);
+                    bd.tvSdt.setText(phone);
                 } else {
                     bd.tvaddress.setText("Rỗng");
                 }
@@ -86,10 +108,12 @@ public class Chitiet_donhang_dadat_activity extends AppCompatActivity {
     }
 
     private void layThongTinDonHang() {
-
+        SharedPreferences sharedPreferences = getSharedPreferences("User", Context.MODE_PRIVATE);
+        String userId = sharedPreferences.getString("userId", "");
+        maDonHang = sharedPreferences.getString("orderid", "");
         // Lấy thông tin địa chỉ
         DatabaseReference customerInfoRef = FirebaseDatabase.getInstance().getReference("Customer")
-                .child("Customer123").child("Order").child(maDonHang);
+                .child(userId).child("Order").child(maDonHang);
         customerInfoRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -118,8 +142,10 @@ public class Chitiet_donhang_dadat_activity extends AppCompatActivity {
     }
 
     private void fetchDataFromFirebase() {
-
-        databaseReference.addValueEventListener(new ValueEventListener() {
+        SharedPreferences sharedPreferences = getSharedPreferences("User", Context.MODE_PRIVATE);
+        String userId = sharedPreferences.getString("userId", "");
+        maDonHang = sharedPreferences.getString("orderid", "");
+        databaseReference.child("Customer").child(userId).child("Order").child(maDonHang).child("cartList").addValueEventListener(new ValueEventListener() {
             @SuppressLint("NotifyDataSetChanged")
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {

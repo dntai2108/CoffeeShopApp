@@ -2,6 +2,7 @@ package com.example.coffeeshopapp.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -59,7 +60,6 @@ public class RecyclerViewDonHangAdapter extends RecyclerView.Adapter<RecyclerVie
     @Override
     public void onBindViewHolder(@NonNull RecyclerViewDonHangAdapter.ViewHolder holder, int position) {
         Order order = orderList.get(position);
-
         holder.tvMaDonHang_donhang.setText(order.getOrderId());
         holder.tvTime.setText(order.getOrderDate());
         holder.tvTongTien.setText(order.getTotalAmount());
@@ -67,8 +67,12 @@ public class RecyclerViewDonHangAdapter extends RecyclerView.Adapter<RecyclerVie
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                SharedPreferences sharedPreferences = context.getSharedPreferences("User", Context.MODE_PRIVATE);
+                SharedPreferences.Editor edittor = sharedPreferences.edit();
+                String orderid = order.getOrderId();
+                edittor.putString("orderid", orderid);
+                edittor.commit();
                 Intent intent = new Intent(context, Chitiet_donhang_dadat_activity.class);
-                intent.putExtra("madonhang", order.getOrderId());
                 context.startActivity(intent);
             }
         });

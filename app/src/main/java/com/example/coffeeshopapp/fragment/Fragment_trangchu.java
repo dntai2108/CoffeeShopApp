@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.example.coffeeshopapp.R;
 import com.example.coffeeshopapp.activity.CartActivity;
@@ -43,9 +44,9 @@ public class Fragment_trangchu extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-    RecyclerView rvMonMoi;
-    ImageView ivGioHang;
+    RecyclerView rvSanPham;
     ItemAdapter itemAdapter;
+
     private ArrayList<Product> productList;
     DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
 
@@ -90,25 +91,18 @@ public class Fragment_trangchu extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        rvMonMoi = view.findViewById(R.id.rvMonMoi);
-        ivGioHang = view.findViewById(R.id.ivGioHang);
+        rvSanPham = view.findViewById(R.id.rvSanPham);
         productList = new ArrayList<>();
         itemAdapter = new ItemAdapter(productList, getContext());
+        reloadProduct();
         setEven();
     }
 
     private void setEven() {
-        rvMonMoi.setHasFixedSize(true);
-        rvMonMoi.setLayoutManager(new GridLayoutManager(getContext(), 2));
+        rvSanPham.setHasFixedSize(true);
+        rvSanPham.setLayoutManager(new GridLayoutManager(getContext(), 2));
         itemAdapter = new ItemAdapter(productList, getContext());
-        rvMonMoi.setAdapter(itemAdapter);
-        ivGioHang.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getContext(), CartActivity.class);
-                startActivity(intent);
-            }
-        });
+        rvSanPham.setAdapter(itemAdapter);
     }
 
     private void reloadProduct() {

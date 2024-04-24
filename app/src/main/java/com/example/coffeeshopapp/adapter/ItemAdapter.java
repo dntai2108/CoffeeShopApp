@@ -81,6 +81,22 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
                 context.startActivity(intent);
             }
         });
+        holder.tvThem.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, DetailProductActivity.class);
+                intent.putExtra("product", (Parcelable) product);
+                context.startActivity(intent);
+            }
+        });
+        holder.tvTenSanPham.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, DetailProductActivity.class);
+                intent.putExtra("product", (Parcelable) product);
+                context.startActivity(intent);
+            }
+        });
         holder.tvGiaSanPham.setText(product.getPrice().toString());
         StorageReference storageRef = storage.getReference();
         storageRef.child(product.getImage()).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {

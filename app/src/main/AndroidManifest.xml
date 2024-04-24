@@ -25,10 +25,10 @@
             android:name=".activity.DeliveryOrderShipper"
             android:exported="false" />
         <activity
-            android:name=".activity.ListCouponActivity"
+            android:name=".activity.Customer_ListCouPonActivity"
             android:exported="true" />
         <activity
-            android:name=".activity.AddCouponActivity"
+            android:name=".activity.Admin_AddCouponActivity"
             android:exported="true" />
         <activity
             android:name=".activity.ManageOrder"

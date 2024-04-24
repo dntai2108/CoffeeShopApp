@@ -1,6 +1,8 @@
 package com.example.coffeeshopapp.fragment;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -36,8 +38,7 @@ public class Fragment_donhang extends Fragment {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
-    final private DatabaseReference databaseReference = FirebaseDatabase.getInstance()
-            .getReference("Customer").child("Customer123").child("Order");
+    final private DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
 
 
     ArrayList<Order> orderList;
@@ -90,8 +91,6 @@ public class Fragment_donhang extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
-
         recyclerView = view.findViewById(R.id.recyclerviewDonHang);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
         recyclerView.setHasFixedSize(true);
@@ -102,7 +101,9 @@ public class Fragment_donhang extends Fragment {
     }
 
     private void setEVent() {
-        databaseReference.addValueEventListener(new ValueEventListener() {
+        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("User", Context.MODE_PRIVATE);
+        String userId = sharedPreferences.getString("userId", "");
+        databaseReference.child("Customer").child(userId).child("Order").addValueEventListener(new ValueEventListener() {
             @SuppressLint("NotifyDataSetChanged")
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -113,7 +114,6 @@ public class Fragment_donhang extends Fragment {
                         String madonhang = dataSnapshot.child("orderId").getValue(String.class);
                         String status = dataSnapshot.child("status").getValue(String.class);
                         String tongtien = dataSnapshot.child("totalAmount").getValue(String.class);
-//                        Order o= snapshot.getValue(Order.class)
                         orderList.add(new Order(madonhang, time, status, tongtien));
                     }
                     recyclerViewDonHangAdapter.notifyDataSetChanged();
