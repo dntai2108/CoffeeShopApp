@@ -19,10 +19,10 @@
     <androidx.appcompat.widget.SearchView
         android:id="@+id/svTimKiem"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="40dp"
         android:layout_margin="10dp"
         android:background="@drawable/searchview"
-        android:hint="Tìm kiếm..." />
+        app:queryHint="Tìm kiếm..." />
 
     <ScrollView
         android:id="@+id/scrollView2"
