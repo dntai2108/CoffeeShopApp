@@ -1,6 +1,7 @@
 package com.example.coffeeshopapp.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.coffeeshopapp.R;
+import com.example.coffeeshopapp.activity.OrderOfUser;
 import com.example.coffeeshopapp.model.Account;
 import com.example.coffeeshopapp.model.Customer;
 import com.google.firebase.database.DataSnapshot;
@@ -121,6 +123,14 @@ public class RecycleViewManageUserAdapter extends RecyclerView.Adapter<RecycleVi
                         }
                     });
                 }
+            }
+        });
+        holder.tvOrder.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, OrderOfUser.class);
+                intent.putExtra("phone",customer.getPhone());
+                context.startActivity(intent);
             }
         });
     }

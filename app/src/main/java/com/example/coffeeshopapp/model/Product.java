@@ -8,7 +8,7 @@ import androidx.annotation.NonNull;
 import java.io.Serializable;
 import java.util.Date;
 
-public class Product implements Parcelable {
+public class Product implements Parcelable, Serializable {
 
     private String id;
     private String name;

@@ -27,7 +27,7 @@
                     android:layout_margin="9dp"
                     android:layout_width="150dp"
                     android:layout_height="match_parent"
-                    android:scaleType="fitCenter"
+                    android:scaleType="centerCrop"
                     android:adjustViewBounds="true"
                     android:src="@drawable/logo" />
 

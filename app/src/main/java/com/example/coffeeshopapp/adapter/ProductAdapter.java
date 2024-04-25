@@ -24,6 +24,7 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
 
+import java.io.Serializable;
 import java.util.List;
 
 public class ProductAdapter extends ArrayAdapter<Product> {
@@ -65,8 +66,9 @@ public class ProductAdapter extends ArrayAdapter<Product> {
         btnUpdate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Product d = product;
                 Intent intent = new Intent(context, DetailProduct.class);
-                intent.putExtra("item", product);
+                intent.putExtra("item", (Serializable) product);
                 context.startActivity(intent);
             }
         });
