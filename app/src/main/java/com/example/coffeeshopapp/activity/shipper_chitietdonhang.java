@@ -81,6 +81,28 @@ public class shipper_chitietdonhang extends AppCompatActivity {
                                 for(DataSnapshot orderSnapshot: customerSnapshot.child("Order").getChildren()){
                                     if(orderSnapshot.getKey().equals(maDonHang)){
                                         orderSnapshot.getRef().child("status").setValue("Hoàn thành");
+                                        for(DataSnapshot cartListSnapshot:orderSnapshot.child("cartList").getChildren()){
+                                            DatabaseReference productReference = FirebaseDatabase.getInstance().getReference("Product");
+                                            productReference.addValueEventListener(new ValueEventListener() {
+                                                @Override
+                                                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                                    for(DataSnapshot productSnapshot: snapshot.getChildren()){
+                                                        if(productSnapshot.child("id").getValue(String.class).equals(cartListSnapshot.child("product").child("id").getValue(String.class))){
+                                                           int soluongmua = Integer.parseInt(productSnapshot.child("soluongmua").getValue(String.class));
+                                                           int soluongmuadonhang = Integer.parseInt(cartListSnapshot.child("quantity").getValue(String.class));
+                                                           soluongmua += soluongmuadonhang;
+                                                           productSnapshot.getRef().child("soluongmua").setValue(String.valueOf(soluongmua));
+                                                        }
+                                                    }
+                                                    productReference.removeEventListener(this);
+                                                }
+
+                                                @Override
+                                                public void onCancelled(@NonNull DatabaseError error) {
+
+                                                }
+                                            });
+                                        }
                                         Toast.makeText(shipper_chitietdonhang.this,"Hoàn thành đơn hàng", Toast.LENGTH_LONG).show();
                                         Intent intent = new Intent(shipper_chitietdonhang.this, SuccessNotifyActivityShipper.class);
                                         startActivity(intent);
@@ -97,6 +119,7 @@ public class shipper_chitietdonhang extends AppCompatActivity {
 
                         }
                     });
+
                 }
                 else{
                     databaseReference.addValueEventListener(new ValueEventListener() {

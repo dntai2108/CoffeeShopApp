@@ -16,6 +16,8 @@ public class Product implements Parcelable, Serializable {
     private String price;
     private String description;
     private String date;
+    private String soluongmua;
+
 
     public Product(String id, String name, String image, String price, String description, String date) {
         this.id = id;
@@ -24,6 +26,7 @@ public class Product implements Parcelable, Serializable {
         this.price = price;
         this.description = description;
         this.date = date;
+        this.soluongmua = "0";
     }
 
     public Product(String id, String name, String image, String price, String description) {
@@ -84,6 +87,14 @@ public class Product implements Parcelable, Serializable {
 
     public void setDate(String date) {
         this.date = date;
+    }
+
+    public String getSoluongmua() {
+        return soluongmua;
+    }
+
+    public void setSoluongmua(String soluongmua) {
+        this.soluongmua = soluongmua;
     }
 
     @Override

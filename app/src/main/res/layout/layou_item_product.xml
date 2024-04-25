@@ -11,6 +11,7 @@
         android:layout_height="100dp"
         android:src="@drawable/capuchino"
         android:layout_marginStart="10dp"
+        android:scaleType="centerCrop"
         />
     <TextView
         android:id="@+id/txtname"
