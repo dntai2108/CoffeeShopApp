@@ -76,7 +76,7 @@
             android:layout_margin="8dp" />
 
         <TextView
-            android:id="@+id/tvSetting"
+            android:id="@+id/tvPassword"
             android:layout_width="match_parent"
             android:layout_height="55dp"
             android:text="Đổi mật khẩu"

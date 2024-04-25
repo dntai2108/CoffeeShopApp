@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 import com.example.coffeeshopapp.R;
 import com.example.coffeeshopapp.databinding.ActivityChangePasswordBinding;
+import com.example.coffeeshopapp.fragment.Fragment_taikhoan;
 import com.example.coffeeshopapp.model.Account;
 import com.example.coffeeshopapp.model.Customer;
 import com.google.firebase.database.DataSnapshot;
@@ -35,29 +36,25 @@ public class ChangePassword extends AppCompatActivity {
     private void setEven() {
         SharedPreferences sharedPreferences = getSharedPreferences("User", MODE_PRIVATE);
         String phone = sharedPreferences.getString("phone", "");
+        String password = sharedPreferences.getString("password", "");
+
+
         binding.btnXacNhan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String matKhauCu = binding.edtMatKhauCu.getText().toString();
                 String matKhauMoi = binding.edtMatKhauMoi.getText().toString();
                 String xacNhanMatKhau = binding.edtXacNhanMatKhau.getText().toString();
-                DatabaseReference accountRef = databaseReference.child("Account");
-                DatabaseReference customerRef = databaseReference.child("Customer");
-                accountRef.child(phone).addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-
-                    }
-
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
-
-                    }
-                });
-                if (TextUtils.isEmpty(matKhauCu)) {
+                if (TextUtils.isEmpty(password)) {
                     Toast.makeText(ChangePassword.this, "Mật khẩu không được để trống", Toast.LENGTH_SHORT).show();
-                    binding.edtMatKhauMoi.setError("Nhập mật khẩu cũ: ");
-                    binding.edtMatKhauMoi.requestFocus();
+                    binding.edtMatKhauCu.setError("Nhập mật khẩu cũ: ");
+                    binding.edtMatKhauCu.requestFocus();
+                    return;
+                }
+                if (!matKhauCu.equals(password)) {
+                    Toast.makeText(ChangePassword.this, "Mật khẩu cũ không chính xác", Toast.LENGTH_SHORT).show();
+                    binding.edtMatKhauCu.setError("Nhập mật khẩu cũ: ");
+                    binding.edtMatKhauCu.requestFocus();
                     return;
                 }
                 if (TextUtils.isEmpty(matKhauMoi)) {
@@ -85,7 +82,8 @@ public class ChangePassword extends AppCompatActivity {
                     binding.edtXacNhanMatKhau.requestFocus();
                     return;
                 }
-
+                DatabaseReference accountRef = databaseReference.child("Account");
+                DatabaseReference customerRef = databaseReference.child("Customer");
                 customerRef.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -97,7 +95,7 @@ public class ChangePassword extends AppCompatActivity {
                                 customer.setAccount(account);
                                 accountRef.child(phone).child("password").setValue(matKhauMoi);
                                 customerRef.child(customer.getId()).child("account").setValue(account);
-                                Toast.makeText(ChangePassword.this, "Mật khẩu đã được thay đổi thành công! Vui lòng đăng nhập lại!", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(ChangePassword.this, "Mật khẩu đã được thay đổi thành công", Toast.LENGTH_SHORT).show();
                                 break;
                             }
                         }
@@ -108,10 +106,20 @@ public class ChangePassword extends AppCompatActivity {
 
                     }
                 });
-                Intent intent = new Intent(ChangePassword.this, LoginActivity.class);
+                Intent intent = new Intent(ChangePassword.this, Bottom_nav.class);
+                intent.putExtra("openTaiKhoan", true);
                 startActivity(intent);
             }
 
+        });
+
+        binding.ivQuayLai.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ChangePassword.this, Bottom_nav.class);
+                intent.putExtra("openTaiKhoan", true);
+                startActivity(intent);
+            }
         });
 
 

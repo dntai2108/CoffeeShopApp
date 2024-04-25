@@ -5,10 +5,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+
 import com.example.coffeeshopapp.databinding.ActivityAccountAdminBinding;
 
 public class AccountActivityAdmin extends AppCompatActivity {
     private ActivityAccountAdminBinding bd;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -21,7 +23,7 @@ public class AccountActivityAdmin extends AppCompatActivity {
         bd.tvManageCustomer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(AccountActivityAdmin.this,ManageUser.class);
+                Intent intent = new Intent(AccountActivityAdmin.this, ManageUser.class);
                 startActivity(intent);
                 finish();
             }
@@ -30,7 +32,9 @@ public class AccountActivityAdmin extends AppCompatActivity {
         bd.tvProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(AccountActivityAdmin.this, ProfileActivity.class));
+                Intent intent = new Intent(AccountActivityAdmin.this, ProfileActivity.class);
+                intent.putExtra("role", "admin");
+                startActivity(intent);
             }
         });
 
@@ -45,8 +49,11 @@ public class AccountActivityAdmin extends AppCompatActivity {
         bd.ivQuayLai.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(AccountActivityAdmin.this, ManageProductActivity.class));
+                Intent intent = new Intent(AccountActivityAdmin.this, BottomNavAdmin.class);
+                intent.putExtra("openTaiKhoan", true);
+                startActivity(intent);
             }
         });
+
     }
 }

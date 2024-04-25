@@ -1,7 +1,9 @@
 package com.example.coffeeshopapp.activity;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -61,18 +63,36 @@ public class ProfileActivity extends AppCompatActivity {
         binding.btnChangeInfo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(ProfileActivity.this, ChangeInfoActivity.class));
+                String role = getIntent().getStringExtra("role");
+                Intent intent = new Intent(ProfileActivity.this, ChangeInfoActivity.class);
+                if (role.equals("admin")) {
+                    intent.putExtra("role", role);
+                }
+                if (role.equals("shipper")) {
+                    intent.putExtra("role", role);
+                }
+                intent.putExtra("openTaiKhoan", true);
+                startActivity(intent);
             }
         });
         binding.ivQuayLai.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(ProfileActivity.this, Fragment_taikhoan.class));
+                String role = getIntent().getStringExtra("role");
+                Intent intent = new Intent(ProfileActivity.this, Bottom_nav.class);
+                if (role.equals("admin")) {
+                    intent.putExtra("role", role);
+                }
+                if (role.equals("shipper")) {
+                    intent.putExtra("role", role);
+                }
+                intent.putExtra("openTaiKhoan", true);
+                startActivity(intent);
+
             }
         });
 
 
     }
-
 
 }

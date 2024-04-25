@@ -57,7 +57,7 @@ public class SuccessfulOrder extends AppCompatActivity {
         bd.btnTieptucmuasam.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(SuccessfulOrder.this, Fragment_trangchu.class);
+                Intent intent = new Intent(SuccessfulOrder.this, Bottom_nav.class);
                 startActivity(intent);
             }
         });

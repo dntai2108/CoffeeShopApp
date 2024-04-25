@@ -97,10 +97,16 @@ public class ChangeInfoActivity extends AppCompatActivity {
                                 customer.setEmail(binding.tvEmail.getText().toString());
                                 customerReference.child(id).setValue(customer);
                                 Toast.makeText(ChangeInfoActivity.this, "Cập nhật thành công", Toast.LENGTH_SHORT).show();
-                                startActivity(new Intent(ChangeInfoActivity.this, ProfileActivity.class));
-                            } else {
-                                Toast.makeText(ChangeInfoActivity.this, "Cập nhật không thành công", Toast.LENGTH_SHORT).show();
-
+                                String role = getIntent().getStringExtra("role");
+                                Intent intent = new Intent(ChangeInfoActivity.this, ProfileActivity.class);
+                                if (role.equals("admin")) {
+                                    intent.putExtra("role", role);
+                                }
+                                if (role.equals("shipper")) {
+                                    intent.putExtra("role", role);
+                                }
+                                startActivity(intent);
+                                break;
                             }
 
                         }
@@ -108,7 +114,7 @@ public class ChangeInfoActivity extends AppCompatActivity {
 
                     @Override
                     public void onCancelled(@NonNull DatabaseError error) {
-
+                        Toast.makeText(ChangeInfoActivity.this, "Cập nhật không thành công", Toast.LENGTH_SHORT).show();
                     }
                 });
             }
@@ -117,7 +123,13 @@ public class ChangeInfoActivity extends AppCompatActivity {
         binding.ivQuayLai.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(ChangeInfoActivity.this, ProfileActivity.class));
+                String role = getIntent().getStringExtra("role");
+                Intent intent = new Intent(ChangeInfoActivity.this, Bottom_nav.class);
+                if (role.equals("admin")) {
+                    intent.putExtra("role", role);
+                    intent = new Intent(ChangeInfoActivity.this, BottomNavAdmin.class);
+                }
+                startActivity(intent);
             }
         });
     }

@@ -100,7 +100,6 @@ public class LoginActivity extends AppCompatActivity {
 
                                     @Override
                                     public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                        String a = "";
                                         for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                                             Customer customer = dataSnapshot.getValue(Customer.class);
                                             if (customer.getAccount().getUsername().equals(soDienThoai)) {
@@ -108,6 +107,7 @@ public class LoginActivity extends AppCompatActivity {
                                                 SharedPreferences sharedPreferences = getSharedPreferences("User", Context.MODE_PRIVATE);
                                                 SharedPreferences.Editor edittor = sharedPreferences.edit();
                                                 edittor.putString("phone", soDienThoai);
+                                                edittor.putString("password", matKhau);
                                                 edittor.putString("userId", userId);
                                                 edittor.commit();
                                                 break;

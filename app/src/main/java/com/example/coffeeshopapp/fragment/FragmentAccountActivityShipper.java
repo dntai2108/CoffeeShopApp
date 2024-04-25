@@ -11,7 +11,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.coffeeshopapp.activity.BottomNavAdmin;
 import com.example.coffeeshopapp.activity.BottomNavigationActivityShipper;
+import com.example.coffeeshopapp.activity.Bottom_nav;
+import com.example.coffeeshopapp.activity.ChangePassword;
 import com.example.coffeeshopapp.activity.LoginActivity;
 import com.example.coffeeshopapp.activity.ProfileActivity;
 import com.example.coffeeshopapp.databinding.FragmentAccountActivityShipperBinding;
@@ -81,7 +84,9 @@ public class FragmentAccountActivityShipper extends Fragment {
         binding.tvProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getContext(), ProfileActivity.class));
+                Intent intent = new Intent(getContext(), ProfileActivity.class);
+                intent.putExtra("role", "shipper");
+                startActivity(intent);
             }
         });
 
@@ -95,8 +100,16 @@ public class FragmentAccountActivityShipper extends Fragment {
         binding.ivQuayLai.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getContext(), BottomNavigationActivityShipper.class));
+                Intent intent = new Intent(getContext(), BottomNavigationActivityShipper.class);
+                intent.putExtra("openTaiKhoan", true);
+                startActivity(intent);
 
+            }
+        });
+        binding.tvPassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getContext(), ChangePassword.class));
             }
         });
     }

@@ -4,7 +4,9 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.SearchView;
 
 import com.example.coffeeshopapp.adapter.RecycleViewManageUserAdapter;
@@ -50,9 +52,9 @@ public class ManageUser extends AppCompatActivity {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         listCustomers.clear();
-                        for(DataSnapshot dataSnapshot: snapshot.getChildren()){
+                        for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                             Customer customer = dataSnapshot.getValue(Customer.class);
-                            if(customer.getName().toLowerCase().contains(newText.toLowerCase())){
+                            if (customer.getName().toLowerCase().contains(newText.toLowerCase())) {
                                 listCustomers.add(customer);
                             }
                         }
@@ -67,6 +69,14 @@ public class ManageUser extends AppCompatActivity {
                 return true;
             }
         });
+        bd.toolbarmnguser.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ManageUser.this, BottomNavAdmin.class);
+                intent.putExtra("openTaiKhoan", true);
+                startActivity(intent);
+            }
+        });
     }
 
     private void setControl() {
@@ -79,7 +89,7 @@ public class ManageUser extends AppCompatActivity {
         this.listCustomers = new ArrayList<>();
         reloadCustomers();
         bd.RecyclerViewUser.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
-        recycleViewManageUserAdapter = new RecycleViewManageUserAdapter(listCustomers,this);
+        recycleViewManageUserAdapter = new RecycleViewManageUserAdapter(listCustomers, this);
         bd.RecyclerViewUser.setAdapter(recycleViewManageUserAdapter);
     }
 
@@ -88,12 +98,13 @@ public class ManageUser extends AppCompatActivity {
         super.onResume();
         reloadCustomers();
     }
-    public void reloadCustomers (){
+
+    public void reloadCustomers() {
         databaseReferences.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 listCustomers.clear();
-                for(DataSnapshot dataSnapshot: snapshot.getChildren()){
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                     Customer customer = dataSnapshot.getValue(Customer.class);
                     listCustomers.add(customer);
                 }

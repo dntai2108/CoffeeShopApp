@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import com.example.coffeeshopapp.R;
@@ -23,8 +24,29 @@ public class Bottom_nav extends AppCompatActivity {
         bd = ActivityBottomNavBinding.inflate(getLayoutInflater());
         setContentView(bd.getRoot());
         if (savedInstanceState == null) {
-            replaceFragment(new Fragment_trangchu());
+            Boolean openTaiKhoan = getIntent().getBooleanExtra("openTaiKhoan", false);
+            String role = getIntent().getStringExtra("role");
+            if (openTaiKhoan) {
+                if (role.equals("admin")) {
+                    Intent intent = new Intent(Bottom_nav.this, BottomNavAdmin.class);
+                    intent.putExtra("openTaiKhoan", true);
+                    startActivity(intent);
+                    return;
+                }
+                if (role.equals("shipper")) {
+                    Intent intent = new Intent(Bottom_nav.this, BottomNavigationActivityShipper.class);
+                    intent.putExtra("openTaiKhoan", true);
+                    startActivity(intent);
+                    return;
+                }
+                replaceFragment(new Fragment_taikhoan());
+                bd.navView.getMenu().findItem(R.id.bottomnav_taikhoan).setChecked(true);
+            } else {
+                replaceFragment(new Fragment_trangchu());
+
+            }
         }
+
         bd.navView.setOnItemSelectedListener(item -> {
             int itemId = item.getItemId();
             if (itemId == R.id.bottomnav_trangchu) {
