@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import com.example.coffeeshopapp.R;
 import com.example.coffeeshopapp.activity.AccountActivityAdmin;
 import com.example.coffeeshopapp.activity.BottomNavAdmin;
+import com.example.coffeeshopapp.activity.ChangePassword;
 import com.example.coffeeshopapp.activity.LoginActivity;
 import com.example.coffeeshopapp.activity.ManageUser;
 import com.example.coffeeshopapp.activity.ProfileActivity;
@@ -100,6 +101,13 @@ public class FragmentAccountAdmin extends Fragment {
             public void onClick(View v) {
                 startActivity(new Intent(getContext(), LoginActivity.class));
                 getActivity().finish();
+            }
+        });
+
+        bd.tvPassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getContext(), ChangePassword.class));
             }
         });
 

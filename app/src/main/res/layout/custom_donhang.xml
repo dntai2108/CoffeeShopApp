@@ -10,127 +10,76 @@
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:backgroundTint="#7CB8E8"
+        android:backgroundTint="#CDDEEC"
         android:layout_marginStart="5dp"
         android:layout_marginTop="10dp"
         android:layout_marginEnd="4dp"
-        app:cardCornerRadius="24dp"
+        app:cardCornerRadius="15dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
-       <androidx.constraintlayout.widget.ConstraintLayout
-           android:layout_width="match_parent"
-           android:layout_height="wrap_content">
-           <ImageView
-               android:id="@+id/imgdonhang"
-               android:layout_width="90dp"
-               android:layout_height="150dp"
-               android:src="@drawable/avatar"
-               app:layout_constraintStart_toStartOf="parent"
-               app:layout_constraintTop_toTopOf="parent">
-           </ImageView>
-           <TextView
-               android:id="@+id/tvMaDonHang_donhang"
-               android:layout_width="wrap_content"
-               android:layout_height="wrap_content"
-               android:layout_marginStart="16dp"
-               android:layout_marginTop="8dp"
-               android:text="Ma000001"
-               android:textSize="25dp"
-               android:textStyle="bold"
-               app:layout_constraintStart_toEndOf="@+id/imgdonhang"
-               app:layout_constraintTop_toTopOf="parent">
-           </TextView>
-           <TextView
-               android:id="@+id/tvTime"
-               android:layout_width="wrap_content"
-               android:layout_height="wrap_content"
-               android:layout_marginStart="16dp"
-               android:layout_marginTop="16dp"
-               android:text="2024-04-11 20:30:40"
-               android:textSize="17dp"
-               app:layout_constraintStart_toEndOf="@+id/imgdonhang"
-               app:layout_constraintTop_toBottomOf="@+id/tvMaDonHang_donhang"></TextView>
 
-           <TextView
-               android:id="@+id/tvTrangThai"
-               android:layout_width="wrap_content"
-               android:layout_height="wrap_content"
-               android:layout_marginStart="16dp"
-               android:text="Hoàn tất"
-               android:textSize="20dp"
-               android:textColor="@color/green"
-               android:textStyle="bold"
-               app:layout_constraintBottom_toBottomOf="@+id/tvTime"
-               app:layout_constraintStart_toEndOf="@+id/tvTime"></TextView>
-           <TextView
-               android:id="@+id/tvTongTien"
-               android:layout_width="wrap_content"
-               android:layout_height="wrap_content"
-               android:layout_marginStart="16dp"
-               android:layout_marginBottom="16dp"
-               android:text="100.000 vnd"
-               android:textSize="25dp"
-               android:textStyle="bold"
-               app:layout_constraintBottom_toBottomOf="parent"
-               app:layout_constraintStart_toEndOf="@+id/imgdonhang"></TextView>
-       </androidx.constraintlayout.widget.ConstraintLayout>
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/imgdonhang"
+                android:layout_width="90dp"
+                android:layout_height="150dp"
+                android:src="@drawable/parcel"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tvMaDonHang_donhang"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:text="Ma000001"
+                android:textSize="25dp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toEndOf="@+id/imgdonhang"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tvTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:text="2024-04-11 20:30:40"
+                android:textSize="17dp"
+                app:layout_constraintStart_toEndOf="@+id/imgdonhang"
+                app:layout_constraintTop_toBottomOf="@+id/tvMaDonHang_donhang" />
+
+            <TextView
+                android:id="@+id/tvTrangThai"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:text="Hoàn tất"
+                android:textSize="20dp"
+                android:textColor="@color/green"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="@+id/tvTime"
+                app:layout_constraintStart_toEndOf="@+id/tvTime" />
+
+            <TextView
+                android:id="@+id/tvTongTien"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginBottom="16dp"
+                android:text="100.000 vnd"
+                android:textSize="25dp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/imgdonhang" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.cardview.widget.CardView>
 
-   <!-- <ImageView
-        android:id="@+id/imgdonhang"
-        android:layout_width="90dp"
-        android:layout_height="150dp"
-        android:src="@drawable/avatar"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-    </ImageView>
-
-    <TextView
-        android:id="@+id/tvMaDonHang_donhang"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
-        android:text="Ma000001"
-        android:textSize="25dp"
-        android:textStyle="bold"
-        app:layout_constraintStart_toEndOf="@+id/imgdonhang"
-        app:layout_constraintTop_toTopOf="parent"></TextView>
-
-    <TextView
-        android:id="@+id/tvTime"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:text="2024-04-11 20:30:40"
-        android:textSize="17dp"
-        app:layout_constraintStart_toEndOf="@+id/imgdonhang"
-        app:layout_constraintTop_toBottomOf="@+id/tvMaDonHang_donhang"></TextView>
-
-    <TextView
-        android:id="@+id/tvTrangThai"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:text="Hoàn tất"
-        android:textSize="20dp"
-        android:textColor="@color/green"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="@+id/tvTime"
-        app:layout_constraintStart_toEndOf="@+id/tvTime"></TextView>
-    <TextView
-        android:id="@+id/tvTongTien"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginBottom="16dp"
-        android:text="100.000 vnd"
-        android:textSize="25dp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/imgdonhang"></TextView>-->
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -45,6 +45,7 @@ public class CartActivity extends AppCompatActivity implements
     private static final int REQUEST_CHANGE_ADDRESS = 1;
 
     private static final Double phivanchuyen = 10000.0;
+    String finalPrice = "";
     private DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
 
 
@@ -131,7 +132,6 @@ public class CartActivity extends AppCompatActivity implements
                         .replace(" vnd", "").replace(",", ""));
 
                 double giamgia = Double.parseDouble(couponPercent.replace(" %", ""));
-
                 displayTotalPrice(totalPrice, giamgia);
                 Toast.makeText(CartActivity.this, "Áp dụng mã giảm giá thành công", Toast.LENGTH_SHORT).show();
 
@@ -143,6 +143,7 @@ public class CartActivity extends AppCompatActivity implements
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(CartActivity.this, SuccessfulOrder.class);
+                intent.putExtra("price", finalPrice);
                 startActivity(intent);
                 overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
             }
@@ -192,6 +193,7 @@ public class CartActivity extends AppCompatActivity implements
         bd.tvpriceofcart.setText(formattedPrice + " vnd");
         // tổng tiền khi cộng thêm phí vận chuyển
         String formattedPricetotal = decimalFormat.format((totalPrice * ((100 - percent) / 100)) + phivanchuyen);
+        finalPrice = formattedPricetotal;
         bd.tvpricetotalofcart.setText(formattedPricetotal + " vnd");
     }
 

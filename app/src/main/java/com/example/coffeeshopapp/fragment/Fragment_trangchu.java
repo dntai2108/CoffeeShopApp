@@ -4,10 +4,12 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,8 +43,9 @@ public class Fragment_trangchu extends Fragment {
     private String mParam2;
     RecyclerView rvSanPham;
     ItemAdapter itemAdapter;
+    SearchView svTimKiem;
 
-    private ArrayList<Product> productList;
+    private ArrayList<Product> productList, productListSearch;
     DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
 
     public Fragment_trangchu() {
@@ -87,7 +90,9 @@ public class Fragment_trangchu extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         rvSanPham = view.findViewById(R.id.rvSanPham);
+        svTimKiem = view.findViewById(R.id.svTimKiem);
         productList = new ArrayList<>();
+        productListSearch = new ArrayList<>();
         itemAdapter = new ItemAdapter(productList, getContext());
         reloadProduct();
         setEven();
@@ -98,6 +103,20 @@ public class Fragment_trangchu extends Fragment {
         rvSanPham.setLayoutManager(new GridLayoutManager(getContext(), 2));
         itemAdapter = new ItemAdapter(productList, getContext());
         rvSanPham.setAdapter(itemAdapter);
+
+        svTimKiem.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                searchProducts(newText.trim());
+                return true;
+            }
+        });
+
     }
 
     private void reloadProduct() {
@@ -108,12 +127,6 @@ public class Fragment_trangchu extends Fragment {
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                     Product product = dataSnapshot.getValue(Product.class);
                     productList.add(product);
-                    productList.sort(new Comparator<Product>() {
-                        @Override
-                        public int compare(Product o1, Product o2) {
-                            return o1.getDate().compareTo(o2.getDate());
-                        }
-                    });
                 }
                 itemAdapter.setData(productList);
 
@@ -125,4 +138,26 @@ public class Fragment_trangchu extends Fragment {
             }
         });
     }
+
+    private void searchProducts(String searchText) {
+        productListSearch.clear();
+        for (Product product : productList) {
+            if (removeAccent(product.getName().toLowerCase()).contains(searchText.toLowerCase())) {
+                productListSearch.add(product);
+            }
+        }
+        itemAdapter.setData(productListSearch);
+    }
+
+    public static String removeAccent(String s) {
+        String[] from = {"à", "á", "ạ", "ả", "ã", "â", "ầ", "ấ", "ậ", "ẩ", "ẫ", "ă", "ằ", "ắ", "ặ", "ẳ", "ẵ", "è", "é", "ẹ", "ẻ", "ẽ", "ê", "ề", "ế", "ệ", "ể", "ễ", "ì", "í", "ị", "ỉ", "ĩ", "ò", "ó", "ọ", "ỏ", "õ", "ô", "ồ", "ố", "ộ", "ổ", "ỗ", "ơ", "ờ", "ớ", "ợ", "ở", "ỡ", "ù", "ú", "ụ", "ủ", "ũ", "ư", "ừ", "ứ", "ự", "ử", "ữ", "ỳ", "ý", "ỵ", "ỷ", "ỹ", "đ", "À", "Á", "Ạ", "Ả", "Ã", "Â", "Ầ", "Ấ", "Ậ", "Ẩ", "Ẫ", "Ă", "Ằ", "Ắ", "Ặ", "Ẳ", "Ẵ", "È", "É", "Ẹ", "Ẻ", "Ẽ", "Ê", "Ề", "Ế", "Ệ", "Ể", "Ễ", "Ì", "Í", "Ị", "Ỉ", "Ĩ", "Ò", "Ó", "Ọ", "Ỏ", "Õ", "Ô", "Ồ", "Ố", "Ộ", "Ổ", "Ỗ", "Ơ", "Ờ", "Ớ", "Ợ", "Ở", "Ỡ", "Ù", "Ú", "Ụ", "Ủ", "Ũ", "Ư", "Ừ", "Ứ", "Ự", "Ử", "Ữ", "Ỳ", "Ý", "Ỵ", "Ỷ", "Ỹ", "Đ"};
+        String[] to = {"a", "a", "a", "a", "a", "a", "a", "a", "a", "a", "a", "a", "a", "a", "a", "a", "a", "a", "e", "e", "e", "e", "e", "e", "e", "e", "e", "e", "e", "i", "i", "i", "i", "i", "o", "o", "o", "o", "o", "o", "o", "o", "o", "o", "o", "o", "o", "o", "o", "o", "o", "o", "u", "u", "u", "u", "u", "u", "u", "u", "u", "u", "u", "y", "y", "y", "y", "y", "d", "A", "A", "A", "A", "A", "A", "A", "A", "A", "A", "A", "A", "A", "A", "A", "A", "A", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "I", "I", "I", "I", "I", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "U", "U", "U", "U", "U", "U", "U", "U", "U", "U", "U", "Y", "Y", "Y", "Y", "Y", "D"};
+
+        for (int i = 0; i < from.length; i++) {
+            s = s.replace(from[i], to[i]);
+        }
+        return s;
+    }
+
+
 }

@@ -119,8 +119,6 @@ public class DetailProductActivity extends AppCompatActivity {
                 Cart cartItem = new Cart(product, String.valueOf(quantity), selectedSize); // Cập nhật thông tin kích thước
                 // Gửi thông tin giỏ hàng của khách hàng lên Firebase
                 sendCartDataToFirebase(customerId, cartItem);
-                // Hiển thị thông báo hoặc thực hiện hành động khác sau khi thêm vào giỏ hàng
-                Toast.makeText(DetailProductActivity.this, "Đã thêm vào giỏ hàng", Toast.LENGTH_SHORT).show();
             }
         });
     }// ngoài setEvent()
