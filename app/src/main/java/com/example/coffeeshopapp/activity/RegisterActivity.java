@@ -72,18 +72,24 @@ public class RegisterActivity extends AppCompatActivity {
                 String xacNhanMatKhau = binding.edtXacNhanMatKhau.getText().toString();
 
                 if (TextUtils.isEmpty(hoTen)) {
+                    binding.btnDangKy.setVisibility(VISIBLE);
+                    binding.pbXuLy.setVisibility(INVISIBLE);
                     Toast.makeText(RegisterActivity.this, "Tên tài khoản không được để trống", Toast.LENGTH_SHORT).show();
                     binding.edtHoTen.setError("Nhập tài khoản: ");
                     binding.edtHoTen.requestFocus();
                     return;
                 }
                 if (TextUtils.isEmpty(email)) {
+                    binding.btnDangKy.setVisibility(VISIBLE);
+                    binding.pbXuLy.setVisibility(INVISIBLE);
                     Toast.makeText(RegisterActivity.this, "Email không được để trống", Toast.LENGTH_SHORT).show();
                     binding.edtEmail.setError("Nhập email: ");
                     binding.edtEmail.requestFocus();
                     return;
                 }
                 if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+                    binding.btnDangKy.setVisibility(VISIBLE);
+                    binding.pbXuLy.setVisibility(INVISIBLE);
                     Toast.makeText(RegisterActivity.this, "Email không đúng định dạng", Toast.LENGTH_SHORT).show();
                     binding.edtEmail.setError("Nhập email: ");
                     binding.edtEmail.requestFocus();
@@ -91,18 +97,24 @@ public class RegisterActivity extends AppCompatActivity {
                 }
 
                 if (TextUtils.isEmpty(soDienThoai)) {
+                    binding.btnDangKy.setVisibility(VISIBLE);
+                    binding.pbXuLy.setVisibility(INVISIBLE);
                     Toast.makeText(RegisterActivity.this, "Số điện thoại không được để trống", Toast.LENGTH_SHORT).show();
                     binding.edtSoDienThoai.setError("Nhập số điện thoại: ");
                     binding.edtSoDienThoai.requestFocus();
                     return;
                 }
                 if (soDienThoai.length() != 10) {
+                    binding.btnDangKy.setVisibility(VISIBLE);
+                    binding.pbXuLy.setVisibility(INVISIBLE);
                     Toast.makeText(RegisterActivity.this, "Số điện thoại không hợp lệ", Toast.LENGTH_SHORT).show();
                     binding.edtSoDienThoai.setError("Nhập số điện thoại: ");
                     binding.edtSoDienThoai.requestFocus();
                     return;
                 }
                 if (TextUtils.isEmpty(matKhau)) {
+                    binding.btnDangKy.setVisibility(VISIBLE);
+                    binding.pbXuLy.setVisibility(INVISIBLE);
                     Toast.makeText(RegisterActivity.this, "Mật khẩu không được để trống", Toast.LENGTH_SHORT).show();
                     binding.edtMatKhau.setError("Nhập mật khẩu: ");
                     binding.edtMatKhau.requestFocus();
@@ -110,18 +122,24 @@ public class RegisterActivity extends AppCompatActivity {
                 }
 
                 if (TextUtils.isEmpty(xacNhanMatKhau)) {
+                    binding.btnDangKy.setVisibility(VISIBLE);
+                    binding.pbXuLy.setVisibility(INVISIBLE);
                     Toast.makeText(RegisterActivity.this, "Mật khẩu xác nhận không được để trống", Toast.LENGTH_SHORT).show();
                     binding.edtXacNhanMatKhau.setError("Nhập mật khẩu: ");
                     binding.edtXacNhanMatKhau.requestFocus();
                     return;
                 }
                 if (!matKhau.equals(xacNhanMatKhau)) {
+                    binding.btnDangKy.setVisibility(VISIBLE);
+                    binding.pbXuLy.setVisibility(INVISIBLE);
                     Toast.makeText(RegisterActivity.this, "Mật khẩu xác nhận không trùng khớp", Toast.LENGTH_SHORT).show();
                     binding.edtXacNhanMatKhau.setError("Nhập mật khẩu: ");
                     binding.edtXacNhanMatKhau.requestFocus();
                     return;
                 }
                 if (checkPhoneExist(soDienThoai)) {
+                    binding.btnDangKy.setVisibility(VISIBLE);
+                    binding.pbXuLy.setVisibility(INVISIBLE);
                     Toast.makeText(RegisterActivity.this, "Số điện thoại đã tồn tại", Toast.LENGTH_SHORT).show();
                     binding.edtSoDienThoai.setError("Nhập số điện thoại: ");
                     binding.edtSoDienThoai.requestFocus();
@@ -137,7 +155,7 @@ public class RegisterActivity extends AppCompatActivity {
 
                     @Override
                     public void onVerificationFailed(@NonNull FirebaseException e) {
-                        binding.pbXuLy.setVisibility(GONE);
+                        binding.pbXuLy.setVisibility(INVISIBLE);
                         binding.btnDangKy.setVisibility(VISIBLE);
                         Toast.makeText(RegisterActivity.this, e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
                     }
@@ -171,7 +189,7 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     private Boolean checkPhoneExist(String phone) {
-
+        isExist = false;
         databaseReference.child("Account").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {

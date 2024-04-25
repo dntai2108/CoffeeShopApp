@@ -58,7 +58,7 @@ public class ListProductActivity extends AppCompatActivity {
         imgBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(ListProductActivity.this, HomeActivity.class));
+                startActivity(new Intent(ListProductActivity.this, Bottom_nav.class));
             }
         });
         //Lấy dữ liệu product từ firebase

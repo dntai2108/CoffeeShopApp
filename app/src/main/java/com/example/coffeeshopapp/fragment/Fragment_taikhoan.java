@@ -11,12 +11,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.coffeeshopapp.R;
-import com.example.coffeeshopapp.activity.AccountActivity;
-import com.example.coffeeshopapp.activity.HomeActivity;
+import com.example.coffeeshopapp.activity.Bottom_nav;
 import com.example.coffeeshopapp.activity.LoginActivity;
 import com.example.coffeeshopapp.activity.ProfileActivity;
-import com.example.coffeeshopapp.databinding.ActivityAccountBinding;
 import com.example.coffeeshopapp.databinding.FragmentTaikhoanBinding;
 
 /**
@@ -99,7 +96,7 @@ public class Fragment_taikhoan extends Fragment {
         binding.ivQuayLai.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getContext(), HomeActivity.class));
+                startActivity(new Intent(getContext(), Bottom_nav.class));
 
             }
         });

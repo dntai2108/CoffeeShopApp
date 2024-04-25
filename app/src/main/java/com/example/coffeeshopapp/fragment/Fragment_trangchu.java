@@ -1,6 +1,5 @@
 package com.example.coffeeshopapp.fragment;
 
-import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -12,12 +11,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.example.coffeeshopapp.R;
-import com.example.coffeeshopapp.activity.CartActivity;
-import com.example.coffeeshopapp.activity.HomeActivity;
 import com.example.coffeeshopapp.adapter.ItemAdapter;
 import com.example.coffeeshopapp.model.Product;
 import com.google.firebase.database.DataSnapshot;

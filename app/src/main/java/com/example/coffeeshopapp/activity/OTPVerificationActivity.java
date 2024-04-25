@@ -119,7 +119,7 @@ public class OTPVerificationActivity extends AppCompatActivity {
 
                                                 }
                                             });
-                                            Intent intent = new Intent(OTPVerificationActivity.this, HomeActivity.class);
+                                            Intent intent = new Intent(OTPVerificationActivity.this, Bottom_nav.class);
                                             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                                             startActivity(intent);
                                         }

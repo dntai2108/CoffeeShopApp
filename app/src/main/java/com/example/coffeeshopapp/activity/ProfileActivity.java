@@ -10,6 +10,7 @@ import android.view.View;
 
 import com.example.coffeeshopapp.R;
 import com.example.coffeeshopapp.databinding.ActivityProfileBinding;
+import com.example.coffeeshopapp.fragment.Fragment_taikhoan;
 import com.example.coffeeshopapp.model.Customer;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -66,7 +67,7 @@ public class ProfileActivity extends AppCompatActivity {
         binding.ivQuayLai.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(ProfileActivity.this, AccountActivity.class));
+                startActivity(new Intent(ProfileActivity.this, Fragment_taikhoan.class));
             }
         });
 

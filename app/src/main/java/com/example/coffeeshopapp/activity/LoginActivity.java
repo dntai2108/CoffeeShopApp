@@ -123,8 +123,6 @@ public class LoginActivity extends AppCompatActivity {
                                 if (layMatKhau.equals(matKhau)) {
                                     binding.pbXuLy.setVisibility(VISIBLE);
                                     binding.btnDangNhap.setVisibility(INVISIBLE);
-
-
                                     if (role.equals("user")) {
                                         Intent intent = new Intent(LoginActivity.this, Bottom_nav.class);
                                         startActivity(intent);

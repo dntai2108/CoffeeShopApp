@@ -8,6 +8,7 @@ import android.view.View;
 
 import com.example.coffeeshopapp.R;
 import com.example.coffeeshopapp.databinding.ActivityAccountBinding;
+import com.example.coffeeshopapp.fragment.Fragment_taikhoan;
 
 public class AccountActivity extends AppCompatActivity {
     private ActivityAccountBinding binding;
@@ -37,7 +38,7 @@ public class AccountActivity extends AppCompatActivity {
         binding.ivQuayLai.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(AccountActivity.this, HomeActivity.class));
+                startActivity(new Intent(AccountActivity.this, Fragment_taikhoan.class));
 
             }
         });
