@@ -109,7 +109,9 @@ public class FragmentAccountActivityShipper extends Fragment {
         binding.tvPassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getContext(), ChangePassword.class));
+                Intent intent = new Intent(getContext(), ChangePassword.class);
+                intent.putExtra("role", "shipper");
+                startActivity(intent);
             }
         });
     }

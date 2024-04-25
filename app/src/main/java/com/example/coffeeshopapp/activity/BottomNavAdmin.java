@@ -25,16 +25,6 @@ public class BottomNavAdmin extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         bd = ActivityBottomNavAdminBinding.inflate(getLayoutInflater());
         setContentView(bd.getRoot());
-        if (savedInstanceState == null) {
-            Boolean openTaiKhoan = getIntent().getBooleanExtra("openTaiKhoan", false);
-            if (openTaiKhoan) {
-                replaceFragment(new FragmentAccountAdmin());
-                bd.bottomNav.getMenu().findItem(R.id.bottomnav_taikhoan).setChecked(true);
-            } else {
-                replaceFragment(new Fragment_HomeAdmin());
-
-            }
-        }
         bd.bottomNav.setOnItemSelectedListener(item -> {
             int itemId = item.getItemId();
             if (itemId == R.id.bottomnav_trangchu) {
@@ -48,6 +38,17 @@ public class BottomNavAdmin extends AppCompatActivity {
             }
             return true;
         });
+        if (savedInstanceState == null) {
+            Boolean openTaiKhoan = getIntent().getBooleanExtra("openTaiKhoan", false);
+            if (openTaiKhoan) {
+                replaceFragment(new FragmentAccountAdmin());
+                bd.bottomNav.getMenu().findItem(R.id.bottomnav_taikhoan).setChecked(true);
+                return;
+            } else {
+                replaceFragment(new Fragment_HomeAdmin());
+
+            }
+        }
     }
 
 

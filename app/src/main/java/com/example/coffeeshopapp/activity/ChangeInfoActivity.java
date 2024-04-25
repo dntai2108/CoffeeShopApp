@@ -126,8 +126,12 @@ public class ChangeInfoActivity extends AppCompatActivity {
                 String role = getIntent().getStringExtra("role");
                 Intent intent = new Intent(ChangeInfoActivity.this, Bottom_nav.class);
                 if (role.equals("admin")) {
+                    intent = new Intent(ChangeInfoActivity.this, ProfileActivity.class);
                     intent.putExtra("role", role);
-                    intent = new Intent(ChangeInfoActivity.this, BottomNavAdmin.class);
+                }
+                else if(role.equals("shipper")){
+                    intent = new Intent(ChangeInfoActivity.this, ProfileActivity.class);
+                    intent.putExtra("role", role);
                 }
                 startActivity(intent);
             }

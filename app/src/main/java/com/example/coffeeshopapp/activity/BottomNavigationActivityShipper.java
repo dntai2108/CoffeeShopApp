@@ -28,14 +28,6 @@ public class BottomNavigationActivityShipper extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         bd = ActivityBottomNavigationShipperBinding.inflate(getLayoutInflater());
         setContentView(bd.getRoot());
-        if (savedInstanceState == null) {
-            Boolean openTaiKhoan = getIntent().getBooleanExtra("openTaiKhoan", false);
-            if (openTaiKhoan) {
-                replaceFragment(new FragmentAccountActivityShipper());
-                bd.bottomNav.getMenu().findItem(R.id.Account).setChecked(true);
-            }
-            replaceFragment(new FragmentOrderShipper());
-        }
         bd.bottomNav.setOnItemSelectedListener(item -> {
             int itemId = item.getItemId();
             if (itemId == R.id.Order) {
@@ -49,6 +41,15 @@ public class BottomNavigationActivityShipper extends AppCompatActivity {
             }
             return true;
         });
+        if (savedInstanceState == null) {
+            Boolean openTaiKhoan = getIntent().getBooleanExtra("openTaiKhoan", false);
+            if (openTaiKhoan) {
+                replaceFragment(new FragmentAccountActivityShipper());
+                bd.bottomNav.getMenu().findItem(R.id.Account).setChecked(true);
+                return;
+            }
+            replaceFragment(new FragmentOrderShipper());
+        }
     }
 
     private void replaceFragment(Fragment fragment) {

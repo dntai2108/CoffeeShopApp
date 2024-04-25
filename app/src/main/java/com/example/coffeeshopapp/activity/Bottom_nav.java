@@ -23,6 +23,22 @@ public class Bottom_nav extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         bd = ActivityBottomNavBinding.inflate(getLayoutInflater());
         setContentView(bd.getRoot());
+        bd.navView.setOnItemSelectedListener(item -> {
+            int itemId = item.getItemId();
+            if (itemId == R.id.bottomnav_trangchu) {
+                replaceFragment(new Fragment_trangchu());
+            }
+            if (itemId == R.id.bottomnav_giohang) {
+                replaceFragment(new Fragment_giohang());
+            }
+            if (itemId == R.id.bottomnav_donhang) {
+                replaceFragment(new Fragment_donhang());
+            }
+            if (itemId == R.id.bottomnav_taikhoan) {
+                replaceFragment(new Fragment_taikhoan());
+            }
+            return true;
+        });
         if (savedInstanceState == null) {
             Boolean openTaiKhoan = getIntent().getBooleanExtra("openTaiKhoan", false);
             String role = getIntent().getStringExtra("role");
@@ -47,22 +63,6 @@ public class Bottom_nav extends AppCompatActivity {
             }
         }
 
-        bd.navView.setOnItemSelectedListener(item -> {
-            int itemId = item.getItemId();
-            if (itemId == R.id.bottomnav_trangchu) {
-                replaceFragment(new Fragment_trangchu());
-            }
-            if (itemId == R.id.bottomnav_giohang) {
-                replaceFragment(new Fragment_giohang());
-            }
-            if (itemId == R.id.bottomnav_donhang) {
-                replaceFragment(new Fragment_donhang());
-            }
-            if (itemId == R.id.bottomnav_taikhoan) {
-                replaceFragment(new Fragment_taikhoan());
-            }
-            return true;
-        });
     }
 
     private void replaceFragment(Fragment fragment) {

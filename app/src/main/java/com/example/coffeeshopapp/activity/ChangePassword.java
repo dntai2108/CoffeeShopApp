@@ -106,7 +106,9 @@ public class ChangePassword extends AppCompatActivity {
 
                     }
                 });
+                String role = getIntent().getStringExtra("role");
                 Intent intent = new Intent(ChangePassword.this, Bottom_nav.class);
+                intent.putExtra("role",role);
                 intent.putExtra("openTaiKhoan", true);
                 startActivity(intent);
             }
@@ -116,7 +118,9 @@ public class ChangePassword extends AppCompatActivity {
         binding.ivQuayLai.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                String role = getIntent().getStringExtra("role");
                 Intent intent = new Intent(ChangePassword.this, Bottom_nav.class);
+                intent.putExtra("role",role);
                 intent.putExtra("openTaiKhoan", true);
                 startActivity(intent);
             }
