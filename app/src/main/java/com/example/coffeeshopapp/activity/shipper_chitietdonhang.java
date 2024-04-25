@@ -73,44 +73,41 @@ public class shipper_chitietdonhang extends AppCompatActivity {
             public void onClick(View v) {
                 boolean flag = getIntent().getBooleanExtra("flag",false);
                 String maDonHang = getIntent().getStringExtra("maDonHang");
+                String customerId = getIntent().getStringExtra("customer");
                 if(flag){
-                    databaseReference.addValueEventListener(new ValueEventListener() {
+                    databaseReference.child(customerId).child("Order").child(maDonHang).addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
-                            for(DataSnapshot customerSnapshot: snapshot.getChildren()){
-                                for(DataSnapshot orderSnapshot: customerSnapshot.child("Order").getChildren()){
-                                    if(orderSnapshot.getKey().equals(maDonHang)){
-                                        orderSnapshot.getRef().child("status").setValue("Hoàn thành");
-                                        for(DataSnapshot cartListSnapshot:orderSnapshot.child("cartList").getChildren()){
-                                            DatabaseReference productReference = FirebaseDatabase.getInstance().getReference("Product");
-                                            productReference.addValueEventListener(new ValueEventListener() {
-                                                @Override
-                                                public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                                    for(DataSnapshot productSnapshot: snapshot.getChildren()){
-                                                        if(productSnapshot.child("id").getValue(String.class).equals(cartListSnapshot.child("product").child("id").getValue(String.class))){
-                                                           int soluongmua = Integer.parseInt(productSnapshot.child("soluongmua").getValue(String.class));
-                                                           int soluongmuadonhang = Integer.parseInt(cartListSnapshot.child("quantity").getValue(String.class));
-                                                           soluongmua += soluongmuadonhang;
-                                                           productSnapshot.getRef().child("soluongmua").setValue(String.valueOf(soluongmua));
-                                                        }
-                                                    }
-                                                    productReference.removeEventListener(this);
+                            if(snapshot.getKey().equals(maDonHang)){
+                                snapshot.getRef().child("status").setValue("Hoàn thành");
+                                for(DataSnapshot cartListSnapshot:snapshot.child("cartList").getChildren()){
+                                    DatabaseReference productReference = FirebaseDatabase.getInstance().getReference("Product");
+                                    productReference.addValueEventListener(new ValueEventListener() {
+                                        @Override
+                                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                            for(DataSnapshot productSnapshot: snapshot.getChildren()){
+                                                if(productSnapshot.child("id").getValue(String.class).equals(cartListSnapshot.child("product").child("id").getValue(String.class))){
+                                                    int soluongmua = Integer.parseInt(productSnapshot.child("soluongmua").getValue(String.class));
+                                                    int soluongmuadonhang = Integer.parseInt(cartListSnapshot.child("quantity").getValue(String.class));
+                                                    soluongmua += soluongmuadonhang;
+                                                    productSnapshot.getRef().child("soluongmua").setValue(String.valueOf(soluongmua));
                                                 }
-
-                                                @Override
-                                                public void onCancelled(@NonNull DatabaseError error) {
-
-                                                }
-                                            });
+                                            }
+                                            productReference.removeEventListener(this);
                                         }
-                                        Toast.makeText(shipper_chitietdonhang.this,"Hoàn thành đơn hàng", Toast.LENGTH_LONG).show();
-                                        Intent intent = new Intent(shipper_chitietdonhang.this, SuccessNotifyActivityShipper.class);
-                                        startActivity(intent);
-                                        databaseReference.removeEventListener(this);
-                                        onBackPressed();
-                                        return;
-                                    }
+
+                                        @Override
+                                        public void onCancelled(@NonNull DatabaseError error) {
+
+                                        }
+                                    });
                                 }
+                                Toast.makeText(shipper_chitietdonhang.this,"Hoàn thành đơn hàng", Toast.LENGTH_LONG).show();
+                                Intent intent = new Intent(shipper_chitietdonhang.this, SuccessNotifyActivityShipper.class);
+                                startActivity(intent);
+                                databaseReference.removeEventListener(this);
+                                onBackPressed();
+                                return;
                             }
                         }
 
@@ -119,6 +116,51 @@ public class shipper_chitietdonhang extends AppCompatActivity {
 
                         }
                     });
+//                    databaseReference.addValueEventListener(new ValueEventListener() {
+//                        @Override
+//                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+//                            for(DataSnapshot customerSnapshot: snapshot.getChildren()){
+//                                for(DataSnapshot orderSnapshot: customerSnapshot.child("Order").getChildren()){
+//                                    if(orderSnapshot.getKey().equals(maDonHang)){
+//                                        orderSnapshot.getRef().child("status").setValue("Hoàn thành");
+//                                        for(DataSnapshot cartListSnapshot:orderSnapshot.child("cartList").getChildren()){
+//                                            DatabaseReference productReference = FirebaseDatabase.getInstance().getReference("Product");
+//                                            productReference.addValueEventListener(new ValueEventListener() {
+//                                                @Override
+//                                                public void onDataChange(@NonNull DataSnapshot snapshot) {
+//                                                    for(DataSnapshot productSnapshot: snapshot.getChildren()){
+//                                                        if(productSnapshot.child("id").getValue(String.class).equals(cartListSnapshot.child("product").child("id").getValue(String.class))){
+//                                                           int soluongmua = Integer.parseInt(productSnapshot.child("soluongmua").getValue(String.class));
+//                                                           int soluongmuadonhang = Integer.parseInt(cartListSnapshot.child("quantity").getValue(String.class));
+//                                                           soluongmua += soluongmuadonhang;
+//                                                           productSnapshot.getRef().child("soluongmua").setValue(String.valueOf(soluongmua));
+//                                                        }
+//                                                    }
+//                                                    productReference.removeEventListener(this);
+//                                                }
+//
+//                                                @Override
+//                                                public void onCancelled(@NonNull DatabaseError error) {
+//
+//                                                }
+//                                            });
+//                                        }
+//                                        Toast.makeText(shipper_chitietdonhang.this,"Hoàn thành đơn hàng", Toast.LENGTH_LONG).show();
+//                                        Intent intent = new Intent(shipper_chitietdonhang.this, SuccessNotifyActivityShipper.class);
+//                                        startActivity(intent);
+//                                        databaseReference.removeEventListener(this);
+//                                        onBackPressed();
+//                                        return;
+//                                    }
+//                                }
+//                            }
+//                        }
+//
+//                        @Override
+//                        public void onCancelled(@NonNull DatabaseError error) {
+//
+//                        }
+//                    });
 
                 }
                 else{

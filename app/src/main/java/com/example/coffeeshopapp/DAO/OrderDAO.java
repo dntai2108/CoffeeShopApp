@@ -26,6 +26,7 @@ import java.sql.SQLException;
 import java.sql.Time;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.time.Month;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -187,67 +188,140 @@ public class OrderDAO {
     public CompletableFuture<LinkedHashMap<String, Double>> GetTotalOrdersByMonth(int year1) {
         CompletableFuture<LinkedHashMap<String, Double>> future = new CompletableFuture<>();
 
-        DatabaseReference orderRef = FirebaseDatabase.getInstance().getReference("Orders");
+        DatabaseReference orderRef = FirebaseDatabase.getInstance().getReference("Customer");
         LinkedHashMap<String, Double> totalOrders = new LinkedHashMap<>();
-
-        orderRef.addListenerForSingleValueEvent(new ValueEventListener() {
+        orderRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for (DataSnapshot data : snapshot.getChildren()) {
-                    Order order = data.getValue(Order.class);
-                    assert order != null;
-                    String year = String.valueOf(Format_Year(order.getOrderDate()));
-                    String month = String.valueOf(Format_Month(order.getOrderDate()));
-                    double total = Double.parseDouble(order.getTotalAmount());
-
-                    if (order.getStatus().equalsIgnoreCase("Hoàn thành")) {
-                        if (year.equals(String.valueOf(year1))) {
-                            totalOrders.merge(month, total, Double::sum);
+                for (DataSnapshot customerSnapshot: snapshot.getChildren()){
+                    for(DataSnapshot orderSnapshot: customerSnapshot.child("Order").getChildren()){
+                        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                        String orderDate = orderSnapshot.child("orderDate").getValue(String.class);
+                        String status = orderSnapshot.child("status").getValue(String.class);
+                        Double total = Double.parseDouble(orderSnapshot.child("totalAmount").getValue(String.class).replaceAll("[^0-9]", ""));
+                        Date date;
+                        try {
+                            date  =  dateFormat.parse(orderDate);
+                        } catch (ParseException e) {
+                            throw new RuntimeException(e);
                         }
+                        Calendar calendar = Calendar.getInstance();
+                        calendar.setTime(date);
+                        int y = calendar.get(Calendar.YEAR);
+                        int m = calendar.get(Calendar.MONTH) + 1;
+                        String year = String.valueOf(y);
+                        String month = String.valueOf(m);
+                        if (status.equalsIgnoreCase("Hoàn thành")) {
+                            if (year.equals(String.valueOf(year1))) {
+                                totalOrders.merge(month, total, Double::sum);
+                            }
 
+                        }
                     }
                 }
-                future.complete(totalOrders); // Hoàn tất CompletableFuture với dữ liệu
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                future.completeExceptionally(error.toException()); // Xử lý lỗi nếu có
+
             }
         });
+
+//        orderRef.addListenerForSingleValueEvent(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot snapshot) {
+//                for (DataSnapshot data : snapshot.getChildren()) {
+//                    Order order = data.getValue(Order.class);
+//                    assert order != null;
+//                    String year = String.valueOf(Format_Year(order.getOrderDate()));
+//                    String month = String.valueOf(Format_Month(order.getOrderDate()));
+//                    double total = Double.parseDouble(order.getTotalAmount());
+//
+//                    if (order.getStatus().equalsIgnoreCase("Hoàn thành")) {
+//                        if (year.equals(String.valueOf(year1))) {
+//                            totalOrders.merge(month, total, Double::sum);
+//                        }
+//
+//                    }
+//                }
+//                future.complete(totalOrders); // Hoàn tất CompletableFuture với dữ liệu
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError error) {
+//                future.completeExceptionally(error.toException()); // Xử lý lỗi nếu có
+//            }
+//        });
 
         return future;
     }
 
-    public CompletableFuture<LinkedHashMap<String, Double>> GetTotalOrdersByYear() {
-        CompletableFuture<LinkedHashMap<String, Double>> future = new CompletableFuture<>();
+            public CompletableFuture<LinkedHashMap<String, Double>> GetTotalOrdersByYear() {
+                CompletableFuture<LinkedHashMap<String, Double>> future = new CompletableFuture<>();
 
-        DatabaseReference orderRef = FirebaseDatabase.getInstance().getReference("Orders");
-        LinkedHashMap<String, Double> totalOrders = new LinkedHashMap<>();
-
-        orderRef.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for (DataSnapshot data : snapshot.getChildren()) {
-                    Order order = data.getValue(Order.class);
-                    String year = String.valueOf(Format_Year(order.getOrderDate()));
-                    double total = Double.parseDouble(order.getTotalAmount());
-
-                    if (order.getStatus().equalsIgnoreCase("Hoàn thành")) {
-                        totalOrders.merge(year, total, Double::sum);
+                DatabaseReference orderRef = FirebaseDatabase.getInstance().getReference("Customer");
+                LinkedHashMap<String, Double> totalOrders = new LinkedHashMap<>();
+                orderRef.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        for (DataSnapshot customerSnapshot: snapshot.getChildren()){
+                            for(DataSnapshot orderSnapshot: customerSnapshot.child("Order").getChildren()){
+                                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                                String orderDate = orderSnapshot.child("orderDate").getValue(String.class);
+                                String status = orderSnapshot.child("status").getValue(String.class);
+                                String t = orderSnapshot.child("totalAmount").getValue(String.class);
+                                String a = t.replaceAll("[^0-9]", "");
+                                Double total = Double.parseDouble(t.replaceAll("[^0-9]", ""));
+                                Date date;
+                                try {
+                                    date  =  dateFormat.parse(orderDate);
+                                } catch (ParseException e) {
+                                    throw new RuntimeException(e);
+                                }
+                                Calendar calendar = Calendar.getInstance();
+                                calendar.setTime(date);
+                                int y = calendar.get(Calendar.YEAR);
+                                int m = calendar.get(Calendar.MONTH) + 1;
+                                String year = String.valueOf(y);
+                                String month = String.valueOf(m);
+                                if (status.equalsIgnoreCase("Hoàn thành")) {
+                                    totalOrders.merge(year, total, Double::sum);
+                                }
+                            }
+                        }
+                        future.complete(totalOrders);
                     }
-                }
-                future.complete(totalOrders); // Hoàn tất CompletableFuture với dữ liệu
-            }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                future.completeExceptionally(error.toException()); // Xử lý lỗi nếu có
-            }
-        });
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+                        future.completeExceptionally(error.toException());
+                    }
+                });
 
-        return future;
-    }
+
+        //        orderRef.addListenerForSingleValueEvent(new ValueEventListener() {
+        //            @Override
+        //            public void onDataChange(@NonNull DataSnapshot snapshot) {
+        //                for (DataSnapshot data : snapshot.getChildren()) {
+        //                    Order order = data.getValue(Order.class);
+        //                    String year = String.valueOf(Format_Year(order.getOrderDate()));
+        //                    double total = Double.parseDouble(order.getTotalAmount());
+        //
+        //                    if (order.getStatus().equalsIgnoreCase("Hoàn thành")) {
+        //                        totalOrders.merge(year, total, Double::sum);
+        //                    }
+        //                }
+        //                future.complete(totalOrders); // Hoàn tất CompletableFuture với dữ liệu
+        //            }
+        //
+        //            @Override
+        //            public void onCancelled(@NonNull DatabaseError error) {
+        //                future.completeExceptionally(error.toException()); // Xử lý lỗi nếu có
+        //            }
+        //        });
+
+                return future;
+            }
 
     public LinkedHashMap<String, Double> GetTotalOrdersByDay(int month, int year) {
         LinkedHashMap<String, Double> total_orders = new LinkedHashMap<>();

@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.coffeeshopapp.R;
 import com.example.coffeeshopapp.activity.shipper_chitietdonhang;
+import com.example.coffeeshopapp.model.Customer;
 import com.example.coffeeshopapp.model.Order;
 
 import java.util.ArrayList;
@@ -59,6 +60,8 @@ public class RecycleViewFragmentDeliveried extends RecyclerView.Adapter<RecycleV
                 Intent intent = new Intent(context, shipper_chitietdonhang.class);
                 String o = order.getOrderId();
                 intent.putExtra("maDonHang", order.getOrderId());
+                String tesst = order.getCustomerId();
+                intent.putExtra("customer", order.getCustomerId());
                 intent.putExtra("flag", true);
                 context.startActivity(intent);
             }

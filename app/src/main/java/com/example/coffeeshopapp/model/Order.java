@@ -13,6 +13,7 @@ public class Order implements Serializable {
     private String status;
     private String orderDate;
     private String totalAmount;
+    private String customerId;
     private Customer customer;
 
     private String shipperId;
@@ -94,5 +95,19 @@ public class Order implements Serializable {
         this.totalAmount = totalAmount;
     }
 
+    public String getCustomerId() {
+        return customerId;
+    }
 
+    public void setCustomerId(String customerId) {
+        this.customerId = customerId;
+    }
+
+    public String getShipperId() {
+        return shipperId;
+    }
+
+    public void setShipperId(String shipperId) {
+        this.shipperId = shipperId;
+    }
 }

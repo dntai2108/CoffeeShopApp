@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import com.example.coffeeshopapp.R;
@@ -32,7 +33,8 @@ public class BottomNavAdmin extends AppCompatActivity {
             } else if (itemId == R.id.bottomnav_donhang) {
                 replaceFragment(new Fragment_DonHangAdmin());
             } else if (itemId == R.id.bottomnav_thongke) {
-                replaceFragment(new FragmentAccountActivityShipper());
+                Intent intent = new Intent(BottomNavAdmin.this,Admin_Bottom_Navigation_Admin.class);
+                startActivity(intent);
             } else if (itemId == R.id.bottomnav_taikhoan) {
                 replaceFragment(new FragmentAccountAdmin());
             }

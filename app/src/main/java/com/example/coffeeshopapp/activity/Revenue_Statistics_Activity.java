@@ -65,7 +65,7 @@ public class Revenue_Statistics_Activity extends AppCompatActivity {
         Set_Declare();// định nghĩa thành phần
         Setup_Data_Sprinner_Typetime();// Set up data spinner typetime
         selected_idtypetime = Get_Key_Default(spinner_type_time, type_time);// đặt mặc định cho selected_idtypetime
-//        Get_Data_Spinner_Year();
+        Get_Data_Spinner_Year();
         Setup_Data_Spinner_Year(); // tương tự
 //        selected_year = Get_Key_Year_Default();
 //        Set_Up_Data_Spinner_Month();
@@ -126,7 +126,7 @@ public class Revenue_Statistics_Activity extends AppCompatActivity {
                 totalOrder.clear();
                 if (selected_idtypetime == 2) {
                     Set_up_X();
-                    orderDAO.GetTotalOrdersByMonth(selected_year).thenAccept(hashMap -> {
+                    orderDAO.GetTotalOrdersByMonth(Integer.parseInt(year)).thenAccept(hashMap -> {
                         for (Map.Entry<String, Double> entry : hashMap.entrySet()) {
                             String year1 = entry.getKey();
                             Double total = entry.getValue();
@@ -203,7 +203,7 @@ public class Revenue_Statistics_Activity extends AppCompatActivity {
                     Set_up_X();
                     spinner_year.setVisibility(View.VISIBLE);
                     totalOrder.clear();
-                    orderDAO.GetTotalOrdersByMonth(selected_year).thenAccept(hashMap -> {
+                    orderDAO.GetTotalOrdersByMonth(2024).thenAccept(hashMap -> {
                         for (Map.Entry<String, Double> entry : hashMap.entrySet()) {
                             String year = entry.getKey();
                             Double total = entry.getValue();
@@ -321,19 +321,11 @@ public class Revenue_Statistics_Activity extends AppCompatActivity {
     }
 
     private void Setup_Data_Spinner_Year() {
-        orderDAO.Get_Year(new OrderDataListener() {
-            @Override
-            public void onOrderListLoaded(ArrayList<Order> orderList) {
-                // Không cần thực hiện bất kỳ hành động nào ở đây
-            }
-
-            @Override
-            public void onNumberList(ArrayList<Integer> yearList) {
-                ArrayAdapter<Integer> year_Adapter = new ArrayAdapter<>(Revenue_Statistics_Activity.this, android.R.layout.simple_spinner_item, yearList);
-                year_Adapter.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
-                spinner_year.setAdapter(year_Adapter);
-            }
-        });
+        ArrayList<Integer>yearList = new ArrayList<Integer>();
+        yearList.add(2024);
+        ArrayAdapter<Integer> year_Adapter = new ArrayAdapter<>(Revenue_Statistics_Activity.this, android.R.layout.simple_spinner_item, yearList);
+        year_Adapter.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
+        spinner_year.setAdapter(year_Adapter);
     }
 
     private void Load_Data_Y_ByYear() {

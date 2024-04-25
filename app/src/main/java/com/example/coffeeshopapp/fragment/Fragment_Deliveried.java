@@ -17,6 +17,7 @@ import com.example.coffeeshopapp.adapter.RecycleViewFragmentDeliveried;
 import com.example.coffeeshopapp.adapter.RecycleViewFragmentDelivering;
 import com.example.coffeeshopapp.databinding.FragmentDeliveriedBinding;
 import com.example.coffeeshopapp.databinding.FragmentDeliveringBinding;
+import com.example.coffeeshopapp.model.Customer;
 import com.example.coffeeshopapp.model.Order;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -123,6 +124,8 @@ public class Fragment_Deliveried extends Fragment {
                         String status = orderSnapshot.child("status").getValue(String.class);
                         String totalAmount = orderSnapshot.child("totalAmount").getValue(String.class);
                         String shipperId = orderSnapshot.child("shipperId").getValue(String.class);
+                        String customerId = dataSnapshot.child("id").getValue(String.class);
+                        o.setCustomerId(customerId);
                         o.setOrderId(orderId);
                         o.setOrderDate(orderDate);
                         o.setStatus(status);
