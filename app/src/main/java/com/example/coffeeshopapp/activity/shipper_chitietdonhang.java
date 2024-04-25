@@ -80,6 +80,7 @@ public class shipper_chitietdonhang extends AppCompatActivity {
                                         startActivity(intent);
                                         databaseReference.removeEventListener(this);
                                         onBackPressed();
+                                        return;
                                     }
                                 }
                             }
@@ -101,12 +102,12 @@ public class shipper_chitietdonhang extends AppCompatActivity {
                                         orderSnapshot.getRef().addValueEventListener(new ValueEventListener() {
                                             @Override
                                             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                                snapshot.child("status").getRef().setValue("Đang giao");
-                                                Toast.makeText(shipper_chitietdonhang.this,"đang giao đơn hàng", Toast.LENGTH_SHORT).show();
-                                                orderSnapshot.getRef().removeEventListener(this);
-                                                databaseReference.removeEventListener(this);
-                                                onBackPressed();
-                                                finish();
+                                                if(!snapshot.child("status").getValue(String.class).equals("Đang giao")){
+                                                    snapshot.child("status").getRef().setValue("Đang giao");
+                                                    Toast.makeText(shipper_chitietdonhang.this,"đang giao đơn hàng", Toast.LENGTH_SHORT).show();
+                                                    orderSnapshot.getRef().removeEventListener(this);
+                                                    onBackPressed();
+                                                }
                                             }
 
                                             @Override
@@ -114,6 +115,7 @@ public class shipper_chitietdonhang extends AppCompatActivity {
 
                                             }
                                         });
+                                        databaseReference.removeEventListener(this);
                                     }
                                 }
                             }
@@ -141,6 +143,7 @@ public class shipper_chitietdonhang extends AppCompatActivity {
                                         orderSnapshot.getRef().child("status").setValue("Đã Hủy");
                                         Toast.makeText(shipper_chitietdonhang.this,"đã hủy đơn hàng", Toast.LENGTH_LONG).show();
                                         databaseReference.removeEventListener(this);
+                                        onBackPressed();
                                         return;
                                     }
                                 }
