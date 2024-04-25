@@ -16,6 +16,9 @@
         android:theme="@style/Theme.CoffeeShopApp"
         tools:targetApi="31">
         <activity
+            android:name=".activity.ChangePassword"
+            android:exported="false" />
+        <activity
             android:name=".activity.BottomNavAdmin"
             android:exported="true" />
         <activity

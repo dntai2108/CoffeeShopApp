@@ -164,7 +164,7 @@ public class LoginActivity extends AppCompatActivity {
 //                                    edittor.putString("phone", soDienThoai);
 //                                    edittor.apply();
                                     } else if (role.equals("admin")) {
-                                        Intent intent = new Intent(LoginActivity.this, ManageProductActivity.class);
+                                        Intent intent = new Intent(LoginActivity.this, BottomNavAdmin.class);
                                         startActivity(intent);
                                     } else {
                                         Intent intent = new Intent(LoginActivity.this, BottomNavigationActivityShipper.class);

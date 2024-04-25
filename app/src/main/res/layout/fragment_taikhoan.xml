@@ -72,14 +72,14 @@
         <ImageView
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:src="@drawable/settings"
+            android:src="@drawable/padlock"
             android:layout_margin="8dp" />
 
         <TextView
             android:id="@+id/tvSetting"
             android:layout_width="match_parent"
             android:layout_height="55dp"
-            android:text="Cài đặt"
+            android:text="Đổi mật khẩu"
             android:textSize="20sp"
             android:textStyle="bold"
             android:layout_marginTop="8dp"
