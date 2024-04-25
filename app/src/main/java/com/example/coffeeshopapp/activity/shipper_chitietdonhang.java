@@ -62,6 +62,12 @@ public class shipper_chitietdonhang extends AppCompatActivity {
     }
 
     private void setEvent() {
+        bd.btnBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
         bd.btnInShipperChiTietDonHang.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -80,6 +86,7 @@ public class shipper_chitietdonhang extends AppCompatActivity {
                                         startActivity(intent);
                                         databaseReference.removeEventListener(this);
                                         onBackPressed();
+                                        return;
                                     }
                                 }
                             }
@@ -98,8 +105,22 @@ public class shipper_chitietdonhang extends AppCompatActivity {
                             for(DataSnapshot customerSnapshot: snapshot.getChildren()){
                                 for(DataSnapshot orderSnapshot: customerSnapshot.child("Order").getChildren()){
                                     if(orderSnapshot.getKey().equals(maDonHang)){
-                                        orderSnapshot.getRef().child("status").setValue("Đang giao");
-                                        Toast.makeText(shipper_chitietdonhang.this,"đang giao đơn hàng", Toast.LENGTH_LONG).show();
+                                        orderSnapshot.getRef().addValueEventListener(new ValueEventListener() {
+                                            @Override
+                                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                                if(!snapshot.child("status").getValue(String.class).equals("Đang giao")){
+                                                    snapshot.child("status").getRef().setValue("Đang giao");
+                                                    Toast.makeText(shipper_chitietdonhang.this,"đang giao đơn hàng", Toast.LENGTH_SHORT).show();
+                                                    orderSnapshot.getRef().removeEventListener(this);
+                                                    onBackPressed();
+                                                }
+                                            }
+
+                                            @Override
+                                            public void onCancelled(@NonNull DatabaseError error) {
+
+                                            }
+                                        });
                                         databaseReference.removeEventListener(this);
                                     }
                                 }
@@ -128,6 +149,7 @@ public class shipper_chitietdonhang extends AppCompatActivity {
                                         orderSnapshot.getRef().child("status").setValue("Đã Hủy");
                                         Toast.makeText(shipper_chitietdonhang.this,"đã hủy đơn hàng", Toast.LENGTH_LONG).show();
                                         databaseReference.removeEventListener(this);
+                                        onBackPressed();
                                         return;
                                     }
                                 }

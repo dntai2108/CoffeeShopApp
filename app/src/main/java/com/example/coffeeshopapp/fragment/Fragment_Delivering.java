@@ -99,16 +99,21 @@ public class Fragment_Delivering extends Fragment {
         bd.RecyclerViewOrder.setAdapter(recycleViewFragmentDelivering);
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        reloadOrder();
+    }
+
     public void reloadOrder(){
+        SharedPreferences sharedPreferences = getContext().getSharedPreferences("User", getContext().MODE_PRIVATE);
+        String userId = sharedPreferences.getString("userId", "");
         databaseReferences.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                SharedPreferences sharedPreferences = getContext().getSharedPreferences("User", getContext().MODE_PRIVATE);
-                String userId = sharedPreferences.getString("userId", "");
                 orderList.clear();
                 for(DataSnapshot dataSnapshot: snapshot.getChildren()){
                     for(DataSnapshot orderSnapshot: dataSnapshot.child("Order").getChildren()){
-                        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                         Order o = new Order();
                         String orderDate = orderSnapshot.child("orderDate").getValue(String.class);
                         String orderId = orderSnapshot.child("orderId").getValue(String.class);

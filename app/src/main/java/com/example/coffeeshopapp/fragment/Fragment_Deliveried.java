@@ -102,12 +102,17 @@ public class Fragment_Deliveried extends Fragment {
         recycleViewFragmentDeliveried = new RecycleViewFragmentDeliveried(orderList,getContext());
         bd.recyclervieworder.setAdapter(recycleViewFragmentDeliveried);
     }
+    @Override
+    public void onResume() {
+        super.onResume();
+        reloadOrder();
+    }
     public void reloadOrder(){
+        SharedPreferences sharedPreferences = getContext().getSharedPreferences("User", getContext().MODE_PRIVATE);
+        String userId = sharedPreferences.getString("userId", "");
         databaseReferences.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                SharedPreferences sharedPreferences = getContext().getSharedPreferences("User", getContext().MODE_PRIVATE);
-                String userId = sharedPreferences.getString("userId", "");
                 orderList.clear();
                 for(DataSnapshot dataSnapshot: snapshot.getChildren()){
                     for(DataSnapshot orderSnapshot: dataSnapshot.child("Order").getChildren()){

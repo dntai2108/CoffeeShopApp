@@ -73,13 +73,16 @@ public class RecycleViewOrderShipperAdapter extends RecyclerView.Adapter<Recycle
                         String userId = sharedPreferences.getString("userId", "");
                         for(DataSnapshot customerSnapshot: snapshot.getChildren()){
                             for(DataSnapshot orderSnapshot: customerSnapshot.child("Order").getChildren()){
-                                String orderId = orderSnapshot.child("orderId").getValue(String.class);
-                                if(orderId.equals(o.getOrderId())){
+                                if(orderSnapshot.getKey().equals(o.getOrderId())){
                                     orderSnapshot.getRef().addValueEventListener(new ValueEventListener() {
                                         @Override
                                         public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                            snapshot.child("status").getRef().setValue("Chuẩn bị đơn hàng");
-                                            snapshot.child("shipperId").getRef().setValue(userId);
+                                            if(!snapshot.child("status").getValue(String.class).equals("Chuẩn bị đơn hàng")){
+                                                snapshot.child("status").getRef().setValue("Chuẩn bị đơn hàng");
+                                                snapshot.child("shipperId").getRef().setValue(userId);
+                                                orderSnapshot.getRef().removeEventListener(this);
+                                                Toast.makeText(context,"Duyệt hàng thành công", Toast.LENGTH_LONG).show();
+                                            }
                                         }
 
                                         @Override
@@ -87,9 +90,7 @@ public class RecycleViewOrderShipperAdapter extends RecyclerView.Adapter<Recycle
 
                                         }
                                     });
-                                    Toast.makeText(context,"Duyệt hàng thành công", Toast.LENGTH_LONG).show();
                                     databaseReferences.removeEventListener(this);
-                                    return;
                                 }
                             }
                         }
