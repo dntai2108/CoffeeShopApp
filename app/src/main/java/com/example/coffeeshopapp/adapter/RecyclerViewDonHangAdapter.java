@@ -71,7 +71,7 @@ public class RecyclerViewDonHangAdapter extends RecyclerView.Adapter<RecyclerVie
                 SharedPreferences.Editor edittor = sharedPreferences.edit();
                 String orderid = order.getOrderId();
                 edittor.putString("orderid", orderid);
-                edittor.commit();
+                edittor.apply();
                 Intent intent = new Intent(context, Chitiet_donhang_dadat_activity.class);
                 intent.putExtra("madonhang", orderid);
                 if (order.getStatus().equals("Chờ duyệt") || order.getStatus().equals("Chuẩn bị đơn hàng")) {

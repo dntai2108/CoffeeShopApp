@@ -10,6 +10,8 @@ import android.os.Bundle;
 
 import com.example.coffeeshopapp.R;
 import com.example.coffeeshopapp.databinding.ActivityAdminBottomNavigationAdminBinding;
+import com.example.coffeeshopapp.fragment.Fragment_Static;
+import com.example.coffeeshopapp.fragment.Fragment_Thongke_Sanphan_ban_duoc_nhieunhat;
 
 public class Admin_Bottom_Navigation_Admin extends AppCompatActivity {
     private ActivityAdminBottomNavigationAdminBinding bd;

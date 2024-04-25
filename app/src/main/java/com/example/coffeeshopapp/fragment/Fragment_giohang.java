@@ -52,8 +52,7 @@ import java.util.List;
  */
 public class Fragment_giohang extends Fragment implements CartItemAdapter.OnDeleteItemClickListener,
         CartItemAdapter.OnQuantityChangeListener {
-    FirebaseAuth mAuth = FirebaseAuth.getInstance();
-    FirebaseUser currentUser = mAuth.getCurrentUser();
+
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -67,7 +66,7 @@ public class Fragment_giohang extends Fragment implements CartItemAdapter.OnDele
     private static final int REQUEST_CHANGE_ADDRESS = 1;
 
     private static final Double phivanchuyen = 10000.0;
-    private DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
+    private final DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
     private CartItemAdapter cartItemAdapter;
     private List<Cart> cartItemList;
     private FragmentGiohangBinding bd;
@@ -136,14 +135,7 @@ public class Fragment_giohang extends Fragment implements CartItemAdapter.OnDele
     }
 
     private void setEven() {
-      /*  // nút back
-        bd.imgbackincart.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getContext(), Bottom_nav.class);
-                startActivity(intent);
-            }
-        });*/
+
         // nút chọn mã giảm giá
         bd.btnSelectCoupon.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -242,31 +234,6 @@ public class Fragment_giohang extends Fragment implements CartItemAdapter.OnDele
         bd.tvpricetotalofcart.setText(formattedPricetotal + " vnd");
     }
 
-    // Xóa sản phẩm khỏi giỏ hàng
-   /* @Override
-    public void onDeleteItemClick(int position) {
-        Cart deleteItem = cartItemList.get(position);
-        String productId = deleteItem.getProduct().getId(); // Lấy id sản phẩm
-        //  final private DatabaseReference databaseReference = FirebaseDatabase.getInstance()
-        //            .getReference("Customer").child("Customer123").child("Cart");
-        String userId = currentUser.getUid();
-        DatabaseReference itemRef = databaseReference.child("Customer").child("7af6e8f4-afd9-4c08-a373-09326484e636").child("Cart").child(productId);
-        itemRef.removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
-            @Override
-            public void onComplete(@NonNull Task<Void> task) {
-                if (task.isSuccessful()) {
-                    // Xoá thành công từ Firebase, cập nhật lại danh sách và tính lại tổng giá tiền
-                    cartItemList.remove(position);
-                    cartItemAdapter.notifyItemRemoved(position);
-                    calculateTotalPrice();
-                    Toast.makeText(getContext(), "Xoá sản phẩm thành công", Toast.LENGTH_SHORT).show();
-                } else {
-                    // Xảy ra lỗi khi xoá từ Firebase
-                    Toast.makeText(getContext(), "Lỗi khi xoá sản phẩm: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
-    }*/
 
     //Lấy dữ liệu các sản phẩm trong giỏ hàng từ Firebase
     private void fetchDataFromFirebase() {
@@ -335,7 +302,7 @@ public class Fragment_giohang extends Fragment implements CartItemAdapter.OnDele
             }
         });
     }
-
+    // tăng số lượng sản phẩm
     @Override
     public void onIncreaseQuantity(int position) {
         Cart cartItem = cartItemList.get(position);
@@ -353,7 +320,7 @@ public class Fragment_giohang extends Fragment implements CartItemAdapter.OnDele
         cartItemAdapter.notifyItemChanged(position);
         calculateTotalPrice();
     }
-
+    //Giảm số lượng sản phẩm
     @Override
     public void onDecreaseQuantity(int position) {
         Cart cartItem = cartItemList.get(position);
@@ -373,7 +340,7 @@ public class Fragment_giohang extends Fragment implements CartItemAdapter.OnDele
             calculateTotalPrice();
         }
     }
-
+    // Xóa sản phẩm trong giỏ hàng
     @Override
     public void onDeleteItemClick(int position) {
         SharedPreferences sharedPreferences = getActivity().getSharedPreferences("User", Context.MODE_PRIVATE);
