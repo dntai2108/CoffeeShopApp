@@ -47,11 +47,9 @@ import java.util.concurrent.TimeUnit;
 
 public class LoginActivity extends AppCompatActivity {
     String userId = "";
-    Boolean isSaveLogin = false;
+
     private ActivityLoginBinding binding;
     DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
-    FirebaseAuth mAuth = FirebaseAuth.getInstance();
-    private PhoneAuthProvider.OnVerificationStateChangedCallbacks mCallbacks;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,7 +93,6 @@ public class LoginActivity extends AppCompatActivity {
 
                                 String layMatKhau = snapshot.child(soDienThoai).child("password").getValue(String.class);
                                 String role = snapshot.child(soDienThoai).child("role").getValue(String.class);
-                                String sDT = soDienThoai.substring(1);
                                 DatabaseReference customerRef = databaseReference.child("Customer");
                                 customerRef.addValueEventListener(new ValueEventListener() {
 
@@ -125,46 +122,14 @@ public class LoginActivity extends AppCompatActivity {
                                 if (layMatKhau.equals(matKhau)) {
                                     binding.pbXuLy.setVisibility(VISIBLE);
                                     binding.btnDangNhap.setVisibility(INVISIBLE);
+                                    if (binding.cbLuuDangNhap.isChecked()) {
+                                        GhiMatKhau();
+                                    } else {
+                                        KhongGhiMatKhau();
+                                    }
                                     if (role.equals("user")) {
                                         Intent intent = new Intent(LoginActivity.this, Bottom_nav.class);
                                         startActivity(intent);
-//                                    mCallbacks = new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
-//
-//                                        @Override
-//                                        public void onVerificationCompleted(@NonNull PhoneAuthCredential credential) {
-//
-//                                        }
-//
-//                                        @Override
-//                                        public void onVerificationFailed(@NonNull FirebaseException e) {
-//                                            binding.pbXuLy.setVisibility(GONE);
-//                                            binding.btnDangNhap.setVisibility(VISIBLE);
-//                                            Toast.makeText(LoginActivity.this, e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
-//                                        }
-//
-//                                        @Override
-//                                        public void onCodeSent(@NonNull String verificationId,
-//                                                               @NonNull PhoneAuthProvider.ForceResendingToken token) {
-//                                            binding.pbXuLy.setVisibility(VISIBLE);
-//                                            binding.btnDangNhap.setVisibility(INVISIBLE);
-//                                            Intent intent = new Intent(LoginActivity.this, OTPVerificationActivity.class);
-
-//                                            intent.putExtra("phone", sDT);
-//                                            intent.putExtra("verificationId", verificationId);
-//                                            startActivity(intent);
-//                                        }
-//                                    };
-//                                    PhoneAuthOptions options = PhoneAuthOptions.newBuilder(mAuth)
-//                                            .setPhoneNumber("+84" + sDT)
-//                                            .setTimeout(60L, TimeUnit.SECONDS)
-//                                            .setActivity(LoginActivity.this)
-//                                            .setCallbacks(mCallbacks)
-//                                            .build();
-//                                    PhoneAuthProvider.verifyPhoneNumber(options);
-//                                    SharedPreferences sharedPreferences = getSharedPreferences("User", Context.MODE_PRIVATE);
-//                                    SharedPreferences.Editor edittor = sharedPreferences.edit();
-//                                    edittor.putString("phone", soDienThoai);
-//                                    edittor.apply();
                                     } else if (role.equals("admin")) {
                                         Intent intent = new Intent(LoginActivity.this, BottomNavAdmin.class);
                                         startActivity(intent);
@@ -205,14 +170,30 @@ public class LoginActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-        binding.cbLuuDangNhap.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                isSaveLogin = isChecked;
-            }
-        });
 
 
+    }
+
+    protected void onResume() {
+        super.onResume();
+        SharedPreferences sharedPreferences = getSharedPreferences("account", Context.MODE_PRIVATE);
+        String phone = sharedPreferences.getString("phone", "");
+        String password = sharedPreferences.getString("password", "");
+        binding.edtSoDienThoai.setText(phone);
+        binding.edtMatKhau.setText(password);
+    }
+
+    private void KhongGhiMatKhau() {
+        SharedPreferences sharedPreferences = getSharedPreferences("account", Context.MODE_PRIVATE);
+        sharedPreferences.edit().clear().apply();
+    }
+
+    private void GhiMatKhau() {
+        SharedPreferences sharedPreferences = getSharedPreferences("account", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString("phone", binding.edtSoDienThoai.getText().toString());
+        editor.putString("password", binding.edtMatKhau.getText().toString());
+        editor.apply();
     }
 
 
