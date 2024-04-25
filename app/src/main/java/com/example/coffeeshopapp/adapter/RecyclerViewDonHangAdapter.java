@@ -74,10 +74,9 @@ public class RecyclerViewDonHangAdapter extends RecyclerView.Adapter<RecyclerVie
                 edittor.commit();
                 Intent intent = new Intent(context, Chitiet_donhang_dadat_activity.class);
                 intent.putExtra("madonhang", orderid);
-                if(order.getStatus().equals("Chờ duyệt") && order.getStatus().equals("Chuẩn bị đơn hàng")){
+                if (order.getStatus().equals("Chờ duyệt") || order.getStatus().equals("Chuẩn bị đơn hàng")) {
                     intent.putExtra("flag", true);
-                }
-                else{
+                } else {
                     intent.putExtra("flag", false);
                 }
                 context.startActivity(intent);

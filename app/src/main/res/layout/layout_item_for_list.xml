@@ -2,17 +2,16 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_margin="10dp"
+    android:layout_margin="5dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
     <androidx.cardview.widget.CardView
         app:cardCornerRadius="24dp"
         app:cardElevation="10dp"
-
         android:background="#FBE1E1"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
 
         <ImageView
             android:id="@+id/imgItemfl"
@@ -25,15 +24,16 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_margin="5dp">
 
         <TextView
             android:id="@+id/tvNameItemfl"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="23dp"
-            android:layout_marginTop="5dp"
+            android:textSize="18dp"
+            android:layout_marginTop="10dp"
             android:layout_marginLeft="5dp"
             android:layout_marginBottom="5dp"
             android:textStyle="bold"
@@ -43,11 +43,10 @@
             android:id="@+id/tvPriceItemfl"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="18dp"
+            android:textSize="16dp"
             android:textStyle="bold"
             android:layout_marginLeft="5dp"
             android:layout_marginBottom="10dp"
-
             android:text="100.000đ" />
 
         <TextView
@@ -58,17 +57,7 @@
             android:gravity="center"
             android:textSize="18dp"
             android:textStyle="bold"
-            android:background="@drawable/button_vien_xanh"></TextView>
-        <!-- <androidx.appcompat.widget.AppCompatButton
-             android:id="@+id/btnAddItemfl"
-             android:layout_width="match_parent"
-             android:layout_height="32dp"
-             android:background="@drawable/background_buttton"
-             android:text="Thêm "
-             android:textSize="17dp"
-             android:textColor="@color/white">
-
-         </androidx.appcompat.widget.AppCompatButton>-->
+            android:background="@drawable/button_vien_xanh" />
 
     </LinearLayout>
 

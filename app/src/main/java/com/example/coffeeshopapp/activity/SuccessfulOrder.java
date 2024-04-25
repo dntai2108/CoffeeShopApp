@@ -108,13 +108,14 @@ public class SuccessfulOrder extends AppCompatActivity {
     private void createOrder(List<Cart> cartList) {
         SharedPreferences sharedPreferences = getSharedPreferences("User", MODE_PRIVATE);
         String userId = sharedPreferences.getString("userId", "");
+        String giaTien = getIntent().getStringExtra("price");
         Date currentTime = new Date();
         // Định dạng ngày giờ
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
         // Chuyển đổi đối tượng Date thành chuỗi định dạng
         String formattedDateTime = dateFormat.format(currentTime);
-        double totalAmount = calculateTotalAmount(cartList);
+        //double totalAmount = calculateTotalAmount(cartList);
 
 
         DatabaseReference addressRef = FirebaseDatabase.getInstance().getReference()
@@ -138,8 +139,9 @@ public class SuccessfulOrder extends AppCompatActivity {
                     order.setStatus("Chờ duyệt");
                     order.setOrderDate(formattedDateTime);
                     DecimalFormat decimalFormatS = new DecimalFormat("###,###,###");
-                    String tongtien = decimalFormatS.format(totalAmount) + " vnd";
-                    order.setTotalAmount(tongtien);
+
+                    //String tongtien = decimalFormatS.format(totalAmount) + " vnd";
+                    order.setTotalAmount(giaTien);
                     order.setCustomer(customer); // Thiết lập đối tượng Customer
                     order.setCartList(cartList);
                     order.setOrderId(keyorder);
@@ -166,7 +168,6 @@ public class SuccessfulOrder extends AppCompatActivity {
         for (Cart cartItem : cartList) {
             Double cartItemPrice = Double.parseDouble(cartItem.getProduct().getPrice().replace(".", ""));
             int cartItemQuantity = Integer.parseInt(cartItem.getQuantity());
-
             totalAmount += cartItemPrice * cartItemQuantity;
         }
         return totalAmount;
