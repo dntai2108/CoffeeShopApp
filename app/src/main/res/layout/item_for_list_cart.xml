@@ -23,6 +23,7 @@
                     android:id="@+id/imgflc"
                     android:layout_margin="9dp"
                     android:layout_width="90dp"
+                    android:scaleType="centerCrop"
                     android:layout_height="match_parent"
                     android:src="@drawable/logo">
                 </ImageView>

@@ -274,12 +274,14 @@ public class CartActivity extends AppCompatActivity implements
         //            .getReference("Customer").child("Customer123").child("Cart");
         DatabaseReference itemRef = databaseReference.child(productId);
         itemRef.removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
+            @SuppressLint("NotifyDataSetChanged")
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if (task.isSuccessful()) {
                     // Xoá thành công từ Firebase, cập nhật lại danh sách và tính lại tổng giá tiền
                     cartItemList.remove(position);
                     cartItemAdapter.notifyItemRemoved(position);
+                    cartItemAdapter.notifyDataSetChanged();
                     calculateTotalPrice();
                     Toast.makeText(CartActivity.this, "Xoá sản phẩm thành công", Toast.LENGTH_SHORT).show();
                 } else {

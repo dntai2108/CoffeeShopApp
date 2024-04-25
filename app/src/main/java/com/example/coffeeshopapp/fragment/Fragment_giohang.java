@@ -33,6 +33,8 @@ import com.example.coffeeshopapp.model.Cart;
 import com.example.coffeeshopapp.model.Product;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -50,6 +52,8 @@ import java.util.List;
  */
 public class Fragment_giohang extends Fragment implements CartItemAdapter.OnDeleteItemClickListener,
         CartItemAdapter.OnQuantityChangeListener {
+    FirebaseAuth mAuth = FirebaseAuth.getInstance();
+    FirebaseUser currentUser = mAuth.getCurrentUser();
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -110,6 +114,7 @@ public class Fragment_giohang extends Fragment implements CartItemAdapter.OnDele
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
         bd.recyclerViewlistcartproduct.setHasFixedSize(true);
         bd.recyclerViewlistcartproduct.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
 
@@ -131,14 +136,14 @@ public class Fragment_giohang extends Fragment implements CartItemAdapter.OnDele
     }
 
     private void setEven() {
-        // nút back
+      /*  // nút back
         bd.imgbackincart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getContext(), Bottom_nav.class);
                 startActivity(intent);
             }
-        });
+        });*/
         // nút chọn mã giảm giá
         bd.btnSelectCoupon.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -238,13 +243,14 @@ public class Fragment_giohang extends Fragment implements CartItemAdapter.OnDele
     }
 
     // Xóa sản phẩm khỏi giỏ hàng
-    @Override
+   /* @Override
     public void onDeleteItemClick(int position) {
         Cart deleteItem = cartItemList.get(position);
         String productId = deleteItem.getProduct().getId(); // Lấy id sản phẩm
         //  final private DatabaseReference databaseReference = FirebaseDatabase.getInstance()
         //            .getReference("Customer").child("Customer123").child("Cart");
-        DatabaseReference itemRef = databaseReference.child(productId);
+        String userId = currentUser.getUid();
+        DatabaseReference itemRef = databaseReference.child("Customer").child("7af6e8f4-afd9-4c08-a373-09326484e636").child("Cart").child(productId);
         itemRef.removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
@@ -260,7 +266,7 @@ public class Fragment_giohang extends Fragment implements CartItemAdapter.OnDele
                 }
             }
         });
-    }
+    }*/
 
     //Lấy dữ liệu các sản phẩm trong giỏ hàng từ Firebase
     private void fetchDataFromFirebase() {
@@ -336,9 +342,11 @@ public class Fragment_giohang extends Fragment implements CartItemAdapter.OnDele
         int currentQuantity = Integer.parseInt(cartItem.getQuantity());
         currentQuantity++;
         cartItem.setQuantity(String.valueOf(currentQuantity));
+        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("User", Context.MODE_PRIVATE);
+        String userId = sharedPreferences.getString("userId", "");
 
         // Cập nhật số lượng sản phẩm trong Firebase
-        DatabaseReference itemRef = databaseReference.child(cartItem.getProduct().getId()); // Giả sử có một trường id trong đối tượng Cart để định danh mỗi sản phẩm
+        DatabaseReference itemRef = databaseReference.child("Customer").child(userId).child("Cart").child(cartItem.getProduct().getId()); // Giả sử có một trường id trong đối tượng Cart để định danh mỗi sản phẩm
         itemRef.child("quantity").setValue(String.valueOf(currentQuantity));
 
         // Cập nhật lại giao diện
@@ -353,14 +361,46 @@ public class Fragment_giohang extends Fragment implements CartItemAdapter.OnDele
         if (currentQuantity > 1) {
             currentQuantity--;
             cartItem.setQuantity(String.valueOf(currentQuantity));
+            SharedPreferences sharedPreferences = getActivity().getSharedPreferences("User", Context.MODE_PRIVATE);
+            String userId = sharedPreferences.getString("userId", "");
 
             // Cập nhật số lượng sản phẩm trong Firebase bằng id
-            DatabaseReference itemRef = databaseReference.child(cartItem.getProduct().getId());
+            DatabaseReference itemRef = databaseReference.child("Customer").child(userId).child("Cart").child(cartItem.getProduct().getId());
             itemRef.child("quantity").setValue(String.valueOf(currentQuantity));
 
             // Cập nhật lại giao diện
             cartItemAdapter.notifyItemChanged(position);
             calculateTotalPrice();
         }
+    }
+
+    @Override
+    public void onDeleteItemClick(int position) {
+        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("User", Context.MODE_PRIVATE);
+        String userId = sharedPreferences.getString("userId", "");
+        Cart cartItem = cartItemList.get(position);
+        String productId = cartItem.getProduct().getId(); // Lấy id sản phẩm
+        //  final private DatabaseReference databaseReference = FirebaseDatabase.getInstance()
+        //            .getReference("Customer").child("Customer123").child("Cart");
+       // String userId = currentUser.getUid();
+        DatabaseReference itemRef = databaseReference.child("Customer").child(userId).child("Cart").child(productId);
+        itemRef.removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if (task.isSuccessful()) {
+
+                    // Xoá thành công từ Firebase, cập nhật lại danh sách và tính lại tổng giá tiền
+                    cartItemList.remove(position);
+                    cartItemAdapter.notifyItemRemoved(position);
+                    cartItemAdapter.notifyDataSetChanged();
+                    calculateTotalPrice();
+                    Toast.makeText(getContext(), "Xoá sản phẩm thành công", Toast.LENGTH_SHORT).show();
+                } else {
+                    // Xảy ra lỗi khi xoá từ Firebase
+                    Toast.makeText(getContext(), "Lỗi khi xoá sản phẩm: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
     }
 }
