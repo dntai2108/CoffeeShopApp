@@ -71,7 +71,6 @@ public class ProfileActivity extends AppCompatActivity {
                 if (role.equals("shipper")) {
                     intent.putExtra("role", role);
                 }
-                intent.putExtra("openTaiKhoan", true);
                 startActivity(intent);
             }
         });

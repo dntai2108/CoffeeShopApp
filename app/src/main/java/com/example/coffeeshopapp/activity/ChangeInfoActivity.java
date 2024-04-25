@@ -49,6 +49,9 @@ public class ChangeInfoActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                     Customer customer = dataSnapshot.getValue(Customer.class);
+                    if(customer.equals(null)){
+                        continue;
+                    }
                     if (customer.getPhone().equals(phone)) {
                         binding.edtName.setText(customer.getName());
                         binding.tvEmail.setText(customer.getEmail());
@@ -59,8 +62,7 @@ public class ChangeInfoActivity extends AppCompatActivity {
                         if (customer.getGender().equals("Nữ")) {
                             binding.rbMale.setChecked(true);
                         }
-
-
+                        customerReference.removeEventListener(this);
                     }
                 }
             }

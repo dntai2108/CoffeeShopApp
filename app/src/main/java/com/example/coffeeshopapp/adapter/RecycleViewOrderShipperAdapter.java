@@ -80,8 +80,8 @@ public class RecycleViewOrderShipperAdapter extends RecyclerView.Adapter<Recycle
                                             if(!snapshot.child("status").getValue(String.class).equals("Chuẩn bị đơn hàng")){
                                                 snapshot.child("status").getRef().setValue("Chuẩn bị đơn hàng");
                                                 snapshot.child("shipperId").getRef().setValue(userId);
+                                                Toast.makeText(context,"Duyệt hàng thành công", Toast.LENGTH_SHORT).show();
                                                 orderSnapshot.getRef().removeEventListener(this);
-                                                Toast.makeText(context,"Duyệt hàng thành công", Toast.LENGTH_LONG).show();
                                             }
                                         }
 

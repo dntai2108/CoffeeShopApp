@@ -86,6 +86,8 @@ public class OrderOfUser extends AppCompatActivity {
                         String orderId = orderSnapshot.child("orderId").getValue(String.class);
                         String status = orderSnapshot.child("status").getValue(String.class);
                         String totalAmount = orderSnapshot.child("totalAmount").getValue(String.class);
+                        String customerId = dataSnapshot.getKey();
+                        o.setCustomerId(customerId);
                         o.setOrderId(orderId);
                         o.setOrderDate(orderDate);
                         o.setStatus(status);
@@ -120,6 +122,8 @@ public class OrderOfUser extends AppCompatActivity {
                         String orderId = orderSnapshot.child("orderId").getValue(String.class);
                         String status = orderSnapshot.child("status").getValue(String.class);
                         String totalAmount = orderSnapshot.child("totalAmount").getValue(String.class);
+                        String customerId = dataSnapshot.getKey();
+                        o.setCustomerId(customerId);
                         o.setOrderId(orderId);
                         o.setOrderDate(orderDate);
                         o.setStatus(status);

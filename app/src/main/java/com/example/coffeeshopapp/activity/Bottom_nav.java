@@ -106,7 +106,6 @@ public class Bottom_nav extends AppCompatActivity {
                 bd.navView.getMenu().findItem(R.id.bottomnav_taikhoan).setChecked(true);
             } else {
                 replaceFragment(new Fragment_trangchu());
-
             }
         }
 

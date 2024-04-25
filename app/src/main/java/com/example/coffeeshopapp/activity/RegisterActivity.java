@@ -63,8 +63,7 @@ public class RegisterActivity extends AppCompatActivity {
         binding.btnDangKy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                binding.btnDangKy.setVisibility(INVISIBLE);
-                binding.pbXuLy.setVisibility(VISIBLE);
+
                 String hoTen = binding.edtHoTen.getText().toString();
                 String email = binding.edtEmail.getText().toString();
                 String soDienThoai = binding.edtSoDienThoai.getText().toString();
@@ -101,14 +100,6 @@ public class RegisterActivity extends AppCompatActivity {
                     binding.edtEmail.requestFocus();
                     return;
                 }
-                if (checkEmailExist(email)) {
-
-                    Toast.makeText(RegisterActivity.this, "Email đã tồn tại!", Toast.LENGTH_SHORT).show();
-                    binding.edtSoDienThoai.setError("Nhập lại email: ");
-                    binding.edtSoDienThoai.requestFocus();
-                    return;
-                }
-
 
                 if (TextUtils.isEmpty(matKhau)) {
 
@@ -117,9 +108,13 @@ public class RegisterActivity extends AppCompatActivity {
                     binding.edtMatKhau.requestFocus();
                     return;
                 }
-
+                if (matKhau.length() < 6) {
+                    Toast.makeText(RegisterActivity.this, "Mật khẩu tối thiểu có 6 kí tự", Toast.LENGTH_SHORT).show();
+                    binding.edtMatKhau.setError("Nhập mật khẩu: ");
+                    binding.edtMatKhau.requestFocus();
+                    return;
+                }
                 if (TextUtils.isEmpty(xacNhanMatKhau)) {
-
                     Toast.makeText(RegisterActivity.this, "Mật khẩu xác nhận không được để trống", Toast.LENGTH_SHORT).show();
                     binding.edtXacNhanMatKhau.setError("Nhập mật khẩu: ");
                     binding.edtXacNhanMatKhau.requestFocus();
@@ -132,99 +127,66 @@ public class RegisterActivity extends AppCompatActivity {
                     binding.edtXacNhanMatKhau.requestFocus();
                     return;
                 }
-                if (checkPhoneExist(soDienThoai)) {
-                    Toast.makeText(RegisterActivity.this, "Số điện thoại đã tồn tại", Toast.LENGTH_SHORT).show();
-                    binding.edtSoDienThoai.setError("Nhập số điện thoại: ");
-                    binding.edtSoDienThoai.requestFocus();
-                    return;
-                }
-                binding.btnDangKy.setVisibility(INVISIBLE);
-                binding.pbXuLy.setVisibility(VISIBLE);
-                String sDT = soDienThoai.substring(1);
-                mCallbacks = new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
-                    @Override
-                    public void onVerificationCompleted(@NonNull PhoneAuthCredential credential) {
 
+                databaseReference.child("Account").addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        if (snapshot.hasChild(soDienThoai)) {
+                            Toast.makeText(RegisterActivity.this, "Số điện thoại đã tồn tại", Toast.LENGTH_SHORT).show();
+                            binding.edtSoDienThoai.setError("Nhập số điện thoại: ");
+                            binding.edtSoDienThoai.requestFocus();
+                            return;
+                        } else {
+                            binding.btnDangKy.setVisibility(INVISIBLE);
+                            binding.pbXuLy.setVisibility(VISIBLE);
+                            String sDT = soDienThoai.substring(1);
+                            mCallbacks = new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
+                                @Override
+                                public void onVerificationCompleted(@NonNull PhoneAuthCredential credential) {
+
+                                }
+
+                                @Override
+                                public void onVerificationFailed(@NonNull FirebaseException e) {
+                                    binding.pbXuLy.setVisibility(INVISIBLE);
+                                    binding.btnDangKy.setVisibility(VISIBLE);
+                                    Toast.makeText(RegisterActivity.this, e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+                                }
+
+                                @Override
+                                public void onCodeSent(@NonNull String verificationId,
+                                                       @NonNull PhoneAuthProvider.ForceResendingToken token) {
+                                    binding.pbXuLy.setVisibility(VISIBLE);
+                                    binding.btnDangKy.setVisibility(INVISIBLE);
+                                    Intent intent = new Intent(RegisterActivity.this, OTPVerificationActivity.class);
+                                    intent.putExtra("phone", sDT);
+                                    intent.putExtra("verificationId", verificationId);
+                                    intent.putExtra("name", hoTen);
+                                    intent.putExtra("email", email);
+                                    intent.putExtra("password", matKhau);
+                                    intent.putExtra("direction", "register");
+                                    startActivity(intent);
+                                }
+                            };
+                            PhoneAuthOptions options = PhoneAuthOptions.newBuilder(mAuth)
+                                    .setPhoneNumber("+84" + sDT)
+                                    .setTimeout(60L, TimeUnit.SECONDS)
+                                    .setActivity(RegisterActivity.this)
+                                    .setCallbacks(mCallbacks)
+                                    .build();
+                            PhoneAuthProvider.verifyPhoneNumber(options);
+                        }
                     }
 
                     @Override
-                    public void onVerificationFailed(@NonNull FirebaseException e) {
-                        binding.pbXuLy.setVisibility(INVISIBLE);
-                        binding.btnDangKy.setVisibility(VISIBLE);
-                        Toast.makeText(RegisterActivity.this, e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
-                    }
+                    public void onCancelled(@NonNull DatabaseError error) {
 
-                    @Override
-                    public void onCodeSent(@NonNull String verificationId,
-                                           @NonNull PhoneAuthProvider.ForceResendingToken token) {
-                        binding.pbXuLy.setVisibility(VISIBLE);
-                        binding.btnDangKy.setVisibility(INVISIBLE);
-                        Intent intent = new Intent(RegisterActivity.this, OTPVerificationActivity.class);
-                        intent.putExtra("phone", sDT);
-                        intent.putExtra("verificationId", verificationId);
-                        intent.putExtra("name", hoTen);
-                        intent.putExtra("email", email);
-                        intent.putExtra("password", matKhau);
-                        intent.putExtra("direction", "register");
-                        startActivity(intent);
                     }
-                };
-                PhoneAuthOptions options = PhoneAuthOptions.newBuilder(mAuth)
-                        .setPhoneNumber("+84" + sDT)
-                        .setTimeout(60L, TimeUnit.SECONDS)
-                        .setActivity(RegisterActivity.this)
-                        .setCallbacks(mCallbacks)
-                        .build();
-                PhoneAuthProvider.verifyPhoneNumber(options);
+                });
 
 
             }
         });
-    }
-
-    private Boolean checkPhoneExist(String phone) {
-        isExist = false;
-        databaseReference.child("Account").addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                    if (dataSnapshot.getKey().equals(phone)) {
-                        isExist = true;
-                        return;
-                    }
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-
-        return isExist;
-    }
-
-    private Boolean checkEmailExist(String email) {
-        isExist = false;
-        databaseReference.child("Customer").addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                    Customer customer = dataSnapshot.getValue(Customer.class);
-                    if (customer.getEmail().equals(email)) {
-                        isExist = true;
-                        return;
-                    }
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-
-        return isExist;
     }
 
 
