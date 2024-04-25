@@ -125,8 +125,8 @@ public class Chitiet_donhang_dadat_activity extends AppCompatActivity {
         bd.btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(Chitiet_donhang_dadat_activity.this, Fragment_donhang.class);
-                startActivity(intent);
+               onBackPressed();
+               finish();
             }
         });
     }
@@ -134,7 +134,7 @@ public class Chitiet_donhang_dadat_activity extends AppCompatActivity {
     private void layThongTinDiaChi() {
         SharedPreferences sharedPreferences = getSharedPreferences("User", Context.MODE_PRIVATE);
         String userId = sharedPreferences.getString("userId", "");
-        maDonHang = sharedPreferences.getString("orderid", "");
+        maDonHang = getIntent().getStringExtra("madonhang");
         // Lấy thông tin địa chỉ
         DatabaseReference customerInfoRef = FirebaseDatabase.getInstance().getReference().child("Customer");
         customerInfoRef.child(userId).child("Order").child(maDonHang).child("customer").addListenerForSingleValueEvent(new ValueEventListener() {
@@ -167,7 +167,7 @@ public class Chitiet_donhang_dadat_activity extends AppCompatActivity {
     private void layThongTinDonHang() {
         SharedPreferences sharedPreferences = getSharedPreferences("User", Context.MODE_PRIVATE);
         String userId = sharedPreferences.getString("userId", "");
-        maDonHang = sharedPreferences.getString("orderid", "");
+        maDonHang = getIntent().getStringExtra("madonhang");
         // Lấy thông tin địa chỉ
         DatabaseReference customerInfoRef = FirebaseDatabase.getInstance().getReference("Customer")
                 .child(userId).child("Order").child(maDonHang);
@@ -221,7 +221,7 @@ public class Chitiet_donhang_dadat_activity extends AppCompatActivity {
     private void fetchDataFromFirebase() {
         SharedPreferences sharedPreferences = getSharedPreferences("User", Context.MODE_PRIVATE);
         String userId = sharedPreferences.getString("userId", "");
-        maDonHang = sharedPreferences.getString("orderid", "");
+        maDonHang = getIntent().getStringExtra("madonhang");
         databaseReference.child("Customer").child(userId).child("Order").child(maDonHang).child("cartList").addValueEventListener(new ValueEventListener() {
             @SuppressLint("NotifyDataSetChanged")
             @Override

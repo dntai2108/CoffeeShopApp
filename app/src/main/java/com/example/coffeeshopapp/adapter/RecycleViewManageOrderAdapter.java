@@ -1,6 +1,7 @@
 package com.example.coffeeshopapp.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.coffeeshopapp.R;
+import com.example.coffeeshopapp.activity.Chitiet_donhang_dadat_activity;
 import com.example.coffeeshopapp.model.Order;
 
 import java.util.ArrayList;
@@ -53,6 +55,14 @@ public class RecycleViewManageOrderAdapter extends RecyclerView.Adapter<RecycleV
         holder.tvIdOrder.setText(order.getOrderId());
         holder.tvNgayDat.setText(order.getOrderDate());
         holder.tvStatus.setText(order.getStatus());
+        holder.tvOrder.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context,Chitiet_donhang_dadat_activity.class);
+                intent.putExtra("madonhang",order.getOrderId());
+                context.startActivity(intent);
+            }
+        });
     }
 
     @Override
