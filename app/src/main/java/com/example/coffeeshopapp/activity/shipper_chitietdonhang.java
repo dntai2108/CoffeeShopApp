@@ -62,6 +62,12 @@ public class shipper_chitietdonhang extends AppCompatActivity {
     }
 
     private void setEvent() {
+        bd.btnBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
         bd.btnInShipperChiTietDonHang.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
