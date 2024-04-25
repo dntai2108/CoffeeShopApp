@@ -125,12 +125,13 @@ public class Fragment_Delivering extends Fragment {
                         o.setStatus(status);
                         o.setTotalAmount(totalAmount);
                         o.setShipperID(shipperId);
-                        if(o.getStatus().equalsIgnoreCase("Chuẩn bị đơn hàng") && o.getShipperID().equals(userId)){
+                        if(status.equalsIgnoreCase("Chuẩn bị đơn hàng") && o.getShipperID().equals(userId)){
                             orderList.add(o);
                         }
                     }
                     recycleViewFragmentDelivering.notifyDataSetChanged();
                 }
+                databaseReferences.removeEventListener(this);
             }
 
             @Override

@@ -98,6 +98,8 @@ public class FragmentOrderShipper extends Fragment {
         recycleViewOrderShipperAdapter = new RecycleViewOrderShipperAdapter(orderList,getContext());
         bd.RecyclerViewOrder.setAdapter(recycleViewOrderShipperAdapter);
     }
+
+
     public void reloadOrder(){
         databaseReferences.addValueEventListener(new ValueEventListener() {
             @Override
@@ -121,6 +123,7 @@ public class FragmentOrderShipper extends Fragment {
                     }
                     recycleViewOrderShipperAdapter.notifyDataSetChanged();
                 }
+                databaseReferences.removeEventListener(this);
             }
 
             @Override

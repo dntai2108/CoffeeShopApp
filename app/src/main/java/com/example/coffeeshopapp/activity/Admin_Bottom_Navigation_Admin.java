@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import com.example.coffeeshopapp.R;
@@ -22,7 +23,7 @@ public class Admin_Bottom_Navigation_Admin extends AppCompatActivity {
         }
         bd.navStaticAdmin.setOnItemSelectedListener(item -> {
             int itemId=item.getItemId();
-            if(itemId==R.id.nav_static_admin){
+            if(itemId==R.id.nav_order_admin){
                 replaceFragment(new Fragment_Static());
             }
             if(itemId==R.id.nav_product_admin){
@@ -30,6 +31,10 @@ public class Admin_Bottom_Navigation_Admin extends AppCompatActivity {
             }
             if(itemId==R.id.nav_revenue_admin){
 //                replaceFragment(new Fragment_Static());
+            }
+            if(itemId==R.id.back){
+                Intent intent = new Intent(Admin_Bottom_Navigation_Admin.this,BottomNavAdmin.class);
+                startActivity(intent);
             }
             return true;
         });

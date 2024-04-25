@@ -211,7 +211,7 @@ public class shipper_chitietdonhang extends AppCompatActivity {
                             for(DataSnapshot customerSnapshot: snapshot.getChildren()){
                                 for(DataSnapshot orderSnapshot: customerSnapshot.child("Order").getChildren()){
                                     if(orderSnapshot.getKey().equals(maDonHang)){
-                                        orderSnapshot.getRef().child("status").setValue("Đã Hủy");
+                                        orderSnapshot.getRef().child("status").setValue("Đã hủy");
                                         Toast.makeText(shipper_chitietdonhang.this,"đã hủy đơn hàng", Toast.LENGTH_LONG).show();
                                         databaseReference.removeEventListener(this);
                                         onBackPressed();

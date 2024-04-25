@@ -128,6 +128,8 @@ public class Fragment_LichSuGiaoHang extends Fragment {
                         String orderId = orderSnapshot.child("orderId").getValue(String.class);
                         String status = orderSnapshot.child("status").getValue(String.class);
                         String totalAmount = orderSnapshot.child("totalAmount").getValue(String.class);
+                        String customerId = dataSnapshot.getKey();
+                        o.setCustomerId(customerId);
                         o.setOrderId(orderId);
                         o.setOrderDate(orderDate);
                         o.setStatus(status);
@@ -160,6 +162,8 @@ public class Fragment_LichSuGiaoHang extends Fragment {
                         String orderId = orderSnapshot.child("orderId").getValue(String.class);
                         String status = orderSnapshot.child("status").getValue(String.class);
                         String totalAmount = orderSnapshot.child("totalAmount").getValue(String.class);
+                        String customerId = dataSnapshot.getKey();
+                        o.setCustomerId(customerId);
                         o.setOrderId(orderId);
                         o.setOrderDate(orderDate);
                         o.setStatus(status);
