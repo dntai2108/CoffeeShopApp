@@ -171,11 +171,24 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     private Boolean checkPhoneExist(String phone) {
-        String sDT = "";
-        sDT = databaseReference.child("Account").child(phone).getKey();
-        if (sDT.equals(phone)) {
-            isExist = true;
-        }
+
+        databaseReference.child("Account").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                    if (dataSnapshot.getKey().equals(phone)) {
+                        isExist = true;
+                        return;
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
         return isExist;
     }
 
