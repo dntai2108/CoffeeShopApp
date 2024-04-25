@@ -108,7 +108,7 @@ public class Fragment_DonHangAdmin extends Fragment {
     }
 
     private void setControl() {
-        bd.toolbarmnguser.setTitle("QUẢN LÝ ORDER");
+
     }
 
     private void setEven() {
@@ -128,6 +128,7 @@ public class Fragment_DonHangAdmin extends Fragment {
                         String orderId = orderSnapshot.child("orderId").getValue(String.class);
                         String status = orderSnapshot.child("status").getValue(String.class);
                         String totalAmount = orderSnapshot.child("totalAmount").getValue(String.class);
+                        o.setCustomerId(dataSnapshot.getKey());
                         o.setOrderId(orderId);
                         o.setOrderDate(orderDate);
                         o.setStatus(status);
@@ -170,6 +171,7 @@ public class Fragment_DonHangAdmin extends Fragment {
                         String orderId = orderSnapshot.child("orderId").getValue(String.class);
                         String status = orderSnapshot.child("status").getValue(String.class);
                         String totalAmount = orderSnapshot.child("totalAmount").getValue(String.class);
+                        o.setCustomerId(dataSnapshot.getKey());
                         o.setOrderId(orderId);
                         o.setOrderDate(orderDate);
                         o.setStatus(status);

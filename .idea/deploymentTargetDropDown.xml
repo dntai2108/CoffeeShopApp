@@ -2,7 +2,13 @@
 <project version="4">
   <component name="deploymentTargetDropDown">
     <value>
+      <entry key="Admin_Bottom_Navigation_Admin">
+        <State />
+      </entry>
       <entry key="BottomNavAdmin">
+        <State />
+      </entry>
+      <entry key="Revenue_Statistics_Activity">
         <State />
       </entry>
       <entry key="app">
