@@ -29,6 +29,7 @@ public class SendOTPActivity extends AppCompatActivity {
 
     private FirebaseAuth mAuth = FirebaseAuth.getInstance();
     private PhoneAuthProvider.OnVerificationStateChangedCallbacks mCallbacks;
+    String sDT = "";
 
 
     @Override
@@ -44,15 +45,20 @@ public class SendOTPActivity extends AppCompatActivity {
         binding.btnNhanMaOTP.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 if (binding.edtSoDienThoai.getText().toString().trim().isEmpty()) {
                     Toast.makeText(SendOTPActivity.this, "Số điện thoại không được để trống", Toast.LENGTH_SHORT).show();
                     binding.edtSoDienThoai.requestFocus();
                     return;
                 }
-                if (binding.edtSoDienThoai.getText().toString().trim().length() != 9) {
+                if (binding.edtSoDienThoai.getText().toString().trim().length() != 9 && binding.edtSoDienThoai.getText().toString().trim().length() != 10) {
                     Toast.makeText(SendOTPActivity.this, "Số điện thoại không đúng định dạng", Toast.LENGTH_SHORT).show();
                     binding.edtSoDienThoai.requestFocus();
                     return;
+                }
+                if (binding.edtSoDienThoai.getText().toString().trim().length() != 10) {
+                    sDT = binding.edtSoDienThoai.getText().toString().trim().substring(1);
+
                 }
                 binding.pbXuLy.setVisibility(VISIBLE);
                 binding.btnNhanMaOTP.setVisibility(View.INVISIBLE);
@@ -77,7 +83,7 @@ public class SendOTPActivity extends AppCompatActivity {
                         binding.btnNhanMaOTP.setVisibility(VISIBLE);
                         Toast.makeText(SendOTPActivity.this, "Mã OTP đã được gửi thành công!", Toast.LENGTH_SHORT).show();
                         Intent intent = new Intent(SendOTPActivity.this, OTPVerificationActivity.class);
-                        intent.putExtra("phone", binding.edtSoDienThoai.getText().toString());
+                        intent.putExtra("phone", sDT);
                         intent.putExtra("verificationId", verificationId);
                         intent.putExtra("direction", "forget");
                         startActivity(intent);
