@@ -106,7 +106,6 @@ public class CartActivity extends AppCompatActivity implements
             @Override
             public void onClick(View v) {
                 finish();
-
             }
         });
         // nút chọn mã giảm giá
@@ -139,9 +138,10 @@ public class CartActivity extends AppCompatActivity implements
             }
         });
         // nút đặt hàng bằng tiền mặt
-        bd.btnPayofcartTienmat.setOnClickListener(new View.OnClickListener() {
+        bd.btnPayofcarttienmat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                calculateTotalPrice();
                 Intent intent = new Intent(CartActivity.this, SuccessfulOrder.class);
                 intent.putExtra("price", finalPrice);
                 startActivity(intent);

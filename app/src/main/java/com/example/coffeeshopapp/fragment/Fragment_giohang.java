@@ -71,6 +71,8 @@ public class Fragment_giohang extends Fragment implements CartItemAdapter.OnDele
     private List<Cart> cartItemList;
     private FragmentGiohangBinding bd;
 
+    String finalPrice = "";
+
     public Fragment_giohang() {
         // Required empty public constructor
     }
@@ -170,7 +172,9 @@ public class Fragment_giohang extends Fragment implements CartItemAdapter.OnDele
         bd.btnPayofcartTienmat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                calculateTotalPrice();
                 Intent intent = new Intent(getContext(), SuccessfulOrder.class);
+                intent.putExtra("price", finalPrice);
                 startActivity(intent);
                 getActivity().overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
             }
@@ -221,6 +225,7 @@ public class Fragment_giohang extends Fragment implements CartItemAdapter.OnDele
         bd.tvpriceofcart.setText(formattedPrice + " vnd");
         // tổng tiền khi cộng thêm phí vận chuyển
         String formattedPricetotal = decimalFormat.format(totalPrice + phivanchuyen);
+        finalPrice = formattedPricetotal;
         bd.tvpricetotalofcart.setText(formattedPricetotal + " vnd");
     }
 
@@ -231,6 +236,7 @@ public class Fragment_giohang extends Fragment implements CartItemAdapter.OnDele
         bd.tvpriceofcart.setText(formattedPrice + " vnd");
         // tổng tiền khi cộng thêm phí vận chuyển
         String formattedPricetotal = decimalFormat.format((totalPrice * ((100 - percent) / 100)) + phivanchuyen);
+        finalPrice = formattedPricetotal;
         bd.tvpricetotalofcart.setText(formattedPricetotal + " vnd");
     }
 

@@ -15,7 +15,6 @@ public class Order implements Serializable {
     private String totalAmount;
     private String customerId;
     private Customer customer;
-
     private String shipperId;
 
     public String getShipperID() {
@@ -103,11 +102,11 @@ public class Order implements Serializable {
         this.customerId = customerId;
     }
 
-    public String getShipperId() {
-        return shipperId;
-    }
-
-    public void setShipperId(String shipperId) {
-        this.shipperId = shipperId;
-    }
+//    public String getShipperId() {
+//        return shipperId;
+//    }
+//
+//    public void setShipperId(String shipperId) {
+//        this.shipperId = shipperId;
+//    }
 }
