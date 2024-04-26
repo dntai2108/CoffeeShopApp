@@ -124,6 +124,9 @@
         <activity
             android:name=".activity.OrderShipper"
             android:exported="true" />
+        <activity
+            android:name=".activity.Admin_ListCouponActivity"
+            android:exported="true" />
         <activity android:name=".activity.Revenue_Statistics_Activity"
             android:exported="true"/>
         <meta-data

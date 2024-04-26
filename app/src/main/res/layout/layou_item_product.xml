@@ -7,21 +7,22 @@
 
     <ImageView
         android:id="@+id/img_product"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
         android:src="@drawable/capuchino"
         android:layout_marginStart="10dp"
         android:scaleType="centerCrop"
         />
+
     <TextView
         android:id="@+id/txtname"
         android:layout_width="180dp"
         android:layout_height="wrap_content"
-        android:text=""
         android:layout_gravity="center"
         android:gravity="center"
-        android:textSize="20sp"/>
-<!--    <Button-->
+        android:text=""
+        android:textSize="20sp" />
+    <!--    <Button-->
 <!--        android:id="@+id/btn_detail"-->
 <!--        android:layout_marginStart="10dp"-->
 <!--        android:layout_width="match_parent"-->

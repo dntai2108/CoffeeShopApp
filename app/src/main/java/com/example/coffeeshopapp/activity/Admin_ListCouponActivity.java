@@ -46,6 +46,8 @@ public class Admin_ListCouponActivity extends AppCompatActivity implements Admin
     }
 
     private void setEvent() {
+        // nút trở về quản lí admin
+        bd.btnBack.setOnClickListener(v ->finish());
         //Lấy list mã giảm giá
         databaseReference.addValueEventListener(new ValueEventListener() {
             @SuppressLint("NotifyDataSetChanged")

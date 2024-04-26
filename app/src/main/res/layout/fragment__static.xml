@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <LinearLayout
+   <!-- <LinearLayout
         android:id="@+id/toolbarmnguser"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -41,7 +41,7 @@
             android:src="@drawable/schedule_icon"
             android:contentDescription="@string/schedule" />
 
-        <!-- Thêm các phần tử khác vào đây nếu cần -->
+        &lt;!&ndash; Thêm các phần tử khác vào đây nếu cần &ndash;&gt;
     </LinearLayout>
 
     <Spinner
@@ -58,16 +58,109 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/spinner" />
+        app:layout_constraintTop_toBottomOf="@id/spinner" />-->
+   <!-- <-->
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/RecyclerViewStatic"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
+ <EditText
+     android:id="@+id/edtmagiamgia"
+     android:layout_width="match_parent"
+     android:layout_height="40dp"
+     android:layout_marginStart="16dp"
+     android:layout_marginTop="32dp"
+     android:layout_marginEnd="16dp"
+     android:background="@drawable/button_vien_xanh"
+     android:gravity="center"
+     android:hint="Nhập trạng thái "
+     app:layout_constraintEnd_toEndOf="parent"
+     app:layout_constraintHorizontal_bias="1.0"
+     app:layout_constraintStart_toStartOf="parent"
+     app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/edtNgaybatdau"
+        android:layout_width="170dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:background="@drawable/button_vien_xanh"
+        android:clickable="true"
+        android:focusable="false"
+        android:gravity="center"
+        android:hint="Ngày bắt đầu"
+        android:inputType="none"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/SearchViewOrder" />
+        app:layout_constraintTop_toBottomOf="@+id/edtmagiamgia"></EditText>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnNgaybatdau"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/button_vien_xanh"
+        android:padding="10dp"
+        android:text="Chọn ngày bắt đầu"
+        android:textColor="@color/green"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/edtmagiamgia">
+
+    </androidx.appcompat.widget.AppCompatButton>
+
+    <EditText
+        android:id="@+id/edtNgayketthuc"
+        android:layout_width="170dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/button_vien_xanh"
+        android:clickable="true"
+        android:focusable="false"
+        android:gravity="center"
+        android:hint="Ngày kết thúc"
+        android:inputType="none"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/edtNgaybatdau"></EditText>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnNgaykethuc"
+        android:layout_width="wrap_content"
+
+        android:layout_height="40dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/button_vien_xanh"
+        android:padding="10dp"
+        android:text="Chọn ngày kết thúc"
+        android:textColor="@color/green"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnNgaybatdau">
+
+    </androidx.appcompat.widget.AppCompatButton>
+
+ <androidx.appcompat.widget.AppCompatButton
+     android:id="@+id/btnXemthongke"
+     android:layout_width="wrap_content"
+
+     android:layout_height="40dp"
+     android:layout_marginTop="16dp"
+     android:layout_marginEnd="16dp"
+     android:background="@drawable/button_vien_xanh"
+     android:padding="10dp"
+     android:text="Xem thống kê"
+     android:textColor="@color/green"
+     app:layout_constraintEnd_toEndOf="parent"
+     app:layout_constraintTop_toBottomOf="@+id/btnNgaykethuc">
+
+ </androidx.appcompat.widget.AppCompatButton>
+
+ <androidx.recyclerview.widget.RecyclerView
+     android:id="@+id/RecyclerViewStatic"
+     android:layout_width="match_parent"
+     android:layout_height="0dp"
+     android:layout_marginTop="16dp"
+     app:layout_constraintBottom_toBottomOf="parent"
+     app:layout_constraintEnd_toEndOf="parent"
+     app:layout_constraintStart_toStartOf="parent"
+     app:layout_constraintTop_toBottomOf="@+id/btnXemthongke" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

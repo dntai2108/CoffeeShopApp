@@ -11,7 +11,10 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.DatePicker;
+import android.widget.EditText;
 
+import com.example.coffeeshopapp.activity.Admin_AddCouponActivity;
 import com.example.coffeeshopapp.adapter.RecyclerViewStatiticAdapter;
 import com.example.coffeeshopapp.databinding.FragmentStaticBinding;
 import com.example.coffeeshopapp.model.Order;
@@ -104,6 +107,35 @@ public class Fragment_Static extends Fragment {
     }
 
     private void setEven() {
+        bd.btnNgaybatdau.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showDatePickerDialog(bd.edtNgaybatdau);
+            }
+        });
+        bd.btnNgaykethuc.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showDatePickerDialog(bd.edtNgayketthuc);
+            }
+        });
+    }// ngoài setEvent
+    private void showDatePickerDialog(final EditText editText) {
+        Calendar calendar = Calendar.getInstance();
+        int year = calendar.get(Calendar.YEAR);
+        int month = calendar.get(Calendar.MONTH);
+        int dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
+
+        DatePickerDialog datePickerDialog = new DatePickerDialog(getContext(),
+                new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                        // Set the selected date to the EditText
+                        String selectedDate = dayOfMonth + "/" + (month + 1) + "/" + year;
+                        editText.setText(selectedDate);
+                    }
+                }, year, month, dayOfMonth);
+        datePickerDialog.show();
     }
 
     private String FormatDate(String date) {
@@ -147,7 +179,13 @@ public class Fragment_Static extends Fragment {
         bd.RecyclerViewStatic.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
         recyclerViewStaticAdapter = new RecyclerViewStatiticAdapter(orderList, getContext());
         bd.RecyclerViewStatic.setAdapter(recyclerViewStaticAdapter);
-        reloadOrderWithCondition();
+        bd.btnXemthongke.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                reloadOrderWithCondition();
+            }
+        });
+
 
 
         // Tạo một truy vấn để lấy các đơn hàng có trạng thái là "hoàn thành" và trong khoảng thời gian đã chỉ định
@@ -157,8 +195,11 @@ public class Fragment_Static extends Fragment {
     private void reloadOrderWithCondition() {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference customersRef = database.getReference("Customer");
-
+        String ngayBD = bd.edtNgaybatdau.getText().toString();
+        String ngayKT = bd.edtNgayketthuc.getText().toString();
         customersRef.addListenerForSingleValueEvent(new ValueEventListener() {
+
+
             @Override
             public void onDataChange(DataSnapshot Snapshot) {
                 for (DataSnapshot customerSnapshot : Snapshot.getChildren()) {
@@ -167,7 +208,7 @@ public class Fragment_Static extends Fragment {
                     DatabaseReference ordersRef = database.getReference("Customer").child(customerId).child("Order");
 
                     // Tạo một truy vấn để lấy các đơn hàng trong khoảng thời gian và có trạng thái là "hoàn thành"
-                    Query query = ordersRef.orderByChild("orderDate").startAt("2024-04-01").endAt("2024-04-30");
+                    Query query = ordersRef.orderByChild("orderDate").startAt(ngayBD).endAt(ngayKT);
                     /* .orderByChild("status").equalTo("Hoàn thành");*/
                     query.addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
