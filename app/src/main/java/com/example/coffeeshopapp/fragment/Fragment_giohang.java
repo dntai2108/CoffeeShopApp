@@ -255,6 +255,39 @@ public class Fragment_giohang extends Fragment implements CartItemAdapter.OnDele
     }
 
 
+
+    private void reloadprice(){
+        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("User", Context.MODE_PRIVATE);
+        String userId = sharedPreferences.getString("userId", "");
+        DatabaseReference databaseRef = databaseReference.child("Customer").child(userId).child("Cart");
+        Task<DataSnapshot> task = databaseRef.get();
+        task.addOnSuccessListener(new OnSuccessListener<DataSnapshot>() {
+            @Override
+            public void onSuccess(DataSnapshot dataSnapshot) {
+                cartItemList.clear();
+                // Kiểm tra xem nếu có dữ liệu trong giỏ hàng của khách hàng
+                // Duyệt qua tất cả các nút con (các sản phẩm) trong giỏ hàng
+                for (DataSnapshot productSnapshot : dataSnapshot.getChildren()) {
+                    // Lấy thông tin về sản phẩm
+                    Product product = productSnapshot.child("product").getValue(Product.class);
+                    String quantity = productSnapshot.child("quantity").getValue(String.class);
+                    String size = productSnapshot.child("size").getValue(String.class);
+                    Cart cart = new Cart(product, quantity, size);
+                    cartItemList.add(cart);
+                }
+                if(cartItemList.size()!=0){
+                    calculateTotalPrice();
+                }
+                cartItemAdapter.notifyDataSetChanged();
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                // Xử lý lỗi nếu có
+            }
+        });
+    }
+
     //Lấy dữ liệu các sản phẩm trong giỏ hàng từ Firebase
     private void fetchDataFromFirebase() {
         SharedPreferences sharedPreferences = getActivity().getSharedPreferences("User", Context.MODE_PRIVATE);
@@ -277,7 +310,6 @@ public class Fragment_giohang extends Fragment implements CartItemAdapter.OnDele
                         cartItemList.add(cart);
                     }
                     cartItemAdapter.notifyDataSetChanged();
-                    calculateTotalPrice();
                 } else {
                     bd.llDatHang.setVisibility(GONE);
                 }
@@ -290,7 +322,10 @@ public class Fragment_giohang extends Fragment implements CartItemAdapter.OnDele
                 Toast.makeText(getContext(), "Lỗi khi đọc dữ liệu từ Firebase: " + error.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
-
+        reloadprice();
+        if(cartItemList.size()!=0){
+            calculateTotalPrice();
+        }
     }// end fetch data from firebase
 
     private void layThongTinDiaChi() {
@@ -382,8 +417,6 @@ public class Fragment_giohang extends Fragment implements CartItemAdapter.OnDele
                 if (task.isSuccessful()) {
 
                     // Xoá thành công từ Firebase, cập nhật lại danh sách và tính lại tổng giá tiền
-                    cartItemList.remove(position);
-                    cartItemAdapter.notifyItemRemoved(position);
                     cartItemAdapter.notifyDataSetChanged();
                     calculateTotalPrice();
                     Toast.makeText(getContext(), "Xoá sản phẩm thành công", Toast.LENGTH_SHORT).show();
