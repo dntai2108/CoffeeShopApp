@@ -46,36 +46,6 @@ public class Bottom_nav extends AppCompatActivity {
             }
             if (itemId == R.id.bottomnav_giohang) {
                 replaceFragment(new Fragment_giohang());
-                //checkCart();
-               /* // Lấy tham chiếu đến nút "Cart" của người dùng hiện tại
-                currentUser = FirebaseAuth.getInstance().getCurrentUser();
-                if (currentUser != null) {
-                    String userId = currentUser.getUid();
-                    cartRef = FirebaseDatabase.getInstance().getReference().child("Customer").child(userId).child("Cart");
-                }
-                if (cartRef != null) {
-                    cartRef.addListenerForSingleValueEvent(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                            // Kiểm tra nếu giỏ hàng rỗng
-                            if (!dataSnapshot.exists()) {
-                                // Hiển thị thông báo nếu giỏ hàng rỗng
-                                Toast.makeText(Bottom_nav.this, "Giỏ hàng của bạn đang trống!", Toast.LENGTH_SHORT).show();
-                            } else {
-                                // Giỏ hàng có ít nhất một mặt hàng
-                                replaceFragment(new Fragment_giohang());
-                            }
-                        }
-
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError databaseError) {
-                            // Xử lý khi có lỗi xảy ra trong quá trình đọc dữ liệu từ Firebase
-                            Toast.makeText(Bottom_nav.this, "Đã xảy ra lỗi khi đọc dữ liệu từ Firebase.", Toast.LENGTH_SHORT).show();
-                        }
-                    });
-                }
-*/
-
             }
 
             if (itemId == R.id.bottomnav_donhang) {
@@ -89,20 +59,7 @@ public class Bottom_nav extends AppCompatActivity {
         if (savedInstanceState == null) {
             Boolean openTaiKhoan = getIntent().getBooleanExtra("openTaiKhoan", false);
             Boolean openGioHang = getIntent().getBooleanExtra("openGioHang", false);
-            String role = getIntent().getStringExtra("role");
             if (openTaiKhoan) {
-                if (role.equals("admin")) {
-                    Intent intent = new Intent(Bottom_nav.this, BottomNavAdmin.class);
-                    intent.putExtra("openTaiKhoan", true);
-                    startActivity(intent);
-                    return;
-                }
-                if (role.equals("shipper")) {
-                    Intent intent = new Intent(Bottom_nav.this, BottomNavigationActivityShipper.class);
-                    intent.putExtra("openTaiKhoan", true);
-                    startActivity(intent);
-                    return;
-                }
                 replaceFragment(new Fragment_taikhoan());
                 bd.navView.getMenu().findItem(R.id.bottomnav_taikhoan).setChecked(true);
             } else if (openGioHang) {

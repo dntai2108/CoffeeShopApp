@@ -7,11 +7,11 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import com.example.coffeeshopapp.R;
+import com.example.coffeeshopapp.databinding.ActivityChangeInfoAdminBinding;
 import com.example.coffeeshopapp.databinding.ActivityChangeInfoBinding;
 import com.example.coffeeshopapp.model.Customer;
 import com.google.firebase.auth.FirebaseAuth;
@@ -19,14 +19,11 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Transaction;
 import com.google.firebase.database.ValueEventListener;
 
-import java.util.UUID;
+public class ChangeInfoAdmin extends AppCompatActivity {
 
-public class ChangeInfoActivity extends AppCompatActivity {
-
-    private ActivityChangeInfoBinding binding;
+    private ActivityChangeInfoAdminBinding binding;
     private String gender = "";
     DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
     FirebaseAuth mAuth = FirebaseAuth.getInstance();
@@ -34,7 +31,7 @@ public class ChangeInfoActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = ActivityChangeInfoBinding.inflate(getLayoutInflater());
+        binding = ActivityChangeInfoAdminBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         setEven();
     }
@@ -98,8 +95,9 @@ public class ChangeInfoActivity extends AppCompatActivity {
                                 customer.setPhone(binding.tvSoDienThoai.getText().toString());
                                 customer.setEmail(binding.tvEmail.getText().toString());
                                 customerReference.child(id).setValue(customer);
-                                Toast.makeText(ChangeInfoActivity.this, "Cập nhật thành công", Toast.LENGTH_SHORT).show();
-                                Intent intent = new Intent(ChangeInfoActivity.this, ProfileActivity.class);
+                                Toast.makeText(ChangeInfoAdmin.this, "Cập nhật thành công", Toast.LENGTH_SHORT).show();
+                                String role = getIntent().getStringExtra("role");
+                                Intent intent = new Intent(ChangeInfoAdmin.this, ProfileAdminActivity.class);
                                 startActivity(intent);
                                 break;
                             }
@@ -109,7 +107,7 @@ public class ChangeInfoActivity extends AppCompatActivity {
 
                     @Override
                     public void onCancelled(@NonNull DatabaseError error) {
-                        Toast.makeText(ChangeInfoActivity.this, "Cập nhật không thành công", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(ChangeInfoAdmin.this, "Cập nhật không thành công", Toast.LENGTH_SHORT).show();
                     }
                 });
             }
@@ -118,7 +116,8 @@ public class ChangeInfoActivity extends AppCompatActivity {
         binding.ivQuayLai.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(ChangeInfoActivity.this, Bottom_nav.class);
+
+                Intent intent = new Intent(ChangeInfoAdmin.this, BottomNavAdmin.class);
                 startActivity(intent);
             }
         });

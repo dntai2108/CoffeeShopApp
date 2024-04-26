@@ -15,9 +15,11 @@ import com.example.coffeeshopapp.R;
 import com.example.coffeeshopapp.activity.AccountActivityAdmin;
 import com.example.coffeeshopapp.activity.BottomNavAdmin;
 import com.example.coffeeshopapp.activity.ChangePassword;
+import com.example.coffeeshopapp.activity.ChangePasswordAdmin;
 import com.example.coffeeshopapp.activity.LoginActivity;
 import com.example.coffeeshopapp.activity.ManageUser;
 import com.example.coffeeshopapp.activity.ProfileActivity;
+import com.example.coffeeshopapp.activity.ProfileAdminActivity;
 import com.example.coffeeshopapp.databinding.FragmentAccountAdminBinding;
 
 /**
@@ -90,8 +92,7 @@ public class FragmentAccountAdmin extends Fragment {
         bd.tvProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getContext(), ProfileActivity.class);
-                intent.putExtra("role", "admin");
+                Intent intent = new Intent(getContext(), ProfileAdminActivity.class);
                 startActivity(intent);
             }
         });
@@ -107,7 +108,7 @@ public class FragmentAccountAdmin extends Fragment {
         bd.tvPassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getContext(), ChangePassword.class));
+                startActivity(new Intent(getContext(), ChangePasswordAdmin.class));
             }
         });
 

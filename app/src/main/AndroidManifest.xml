@@ -17,6 +17,24 @@
         android:theme="@style/Theme.CoffeeShopApp"
         tools:targetApi="31">
         <activity
+            android:name=".activity.ChangePasswordShipper"
+            android:exported="false" />
+        <activity
+            android:name=".activity.ChangePasswordAdmin"
+            android:exported="false" />
+        <activity
+            android:name=".activity.ChangeInfoShipper"
+            android:exported="false" />
+        <activity
+            android:name=".activity.ChangeInfoAdmin"
+            android:exported="false" />
+        <activity
+            android:name=".activity.ProfileShipperActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.ProfileAdminActivity"
+            android:exported="false" />
+        <activity
             android:name=".activity.Admin_Bottom_Navigation_Admin"
             android:exported="true" />
         <activity
@@ -124,8 +142,10 @@
         <activity
             android:name=".activity.OrderShipper"
             android:exported="true" />
-        <activity android:name=".activity.Revenue_Statistics_Activity"
-            android:exported="true"/>
+        <activity
+            android:name=".activity.Revenue_Statistics_Activity"
+            android:exported="true" />
+
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />

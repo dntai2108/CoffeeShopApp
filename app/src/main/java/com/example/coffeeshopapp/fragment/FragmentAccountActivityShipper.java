@@ -15,8 +15,10 @@ import com.example.coffeeshopapp.activity.BottomNavAdmin;
 import com.example.coffeeshopapp.activity.BottomNavigationActivityShipper;
 import com.example.coffeeshopapp.activity.Bottom_nav;
 import com.example.coffeeshopapp.activity.ChangePassword;
+import com.example.coffeeshopapp.activity.ChangePasswordShipper;
 import com.example.coffeeshopapp.activity.LoginActivity;
 import com.example.coffeeshopapp.activity.ProfileActivity;
+import com.example.coffeeshopapp.activity.ProfileShipperActivity;
 import com.example.coffeeshopapp.databinding.FragmentAccountActivityShipperBinding;
 
 /**
@@ -84,7 +86,7 @@ public class FragmentAccountActivityShipper extends Fragment {
         binding.tvProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getContext(), ProfileActivity.class);
+                Intent intent = new Intent(getContext(), ProfileShipperActivity.class);
                 intent.putExtra("role", "shipper");
                 startActivity(intent);
             }
@@ -109,8 +111,7 @@ public class FragmentAccountActivityShipper extends Fragment {
         binding.tvPassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getContext(), ChangePassword.class);
-                intent.putExtra("role", "shipper");
+                Intent intent = new Intent(getContext(), ChangePasswordShipper.class);
                 startActivity(intent);
             }
         });

@@ -83,7 +83,8 @@ public class Fragment_taikhoan extends Fragment {
         binding.tvProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getContext(), ProfileActivity.class));
+                Intent intent = new Intent(getContext(), ProfileActivity.class);
+                startActivity(intent);
             }
         });
 
