@@ -88,6 +88,7 @@ public class Bottom_nav extends AppCompatActivity {
         });
         if (savedInstanceState == null) {
             Boolean openTaiKhoan = getIntent().getBooleanExtra("openTaiKhoan", false);
+            Boolean openGioHang = getIntent().getBooleanExtra("openGioHang", false);
             String role = getIntent().getStringExtra("role");
             if (openTaiKhoan) {
                 if (role.equals("admin")) {
@@ -104,6 +105,9 @@ public class Bottom_nav extends AppCompatActivity {
                 }
                 replaceFragment(new Fragment_taikhoan());
                 bd.navView.getMenu().findItem(R.id.bottomnav_taikhoan).setChecked(true);
+            } else if (openGioHang) {
+                replaceFragment(new Fragment_giohang());
+                bd.navView.getMenu().findItem(R.id.bottomnav_giohang).setChecked(true);
             } else {
                 replaceFragment(new Fragment_trangchu());
             }

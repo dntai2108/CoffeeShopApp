@@ -26,20 +26,21 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
-public class Customer_ListCouPonActivity extends AppCompatActivity implements Customer_RecyclerViewListCouPonAdapter.OnCouponSelectedListener{
+public class Customer_ListCouPonActivity extends AppCompatActivity implements Customer_RecyclerViewListCouPonAdapter.OnCouponSelectedListener {
     private ActivityCustomerListCouPonBinding bd;
     ArrayList<Coupon> couponArrayList;
     Customer_RecyclerViewListCouPonAdapter couponAdapter;
     final private DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Coupon");
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        bd=ActivityCustomerListCouPonBinding.inflate(getLayoutInflater());
+        bd = ActivityCustomerListCouPonBinding.inflate(getLayoutInflater());
         setContentView(bd.getRoot());
         bd.recyclerViewListCoupon.setHasFixedSize(true);
         bd.recyclerViewListCoupon.setLayoutManager(new LinearLayoutManager(this));
         couponArrayList = new ArrayList<>();
-        couponAdapter = new Customer_RecyclerViewListCouPonAdapter(Customer_ListCouPonActivity.this, couponArrayList,this);
+        couponAdapter = new Customer_RecyclerViewListCouPonAdapter(Customer_ListCouPonActivity.this, couponArrayList, this);
         bd.recyclerViewListCoupon.setAdapter(couponAdapter);
 
         setEvent();
@@ -89,9 +90,11 @@ public class Customer_ListCouPonActivity extends AppCompatActivity implements Cu
         String discountPercent = coupon.getPhanTramGiam();
 
         // Tạo Intent và đính kèm dữ liệu
-        Intent intent = new Intent(this, CartActivity.class);
+        Intent intent = new Intent(this, Bottom_nav.class);
         intent.putExtra("COUPON_CODE", couponCode);
         intent.putExtra("DISCOUNT_PERCENT", discountPercent);
+        intent.putExtra("openGioHang", true);
+        startActivity(intent);
 
         // Chuyển sang CartActivity
         startActivity(intent);
