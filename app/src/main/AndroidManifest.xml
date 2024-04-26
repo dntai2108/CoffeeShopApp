@@ -146,6 +146,10 @@
             android:name=".activity.Revenue_Statistics_Activity"
             android:exported="true" />
 
+        <activity
+            android:name=".activity.Admin_ListCouponActivity"
+            android:exported="true" />
+
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />

@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 
 import com.example.coffeeshopapp.R;
 import com.example.coffeeshopapp.activity.AccountActivityAdmin;
+import com.example.coffeeshopapp.activity.Admin_ListCouponActivity;
 import com.example.coffeeshopapp.activity.BottomNavAdmin;
 import com.example.coffeeshopapp.activity.ChangePassword;
 import com.example.coffeeshopapp.activity.ChangePasswordAdmin;
@@ -117,6 +118,13 @@ public class FragmentAccountAdmin extends Fragment {
             public void onClick(View v) {
                 Intent intent = new Intent(getContext(), BottomNavAdmin.class);
                 intent.putExtra("openTaiKhoan", true);
+                startActivity(intent);
+            }
+        });
+        bd.tvPolicy.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent= new Intent(getContext(), Admin_ListCouponActivity.class);
                 startActivity(intent);
             }
         });

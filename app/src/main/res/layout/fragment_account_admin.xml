@@ -146,7 +146,7 @@
             android:layout_height="55dp"
             android:layout_marginTop="8dp"
             android:padding="8dp"
-            android:text="Chính sách"
+            android:text="Mã giảm giá"
             android:textSize="20sp"
             android:textStyle="bold" />
     </LinearLayout>
