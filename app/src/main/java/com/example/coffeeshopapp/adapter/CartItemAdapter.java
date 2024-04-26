@@ -154,8 +154,6 @@ public class CartItemAdapter extends RecyclerView.Adapter<CartItemAdapter.CartIt
             btnTang = itemView.findViewById(R.id.imgPlusflc);
             btnGiam = itemView.findViewById(R.id.imgMinusflc);
             size = itemView.findViewById(R.id.tvSizeProductflc);
-
-
         }
     }
 }
