@@ -27,6 +27,8 @@ public class UpdateAddress extends AppCompatActivity {
         setContentView(bd.getRoot());
         SharedPreferences sharedPreferences = getSharedPreferences("User", MODE_PRIVATE);
         String userId = sharedPreferences.getString("userId", "");
+        String oldAddress = getIntent().getStringExtra("oldAddress");
+        bd.edtAddress.setText(oldAddress);
         customerRef = FirebaseDatabase.getInstance().getReference("Customer")
                 .child(userId).child("address");
         bd.btnsubmit.setOnClickListener(new View.OnClickListener() {

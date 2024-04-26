@@ -1,6 +1,8 @@
 package com.example.coffeeshopapp.fragment;
 
+import static android.app.Activity.RESULT_OK;
 import static android.view.View.GONE;
+import static android.view.View.INVISIBLE;
 import static android.view.View.VISIBLE;
 
 import android.annotation.SuppressLint;
@@ -32,6 +34,8 @@ import com.example.coffeeshopapp.databinding.FragmentGiohangBinding;
 import com.example.coffeeshopapp.model.Cart;
 import com.example.coffeeshopapp.model.Product;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -122,17 +126,12 @@ public class Fragment_giohang extends Fragment implements CartItemAdapter.OnDele
         cartItemList = new ArrayList<>();
         cartItemAdapter = new CartItemAdapter(cartItemList, getContext());
         bd.recyclerViewlistcartproduct.setAdapter(cartItemAdapter);
-        if (cartItemAdapter != null) {
-            bd.llDatHang.setVisibility(VISIBLE);
-        } else {
-            bd.llDatHang.setVisibility(GONE);
-        }
-
         eventNhanMaGiamGia();
         fetchDataFromFirebase();
         layThongTinDiaChi();
         cartItemAdapter.setOnDeleteItemClickListener(this);
         cartItemAdapter.setOnQuantityChangeListener(this);
+
         setEven();
     }
 
@@ -184,6 +183,7 @@ public class Fragment_giohang extends Fragment implements CartItemAdapter.OnDele
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getContext(), UpdateAddress.class);
+                intent.putExtra("oldAddress", bd.tvAddressfc.getText().toString());
                 startActivityForResult(intent, REQUEST_CHANGE_ADDRESS);
             }
         });
@@ -197,6 +197,20 @@ public class Fragment_giohang extends Fragment implements CartItemAdapter.OnDele
             String discountPercent = intent1.getStringExtra("DISCOUNT_PERCENT");
             bd.tvCoupon.setText(couponCode);
             bd.tvPhantramCoupon.setText(discountPercent);
+        }
+    }
+
+    // Nhận thng tin cập nhật địa chỉ
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_CHANGE_ADDRESS) {
+            if (resultCode == RESULT_OK) {
+                assert data != null;
+                String newAddress = data.getStringExtra("newAddress");
+                // Hiển thị địa chỉ mới trên màn hình giỏ hàng
+                bd.tvAddressfc.setText(newAddress);
+            }
         }
     }
 
@@ -252,6 +266,7 @@ public class Fragment_giohang extends Fragment implements CartItemAdapter.OnDele
                 cartItemList.clear();
                 // Kiểm tra xem nếu có dữ liệu trong giỏ hàng của khách hàng
                 if (snapshot.exists()) {
+                    bd.llDatHang.setVisibility(VISIBLE);
                     // Duyệt qua tất cả các nút con (các sản phẩm) trong giỏ hàng
                     for (DataSnapshot productSnapshot : snapshot.getChildren()) {
                         // Lấy thông tin về sản phẩm
@@ -263,6 +278,8 @@ public class Fragment_giohang extends Fragment implements CartItemAdapter.OnDele
                     }
                     cartItemAdapter.notifyDataSetChanged();
                     calculateTotalPrice();
+                } else {
+                    bd.llDatHang.setVisibility(GONE);
                 }
             }
 
@@ -308,6 +325,7 @@ public class Fragment_giohang extends Fragment implements CartItemAdapter.OnDele
             }
         });
     }
+
     // tăng số lượng sản phẩm
     @Override
     public void onIncreaseQuantity(int position) {
@@ -326,17 +344,17 @@ public class Fragment_giohang extends Fragment implements CartItemAdapter.OnDele
         cartItemAdapter.notifyItemChanged(position);
         calculateTotalPrice();
     }
+
     //Giảm số lượng sản phẩm
     @Override
     public void onDecreaseQuantity(int position) {
+        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("User", Context.MODE_PRIVATE);
+        String userId = sharedPreferences.getString("userId", "");
         Cart cartItem = cartItemList.get(position);
         int currentQuantity = Integer.parseInt(cartItem.getQuantity());
         if (currentQuantity > 1) {
             currentQuantity--;
             cartItem.setQuantity(String.valueOf(currentQuantity));
-            SharedPreferences sharedPreferences = getActivity().getSharedPreferences("User", Context.MODE_PRIVATE);
-            String userId = sharedPreferences.getString("userId", "");
-
             // Cập nhật số lượng sản phẩm trong Firebase bằng id
             DatabaseReference itemRef = databaseReference.child("Customer").child(userId).child("Cart").child(cartItem.getProduct().getId());
             itemRef.child("quantity").setValue(String.valueOf(currentQuantity));
@@ -346,6 +364,7 @@ public class Fragment_giohang extends Fragment implements CartItemAdapter.OnDele
             calculateTotalPrice();
         }
     }
+
     // Xóa sản phẩm trong giỏ hàng
     @Override
     public void onDeleteItemClick(int position) {
@@ -355,7 +374,7 @@ public class Fragment_giohang extends Fragment implements CartItemAdapter.OnDele
         String productId = cartItem.getProduct().getId(); // Lấy id sản phẩm
         //  final private DatabaseReference databaseReference = FirebaseDatabase.getInstance()
         //            .getReference("Customer").child("Customer123").child("Cart");
-       // String userId = currentUser.getUid();
+        // String userId = currentUser.getUid();
         DatabaseReference itemRef = databaseReference.child("Customer").child(userId).child("Cart").child(productId);
         itemRef.removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
@@ -376,4 +395,6 @@ public class Fragment_giohang extends Fragment implements CartItemAdapter.OnDele
         });
 
     }
+
+
 }
