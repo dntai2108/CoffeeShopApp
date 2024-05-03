@@ -1,7 +1,10 @@
 package com.example.coffeeshopapp.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -11,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.coffeeshopapp.R;
+import com.example.coffeeshopapp.activity.GiaoHang;
 import com.example.coffeeshopapp.databinding.FragmentDeliveryOrderShipperBinding;
 
 /**
@@ -64,7 +68,6 @@ public class Fragment_DeliveryOrderShipper extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         bd = FragmentDeliveryOrderShipperBinding.inflate(getLayoutInflater());
         if (savedInstanceState == null) {
             replaceFragment(new Fragment_Delivering());
@@ -79,8 +82,17 @@ public class Fragment_DeliveryOrderShipper extends Fragment {
             }
             return true;
         });
+        bd.btnMap.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent= new Intent(getContext(), GiaoHang.class);
+                getContext().startActivity(intent);
+            }
+        });
         return bd.getRoot();
     }
+
+
     private void replaceFragment(Fragment fragment){
         FragmentManager fragmentManager= getChildFragmentManager();
         FragmentTransaction fragmentTransaction= fragmentManager.beginTransaction();

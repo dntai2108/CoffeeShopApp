@@ -24,6 +24,17 @@
         android:background="@drawable/button_vien_xanh"
         android:hint="      Input your address"></android.inputmethodservice.ExtractEditText>
     <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnChoseAddress"
+        android:layout_width="130dp"
+        android:layout_height="wrap_content"
+        android:text="MAP"
+        android:textStyle="bold"
+        android:textSize="20dp"
+        android:layout_marginTop="15dp"
+        android:layout_gravity="center"
+        android:textColor="@color/green"
+        android:background="@drawable/button_vien_xanh"></androidx.appcompat.widget.AppCompatButton>
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btnsubmit"
         android:layout_width="130dp"
         android:layout_height="wrap_content"

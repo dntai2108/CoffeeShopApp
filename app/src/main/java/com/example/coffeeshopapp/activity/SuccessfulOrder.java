@@ -46,7 +46,6 @@ public class SuccessfulOrder extends AppCompatActivity {
     }
 
     private void setEvent() {
-
         // Tạo đơn hàng từ thông tin trong giỏ hàng
         createOrderFromCart();
 
@@ -128,6 +127,8 @@ public class SuccessfulOrder extends AppCompatActivity {
                     String customerName = snapshot.child("name").getValue(String.class);
                     String customerPhone = snapshot.child("phone").getValue(String.class);
                     String customerAddress = snapshot.child("address").getValue(String.class);
+                    String Latitude = snapshot.child("Latitude").getValue(String.class);
+                    String Longitude = snapshot.child("Longitude").getValue(String.class);
 
                     // Tạo một đối tượng Customer với thông tin từ Firebase
                     Customer customer = new Customer(customerName, customerAddress, customerPhone);
@@ -145,7 +146,8 @@ public class SuccessfulOrder extends AppCompatActivity {
                     order.setCustomer(customer); // Thiết lập đối tượng Customer
                     order.setCartList(cartList);
                     order.setOrderId(keyorder);
-
+                    order.setLatitude(Latitude);
+                    order.setLongitude(Longitude);
                     // Ghi đơn hàng lên Firebase
                     DatabaseReference orderRef = FirebaseDatabase.getInstance().getReference().child("Customer")
                             .child(userId).child("Order").child(keyorder);

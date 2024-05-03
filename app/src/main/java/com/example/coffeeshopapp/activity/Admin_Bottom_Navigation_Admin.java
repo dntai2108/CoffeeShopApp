@@ -10,6 +10,7 @@ import android.os.Bundle;
 
 import com.example.coffeeshopapp.R;
 import com.example.coffeeshopapp.databinding.ActivityAdminBottomNavigationAdminBinding;
+import com.example.coffeeshopapp.fragment.FragmentReportShipper;
 import com.example.coffeeshopapp.fragment.Fragment_Static;
 import com.example.coffeeshopapp.fragment.Fragment_Thongke_Sanphan_ban_duoc_nhieunhat;
 
@@ -32,7 +33,7 @@ public class Admin_Bottom_Navigation_Admin extends AppCompatActivity {
                 replaceFragment(new Fragment_Thongke_Sanphan_ban_duoc_nhieunhat());
             }
             if(itemId==R.id.nav_revenue_admin){
-//                replaceFragment(new Fragment_Static());
+                replaceFragment(new FragmentReportShipper());
             }
             if(itemId==R.id.back){
                 Intent intent = new Intent(Admin_Bottom_Navigation_Admin.this,BottomNavAdmin.class);

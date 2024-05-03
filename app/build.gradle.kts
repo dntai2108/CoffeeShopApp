@@ -61,6 +61,8 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.7.0")
     implementation("com.github.bumptech.glide:annotations:5.0.0-rc01")
     implementation("com.github.bumptech.glide:glide:4.12.0")
+    implementation ("org.osmdroid:osmdroid-android:6.1.10")
+    implementation ("com.itextpdf:itextpdf:5.5.13")
     annotationProcessor("com.github.bumptech.glide:compiler:4.12.0")
     implementation("com.github.PhilJay:MPAndroidChart:v3.1.0")
     testImplementation("junit:junit:4.13.2")

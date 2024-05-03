@@ -11,6 +11,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.EditText;
 
@@ -107,6 +109,13 @@ public class Fragment_Static extends Fragment {
     }
 
     private void setEven() {
+
+        String[] items = {"Hoàn thành", "Đã hủy"};
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, items);
+
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        bd.edtmagiamgia.setAdapter(adapter);
         bd.btnNgaybatdau.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -197,11 +206,16 @@ public class Fragment_Static extends Fragment {
         DatabaseReference customersRef = database.getReference("Customer");
         String ngayBD = bd.edtNgaybatdau.getText().toString();
         String ngayKT = bd.edtNgayketthuc.getText().toString();
+        String queryStatus = bd.edtmagiamgia.getSelectedItem().toString();
+        if(queryStatus.isEmpty()){
+            return;
+        }
         customersRef.addListenerForSingleValueEvent(new ValueEventListener() {
 
 
             @Override
             public void onDataChange(DataSnapshot Snapshot) {
+                orderList.clear();
                 for (DataSnapshot customerSnapshot : Snapshot.getChildren()) {
                     String customerId = customerSnapshot.getKey();
                     // Lấy ra tất cả các đơn hàng của khách hàng hiện tại
@@ -223,13 +237,12 @@ public class Fragment_Static extends Fragment {
                                 o.setOrderDate(orderDate);
                                 o.setStatus(status);
                                 o.setTotalAmount(totalAmount);
-                                if ("Hoàn thành".equals(status)) {
+                                if (queryStatus.equals(status)) {
                                     orderList.add(o);
                                 }
                             }
                             recyclerViewStaticAdapter.notifyDataSetChanged();
                         }
-
                         @Override
                         public void onCancelled(@NonNull DatabaseError error) {
 
@@ -245,35 +258,4 @@ public class Fragment_Static extends Fragment {
 
     }
 
-   /* AdapterView.OnItemSelectedListener spinnerListener = new AdapterView.OnItemSelectedListener() {
-        @Override
-        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-            String selectedItem = parent.getItemAtPosition(position).toString();
-            if (selectedItem.equals("Tất cả")) {
-                reloadOrder();
-            } else if (selectedItem.equals("Chờ duyệt")) {
-                reloadOrderWithCondition("Chờ duyệt");
-            } else if (selectedItem.equals("Chuẩn bị đơn hàng")) {
-                reloadOrderWithCondition("Chuẩn bị đơn hàng");
-            } else if (selectedItem.equals("Đang giao")) {
-                reloadOrderWithCondition("Đang giao");
-            } else if (selectedItem.equals("Hoàn thành")) {
-                reloadOrderWithCondition("Hoàn thành");
-            } else if (selectedItem.equals("Đã hủy")) {
-                reloadOrderWithCondition("Đã hủy");
-            }
-            //recycleViewManageOrderAdapter.notifyDataSetChanged();
-        }
-
-        private void reloadOrderWithCondition(String chờDuyệt) {
-        }
-
-        private void reloadOrder() {
-        }
-
-        @Override
-        public void onNothingSelected(AdapterView<?> parent) {
-
-        }
-    }*/
 }

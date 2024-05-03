@@ -68,6 +68,28 @@ public class Chitiet_donhang_dadat_activity extends AppCompatActivity {
         carttemList = new ArrayList<>();
         recyclerViewDetaiOrderAdapter = new ChitietdondathangdadatAdapter(carttemList, this);
         recyclerView.setAdapter(recyclerViewDetaiOrderAdapter);
+        SharedPreferences sharedPreferences = getSharedPreferences("User", Context.MODE_PRIVATE);
+        String userId = sharedPreferences.getString("userId", "");
+        String maDonHang = getIntent().getStringExtra("madonhang");
+        DatabaseReference customerInfoRef = FirebaseDatabase.getInstance().getReference("Customer")
+                .child(userId).child("Order").child(maDonHang);
+        customerInfoRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                String status = snapshot.child("status").getValue(String.class);
+                if(status.equals("Đang giao")){
+                    bd.tvMap.setVisibility(View.VISIBLE);
+                }
+                else{
+                    bd.tvMap.setVisibility(View.GONE);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
         setEvent();
         layThongTinDiaChi();
         layThongTinDonHang();
@@ -127,6 +149,15 @@ public class Chitiet_donhang_dadat_activity extends AppCompatActivity {
             public void onClick(View v) {
                onBackPressed();
                finish();
+            }
+        });
+        bd.tvMap.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String maDonHang = getIntent().getStringExtra("madonhang");
+                Intent intent = new Intent(Chitiet_donhang_dadat_activity.this, FolowOrder.class);
+                intent.putExtra("maDonHang",maDonHang);
+                startActivity(intent);
             }
         });
     }

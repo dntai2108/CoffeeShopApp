@@ -16,6 +16,8 @@ public class Order implements Serializable {
     private String customerId;
     private Customer customer;
     private String shipperId;
+    private String Latitude;
+    private String Longitude;
 
     public String getShipperID() {
         return shipperId;
@@ -102,7 +104,23 @@ public class Order implements Serializable {
         this.customerId = customerId;
     }
 
-//    public String getShipperId() {
+    public String getLatitude() {
+        return Latitude;
+    }
+
+    public void setLatitude(String latitude) {
+        Latitude = latitude;
+    }
+
+    public String getLongitude() {
+        return Longitude;
+    }
+
+    public void setLongitude(String longitude) {
+        Longitude = longitude;
+    }
+
+    //    public String getShipperId() {
 //        return shipperId;
 //    }
 //

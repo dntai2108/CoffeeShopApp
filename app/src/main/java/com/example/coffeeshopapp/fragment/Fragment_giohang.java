@@ -74,6 +74,8 @@ public class Fragment_giohang extends Fragment implements CartItemAdapter.OnDele
     private CartItemAdapter cartItemAdapter;
     private List<Cart> cartItemList;
     private FragmentGiohangBinding bd;
+    private String Longitude="";
+    private String Latitude ="";
 
     String finalPrice = "";
 
@@ -131,7 +133,6 @@ public class Fragment_giohang extends Fragment implements CartItemAdapter.OnDele
         layThongTinDiaChi();
         cartItemAdapter.setOnDeleteItemClickListener(this);
         cartItemAdapter.setOnQuantityChangeListener(this);
-
         setEven();
     }
 
@@ -171,6 +172,9 @@ public class Fragment_giohang extends Fragment implements CartItemAdapter.OnDele
         bd.btnPayofcartTienmat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(checkAddress()){
+                    return;
+                }
                 calculateTotalPrice();
                 Intent intent = new Intent(getContext(), SuccessfulOrder.class);
                 intent.putExtra("price", finalPrice);
@@ -187,6 +191,20 @@ public class Fragment_giohang extends Fragment implements CartItemAdapter.OnDele
                 startActivityForResult(intent, REQUEST_CHANGE_ADDRESS);
             }
         });
+    }
+
+    private boolean checkAddress(){
+        SharedPreferences sharedPreferences = requireContext().getSharedPreferences("User", Context.MODE_PRIVATE);
+        String userId = sharedPreferences.getString("userId", "");
+        DatabaseReference orderRef = FirebaseDatabase.getInstance().getReference().child("Customer").child(userId);
+        String Latitude = orderRef.child("Latitude").get().getResult().getValue(String.class);
+        String Longitude = orderRef.child("Longitude").get().getResult().getValue(String.class);
+        if(Latitude==null || Latitude.isEmpty() || Longitude.isEmpty() || Longitude == null){
+            return false;
+        }
+        else{
+            return true;
+        }
     }
 
     private void eventNhanMaGiamGia() {
