@@ -157,6 +157,50 @@ public class FragmentReportShipper extends Fragment {
                 }
             }
         });
+        bd.btnXuatAll.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                List<String> phoneShipper = new ArrayList<>();
+                databaseReference.child("Account").addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        for(DataSnapshot accountSnapshot: snapshot.getChildren()){
+                            if(accountSnapshot.child("role").getValue(String.class).equals("shipper")){
+                                phoneShipper.add(accountSnapshot.getKey());
+                            }
+                        }
+                        databaseReference.child("Customer").addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                for(DataSnapshot customerSnapshot: snapshot.getChildren()){
+                                    String phone = customerSnapshot.child("account").child("username").getValue(String.class);
+                                    if(phoneShipper.stream().anyMatch(i -> i.equals(phone))){
+                                        shipperId = customerSnapshot.getKey();
+                                        try {
+                                            ReportShipper();
+                                        } catch (ParseException e) {
+                                            throw new RuntimeException(e);
+                                        } catch (InterruptedException e) {
+                                            throw new RuntimeException(e);
+                                        }
+                                    }
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
+
+                            }
+                        });
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+            }
+        });
     }
 
 
@@ -332,6 +376,10 @@ public class FragmentReportShipper extends Fragment {
     private void ReportShipper() throws ParseException, InterruptedException {
         String ngayBD = bd.edtNgaybatdau.getText().toString();
         String ngayKT = bd.edtNgayketthuc.getText().toString();
+        if(ngayBD.isEmpty() || ngayKT.isEmpty() || shipperId == null || shipperId.isEmpty()){
+            Toast.makeText(getContext(),"Vui lòng điền đẩy đủ thông tin", Toast.LENGTH_LONG).show();
+            return;
+        }
 //        List<Order> orderList = soLuongDonHangInTime(ngayBD,ngayKT, latch);
 
         DateFormat Format = new SimpleDateFormat("dd/MM/yyyy");
@@ -339,7 +387,7 @@ public class FragmentReportShipper extends Fragment {
         Date dateOfBd = Format.parse(ngayBD);
         Date dateOfKt = Format.parse(ngayKT);
         List<Order> orderList = new ArrayList<>();
-        databaseReference.child("Customer").addValueEventListener(new ValueEventListener() {
+        FirebaseDatabase.getInstance().getReference().child("Customer").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for(DataSnapshot customerSnapshot: snapshot.getChildren()){
@@ -365,7 +413,7 @@ public class FragmentReportShipper extends Fragment {
                         }
                     }
                 }
-                databaseReference.child("Customer").addValueEventListener(new ValueEventListener() {
+                databaseReference.child("Customer").addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         for(DataSnapshot customerSnapshot: snapshot.getChildren()){
@@ -373,7 +421,7 @@ public class FragmentReportShipper extends Fragment {
                                 name = customerSnapshot.child("name").getValue(String.class);
                             }
                         }
-                        databaseReference.child("Customer").addValueEventListener(new ValueEventListener() {
+                        databaseReference.child("Customer").addListenerForSingleValueEvent(new ValueEventListener() {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot snapshot) {
                                 for(DataSnapshot customerSnapshot: snapshot.getChildren()){
@@ -381,8 +429,6 @@ public class FragmentReportShipper extends Fragment {
                                         phone =  customerSnapshot.child("phone").getValue(String.class);
                                     }
                                 }
-                                String k = name;
-                                String p = phone;
                                 String fileName = String.format("shipper_report%s.pdf",shipperId);
                                 Double total = 0.0;
                                 for(Order o : orderList){
@@ -420,10 +466,7 @@ public class FragmentReportShipper extends Fragment {
 
                                             // Đóng Document
                                             document.close();
-
-                                            // Hiển thị thông báo và in ra console
                                             Toast.makeText(getContext(), "PDF file successfully created", Toast.LENGTH_LONG).show();
-
                                             // Đóng OutputStream
                                             outputStream.close();
                                         }
@@ -454,7 +497,6 @@ public class FragmentReportShipper extends Fragment {
 
             }
         });
-
-
+        Toast.makeText(getContext(), "PDF file successfully created", Toast.LENGTH_LONG).show();
     }
 }
