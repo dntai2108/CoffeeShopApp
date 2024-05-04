@@ -38,6 +38,14 @@ public class PickAdressMap extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         bd = ActivityPickAdressMapBinding.inflate(getLayoutInflater());
         setContentView(bd.getRoot());
+        String Latitude = getIntent().getStringExtra("Latitude");
+        String Longitude = getIntent().getStringExtra("Longitude");
+        GeoPoint geoPoint = new GeoPoint(Double.parseDouble(Latitude),Double.parseDouble(Longitude));
+        custome = new Marker(bd.mapView);
+        custome.setPosition(geoPoint);
+        custome.setIcon(getResources().getDrawable(R.drawable.baseline_add_location_24));
+        custome.setTitle("Địa điểm");
+        bd.mapView.getOverlays().add(custome);
         Configuration.getInstance().load(getApplicationContext(), PreferenceManager.getDefaultSharedPreferences(getApplicationContext()));
         locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
         geocoder = new Geocoder(this, Locale.getDefault());

@@ -20,6 +20,8 @@ import android.widget.Toast;
 import com.example.coffeeshopapp.R;
 import com.example.coffeeshopapp.databinding.ActivityGiaoHangBinding;
 import com.example.coffeeshopapp.model.Order;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -49,6 +51,7 @@ public class GiaoHang extends AppCompatActivity implements LocationListener {
     private String latidudeShipper;
     private String longituteShipper;
     private List<Polyline> polylines = new ArrayList<>();
+    private FusedLocationProviderClient fusedLocationClient;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,6 +70,7 @@ public class GiaoHang extends AppCompatActivity implements LocationListener {
             // Khởi tạo LocationManager và lấy vị trí
             getLocation();
         }
+        getLocation();
         geocoder = new Geocoder(this, Locale.getDefault());
         bd.mapView.setTileSource(TileSourceFactory.MAPNIK); // Sử dụng tile source của OpenStreetMap
         bd.mapView.getController().setCenter(new GeoPoint(10.7769, 106.7009)); // Ví dụ: TP.HCM
@@ -197,12 +201,33 @@ public class GiaoHang extends AppCompatActivity implements LocationListener {
     }
 
     private void getLocation() {
-        locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
-        if (locationManager != null) {
-            if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                return;
-            }
-            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
+        SharedPreferences sharedPreferences = getSharedPreferences("User", MODE_PRIVATE);
+        String userId = sharedPreferences.getString("userId", "");
+//        locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+//        if (locationManager != null) {
+//            if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+//                return;
+//            }
+//            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
+//        }
+        try {
+            fusedLocationClient.getLastLocation()
+                    .addOnSuccessListener(new OnSuccessListener<Location>() {
+                        @Override
+                        public void onSuccess(Location location) {
+                            if (location != null) {
+                                double latitude = location.getLatitude();
+                                double longitude = location.getLongitude();
+
+                                // Sử dụng tọa độ latitude và longitude ở đây
+                                // Ví dụ: log ra console
+                                databaseReference.child("shipper_location").child(userId).child("latitude").setValue(String.valueOf(latitude));
+                                databaseReference.child("shipper_location").child(userId).child("longitude").setValue(String.valueOf(longitude));
+                            }
+                        }
+                    });
+        } catch (SecurityException e) {
+            e.printStackTrace();
         }
     }
 

@@ -172,40 +172,81 @@ public class Fragment_giohang extends Fragment implements CartItemAdapter.OnDele
         bd.btnPayofcartTienmat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(checkAddress()){
-                    return;
-                }
-                calculateTotalPrice();
-                Intent intent = new Intent(getContext(), SuccessfulOrder.class);
-                intent.putExtra("price", finalPrice);
-                startActivity(intent);
-                getActivity().overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
+                SharedPreferences sharedPreferences = requireContext().getSharedPreferences("User", Context.MODE_PRIVATE);
+                String userId = sharedPreferences.getString("userId", "");
+                DatabaseReference orderRef = FirebaseDatabase.getInstance().getReference().child("Customer").child(userId);
+                orderRef.child("Latitude").addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        String Latitude = snapshot.getValue(String.class);
+                        orderRef.child("Longitude").addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                String Longitude = snapshot.getValue(String.class);
+                                if(Latitude==null || Latitude.isEmpty() || Longitude.isEmpty() || Longitude == null){
+
+                                }
+                                else{
+                                    calculateTotalPrice();
+                                    Intent intent = new Intent(getContext(), SuccessfulOrder.class);
+                                    intent.putExtra("price", finalPrice);
+                                    startActivity(intent);
+                                    getActivity().overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
+
+                            }
+                        });
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
             }
         });
         // nút thay đổi địa chỉ
         bd.btnChangeAddress.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                SharedPreferences sharedPreferences = requireContext().getSharedPreferences("User", Context.MODE_PRIVATE);
+                String userId = sharedPreferences.getString("userId", "");
+                DatabaseReference orderRef = FirebaseDatabase.getInstance().getReference().child("Customer").child(userId);
                 Intent intent = new Intent(getContext(), UpdateAddress.class);
                 intent.putExtra("oldAddress", bd.tvAddressfc.getText().toString());
-                startActivityForResult(intent, REQUEST_CHANGE_ADDRESS);
+                orderRef.child("Latitude").addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        String Latitude = snapshot.getValue(String.class);
+                        orderRef.child("Longitude").addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                String Longitude = snapshot.getValue(String.class);
+                                intent.putExtra("Latitude",Latitude);
+                                intent.putExtra("Longitude",Longitude);
+                                startActivityForResult(intent, REQUEST_CHANGE_ADDRESS);
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
+
+                            }
+                        });
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
             }
         });
     }
 
-    private boolean checkAddress(){
-        SharedPreferences sharedPreferences = requireContext().getSharedPreferences("User", Context.MODE_PRIVATE);
-        String userId = sharedPreferences.getString("userId", "");
-        DatabaseReference orderRef = FirebaseDatabase.getInstance().getReference().child("Customer").child(userId);
-        String Latitude = orderRef.child("Latitude").get().getResult().getValue(String.class);
-        String Longitude = orderRef.child("Longitude").get().getResult().getValue(String.class);
-        if(Latitude==null || Latitude.isEmpty() || Longitude.isEmpty() || Longitude == null){
-            return false;
-        }
-        else{
-            return true;
-        }
-    }
 
     private void eventNhanMaGiamGia() {
         // nhận mã giảm giá từ list
@@ -224,13 +265,12 @@ public class Fragment_giohang extends Fragment implements CartItemAdapter.OnDele
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_CHANGE_ADDRESS) {
             if (resultCode == RESULT_OK) {
-                assert data != null;
                 String newAddress = data.getStringExtra("newAddress");
-                // Hiển thị địa chỉ mới trên màn hình giỏ hàng
                 bd.tvAddressfc.setText(newAddress);
             }
         }
     }
+
 
     private void calculateTotalPrice() {
         double totalPrice = 0.0;

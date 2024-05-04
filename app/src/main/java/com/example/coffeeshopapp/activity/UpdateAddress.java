@@ -28,12 +28,13 @@ public class UpdateAddress extends AppCompatActivity {
         setContentView(bd.getRoot());
         SharedPreferences sharedPreferences = getSharedPreferences("User", MODE_PRIVATE);
         String userId = sharedPreferences.getString("userId", "");
-        String newAddress = getIntent().getStringExtra("MapToAddress");
+        String oldAddress = getIntent().getStringExtra("oldAddress");
+        bd.edtAddress.setText(oldAddress);
         String Latitude = getIntent().getStringExtra("Latitude");
         String Longitude = getIntent().getStringExtra("Longitude");
         customerRef = FirebaseDatabase.getInstance().getReference("Customer")
                 .child(userId).child("address");
-
+        String newAddress = getIntent().getStringExtra("MapToAddress");
         if(newAddress!=null && !newAddress.isEmpty()){
             bd.edtAddress.setText(newAddress);
         }
@@ -46,6 +47,7 @@ public class UpdateAddress extends AppCompatActivity {
                     intent.putExtra("Latitude",Latitude);
                 }
                 startActivity(intent);
+                finish();
             }
         });
         bd.btnsubmit.setOnClickListener(new View.OnClickListener() {
@@ -60,13 +62,14 @@ public class UpdateAddress extends AppCompatActivity {
                                 public void onComplete(@NonNull Task<Void> task) {
                                     if (task.isSuccessful()) {
                                         // Địa chỉ đã được cập nhật thành công
-                                        Toast.makeText(UpdateAddress.this, "Địa chỉ đã được cập nhật", Toast.LENGTH_SHORT).show();
-                                        Intent resultIntent = new Intent();
-                                        resultIntent.putExtra("newAddress", newAddress);
                                         DatabaseReference locationRef = FirebaseDatabase.getInstance().getReference("Customer").child(userId);
                                         locationRef.child("Latitude").setValue(Latitude);
                                         locationRef.child("Longitude").setValue(Longitude);
-                                        setResult(RESULT_OK, resultIntent);
+                                        Toast.makeText(UpdateAddress.this, "Địa chỉ đã được cập nhật", Toast.LENGTH_SHORT).show();
+                                        Intent resultIntent = new Intent(UpdateAddress.this,Bottom_nav.class);
+                                        resultIntent.putExtra("newAddress", newAddress);
+                                        resultIntent.putExtra("openGioHang", true);
+                                        startActivity(resultIntent);
                                         finish(); // Kết thúc Activity sau khi cập nhậtúc Activity sau khi cập nhật
                                     } else {
                                         // Xảy ra lỗi khi cập nhật địa chỉ
