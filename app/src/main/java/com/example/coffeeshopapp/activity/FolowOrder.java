@@ -3,6 +3,7 @@ package com.example.coffeeshopapp.activity;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.location.Geocoder;
@@ -10,6 +11,7 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
+import android.view.View;
 
 import com.example.coffeeshopapp.R;
 import com.example.coffeeshopapp.databinding.ActivityFolowOrderBinding;
@@ -143,6 +145,14 @@ public class FolowOrder extends AppCompatActivity {
             }
         };
         handler.post(updateShipperLocationRunnable);
+        bd.ivQuayLai.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent();
+                setResult(RESULT_OK, intent);
+                finish();
+            }
+        });
     }
 
     private void setControl() {
